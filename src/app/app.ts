@@ -11,19 +11,6 @@ import { RouterOutlet } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class App {
   private http = inject(HttpClient);
-
-  private readonly apiUrl = "http://localhost:8080/sample";
+  
   protected readonly title = signal('QuantumMart');
-
-  springText = "";
-
-  fetchText(): void {
-    console.log("Clicked.");
-
-    this.http.get(this.apiUrl, { responseType: 'text' as const }).subscribe(data => {
-      this.springText = data
-
-      console.log("Data is " + data);
-    });
-  } 
 }

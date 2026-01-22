@@ -4,17 +4,21 @@
     <form [formGroup]="registerForm" class="center-align">
         <mat-form-field>
             <mat-label>Username</mat-label>
-            <input matInput formControlName="username" required/>
+            <input matInput (change)="isValidForm()" formControlName="username" required/>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput (change)="isValidForm()" formControlName="email"/>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="password" required/>
+            <input matInput (change)="isValidForm()" type="password" formControlName="password" required/>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Confirm password</mat-label>
-            <input matInput type="password" formControlName="password2" required/>
+            <input matInput (change)="isValidForm()" type="password" formControlName="password2" required/>
         </mat-form-field>
 
-    <button matButton="filled" (click)="registerUser()">Register</button>
+    <button matButton="filled" [disabled]="this.btnRegisterDisabled" (click)="registerUser()">Register</button>
     </form>
 </div>
