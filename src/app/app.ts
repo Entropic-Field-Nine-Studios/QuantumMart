@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, Injectable, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { MatTabsModule, MatTabNav } from '@angular/material/tabs';
+import { Router, RouterOutlet, RouterLinkWithHref } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, RouterLinkWithHref, MatTabsModule, MatTabNav],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

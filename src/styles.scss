@@ -35,4 +35,10 @@ body {
   margin: 0;
   height: 100%;
 }
+
+.center-align {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
 /* You can add global styles to this file, and also import other style files */
