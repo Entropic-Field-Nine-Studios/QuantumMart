@@ -1,5 +1,8 @@
 export interface User {
     username: string;
-    rawPassword: string;
     email: string;
+    id: string;
+    role: string;
+    coinBalance: number;
+    createdAt: string;
 }

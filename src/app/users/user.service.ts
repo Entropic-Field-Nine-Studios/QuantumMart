@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { RegisterUserInfo } from './register-user-info.model';
 import { User } from './user.model';
 
 
@@ -12,11 +13,11 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(`${this.baseUrl}`, user);
+  createUser(registrationInfo: RegisterUserInfo): Observable<User> {
+    return this.http.post<User>(`${this.baseUrl}`, registrationInfo);
   }
 
   getUserByUsername(username: string): Observable<User | null> {
-    return this.http.get<User>(`${this.baseUrl}/${username}`);
+    return this.http.get<User | null>(`${this.baseUrl}/${username}`);
   }
 }

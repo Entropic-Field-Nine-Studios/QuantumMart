@@ -6,7 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 import { UserService } from '../users/user.service';
-import { User } from '../users/user.model';
+import { RegisterUserInfo } from '../users/register-user-info.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registration',
@@ -37,26 +38,24 @@ export class RegistrationComponent {
     if (this.isValidForm()) {
       const usernameInput = this.registerForm.value.username!;
 
-      this.userService.getUserByUsername(usernameInput).subscribe(existingUser => {
-        if (existingUser != null) {
-          alert("Error: Username is taken.");
+      this.userService.getUserByUsername(usernameInput).subscribe({
+        next: user => {
+          if (user == null) {
+            const newUser: RegisterUserInfo = {
+              username: usernameInput,
+              rawPassword: this.registerForm.value.password!,
+              email: this.registerForm.value.email ?? ""
+            };
 
-          return;
-        }
-
-        const newUser: User = {
-          username: usernameInput,
-          rawPassword: this.registerForm.value.password!,
-          email: this.registerForm.value.email ?? ""
-        };
-
-        const res = this.userService.createUser(newUser);
-
-        res.subscribe(data => {
-          console.log("Username is " + data.username);
-        });
-
-        alert("User created successfully.");
+            this.userService.createUser(newUser).subscribe({
+              next: _ => alert("User created successfully."),
+              error: (err: HttpErrorResponse) => alert("Couldn't create user. Error " + err.status)
+            });
+          } else {
+            alert("Username is already taken.");
+          }
+        },
+        error: (err: HttpErrorResponse) => alert(err.message)
       });
     }
   }

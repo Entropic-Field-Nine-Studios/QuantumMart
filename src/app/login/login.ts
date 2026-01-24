@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from "@angular/router";
 import { AuthService } from '../auth/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -41,12 +42,15 @@ export class LoginComponent {
       const username = this.loginForm.value.username!;
       const password = this.loginForm.value.password!;
 
-      this.authService.passwordMatches(username, password).subscribe(matches => {
-        if (matches) {
-          alert("Login successful!");
-        } else {
-          alert("Invalid username or password.");
-        }
+      this.authService.passwordMatches(username, password).subscribe({
+        next: matches => {
+          if (matches) {
+            alert("User can login!");
+          } else {
+            alert("Invalid username or password.");
+          }
+        },
+        error: (err: HttpErrorResponse) => alert(err.message)
       });
     }
   }
