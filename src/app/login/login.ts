@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from "@angular/router";
 import { AuthService } from '../auth/auth.service';
+import { jwtDecode } from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -48,6 +49,10 @@ export class LoginComponent {
         next: res => {
           localStorage.setItem('token', res.token);
           localStorage.setItem('username', res.username);
+
+          const payload = jwtDecode(res.token);
+
+          console.log(payload);
           
           this.router.navigate(['/home']);
         },

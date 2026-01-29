@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginResponse } from './login-response.model';
+import { jwtDecode } from 'jwt-decode';
+import { JwtPayload } from './jwt-payload.model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,4 +34,19 @@ export class AuthService {
     return !!this.storage?.getItem('token');
   }
 
+  get userId(): string | null {
+    return this.decodedToken?.uid ?? null;
+  }
+
+  get userRole(): string | null {
+    return this.decodedToken?.role ?? null;
+  }
+
+  private get decodedToken(): JwtPayload | null {
+    const token = this.storage?.getItem('token');
+    if (!token) return null;
+
+    const decoded: JwtPayload = jwtDecode(token);
+    return decoded;
+  }
 }

@@ -1,10 +1,10 @@
 export interface ItemListing {
     sellerId: string;
     title: string;
-    description: string;
+    description: string | null;
     price: number;
-    imageUrl?: string;
-    createdAt: string;
-    updatedAt: string;
-    id: string;
+    imageUrl: string | null;
+    createdAt?: string;
+    updatedAt?: string;
+    id?: string;
 }

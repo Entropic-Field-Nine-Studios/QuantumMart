@@ -1,4 +1,4 @@
-import { Component, Input, numberAttribute, OnInit } from '@angular/core';
+import { Component, Input, numberAttribute, OnInit, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { UserService } from '../../users/user.service';
@@ -17,7 +17,7 @@ export class ItemListingComponent implements OnInit {
   sellerImgUrl?: string;
   sellerUsername!: string;
 
-  loaded = false;
+  loaded = signal(false);
 
   constructor(
     private userService: UserService
@@ -31,7 +31,7 @@ export class ItemListingComponent implements OnInit {
           this.sellerImgUrl = "" // TODO
           this.sellerUsername = user.username;
 
-          this.loaded = true;
+          this.loaded.set(true);
         }
       }
     });
