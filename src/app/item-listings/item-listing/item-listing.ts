@@ -11,7 +11,6 @@ import { ItemListing } from '../item-listing.model';
   styleUrl: './item-listing.scss',
 })
 export class ItemListingComponent implements OnInit {
-
   @Input({ required: true }) listing!: ItemListing;
 
   sellerImgUrl?: string;
@@ -19,21 +18,19 @@ export class ItemListingComponent implements OnInit {
 
   loaded = signal(false);
 
-  constructor(
-    private userService: UserService
-  ) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     // Load seller information
     this.userService.getUserById(this.listing.sellerId).subscribe({
-      next: user => {
+      next: (user) => {
         if (user != null) {
-          this.sellerImgUrl = "" // TODO
+          this.sellerImgUrl = ''; // TODO
           this.sellerUsername = user.username;
 
           this.loaded.set(true);
         }
-      }
+      },
     });
   }
 }

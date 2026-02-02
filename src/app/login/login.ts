@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Router, RouterLink } from "@angular/router";
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { jwtDecode } from 'jwt-decode';
 
@@ -16,22 +16,22 @@ import { jwtDecode } from 'jwt-decode';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    RouterLink
-],
+    RouterLink,
+  ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
 export class LoginComponent {
   readonly loginForm = new FormGroup({
     username: new FormControl<string>('', Validators.required),
-    password: new FormControl<string>('', Validators.required)
+    password: new FormControl<string>('', Validators.required),
   });
 
   btnLoginDisabled = true;
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
 
   formValid(): boolean {
@@ -46,17 +46,17 @@ export class LoginComponent {
       const password = this.loginForm.value.password!;
 
       this.authService.login(username, password).subscribe({
-        next: res => {
+        next: (res) => {
           localStorage.setItem('token', res.token);
           localStorage.setItem('username', res.username);
 
           const payload = jwtDecode(res.token);
 
           console.log(payload);
-          
+
           this.router.navigate(['/home']);
         },
-        error: _ => alert("Invalid credentials.")
+        error: (_) => alert('Invalid credentials.'),
       });
     }
   }

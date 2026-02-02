@@ -1,18 +1,18 @@
 <div>
-    <mat-grid-list cols="4" rowHeight="2:1">
-        @for (item of listings; track $index) {
-            <mat-grid-tile>
-                <app-item-listing [listing]="item"></app-item-listing>
-            </mat-grid-tile>
-        }
-    </mat-grid-list>
-
-    @if (listings.length == 0) {
-        <p class="center-align">There are no listings yet.</p>
+  <mat-grid-list cols="4" rowHeight="2:1">
+    @for (item of listings; track $index) {
+      <mat-grid-tile>
+        <app-item-listing [listing]="item"></app-item-listing>
+      </mat-grid-tile>
     }
+  </mat-grid-list>
+
+  @if (listings.length == 0) {
+    <p class="center-align">There are no listings yet.</p>
+  }
 </div>
 @if (loggedIn) {
-    <button matFab (click)="openDialog()" class="floating-btn">
-        <mat-icon>add</mat-icon>
-    </button>
+  <button matFab (click)="openDialog()" class="floating-btn">
+    <mat-icon>add</mat-icon>
+  </button>
 }

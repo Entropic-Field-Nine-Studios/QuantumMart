@@ -1,12 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { MatButtonModule } from "@angular/material/button";
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormControl, FormGroup, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
 import {
-    MatDialogActions, MatDialogContent,
-    MatDialogRef,
-    MatDialogTitle
+  FormControl,
+  FormGroup,
+  FormsModule,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import {
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogRef,
+  MatDialogTitle,
 } from '@angular/material/dialog';
 import { PriceInputDirective } from '../../directives/price-input.directive';
 import { ItemListingService } from '../../item-listings/item-listing.service';
@@ -24,10 +31,10 @@ import { AuthService } from '../../auth/auth.service';
     MatDialogContent,
     MatDialogActions,
     ReactiveFormsModule,
-    PriceInputDirective
+    PriceInputDirective,
   ],
   templateUrl: './add-listing.dialog.html',
-  styleUrl: './add-listing.dialog.scss'
+  styleUrl: './add-listing.dialog.scss',
 })
 export class AddListingDialogComponent {
   readonly dialogRef = inject(MatDialogRef<AddListingDialogComponent>);
@@ -36,12 +43,15 @@ export class AddListingDialogComponent {
     title: new FormControl('', Validators.required),
     description: new FormControl(''),
     imageUrl: new FormControl(''),
-    price: new FormControl('0.00', [Validators.required, Validators.pattern(RegExp('^[0-9]+(\.[0-9]{1,2})?$'))])
+    price: new FormControl('0.00', [
+      Validators.required,
+      Validators.pattern(RegExp('^[0-9]+(\.[0-9]{1,2})?$')),
+    ]),
   });
 
   constructor(
     private itemListingService: ItemListingService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   formValid() {
@@ -50,22 +60,24 @@ export class AddListingDialogComponent {
 
   createListing() {
     if (this.listingForm.valid && this.authService.isLoggedIn) {
-        const formValues = this.listingForm.value!;
-        
-        this.itemListingService.createListing({
-            title: formValues.title!,
-            description: formValues.description ?? null,
-            sellerId: this.authService.userId!,
-            imageUrl: formValues.imageUrl ?? null,
-            price: Number(formValues.price!)
-        }).subscribe({
-            next: _ => {
-                alert("Listing created!");
-                this.dialogRef.close();
-            },
-            error: _ => alert("Error: Could not create listing.")
+      const formValues = this.listingForm.value!;
+
+      this.itemListingService
+        .createListing({
+          title: formValues.title!,
+          description: formValues.description ?? null,
+          sellerId: this.authService.userId!,
+          imageUrl: formValues.imageUrl ?? null,
+          price: Number(formValues.price!),
+        })
+        .subscribe({
+          next: (_) => {
+            alert('Listing created!');
+            this.dialogRef.close();
+          },
+          error: (_) => alert('Error: Could not create listing.'),
         });
-    }   
+    }
   }
 
   closeWithConfirm() {

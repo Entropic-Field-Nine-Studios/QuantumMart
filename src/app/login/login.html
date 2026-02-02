@@ -1,19 +1,18 @@
 <div class="center-align">
-    <h1>Login</h1>
-    <form [formGroup]="loginForm">
-        <mat-form-field>
-            <mat-label>Username</mat-label>
-            <input matInput (change)="formValid()" formControlName="username" required/>
-        </mat-form-field>
-        <br>
-        <mat-form-field>
-            <mat-label>Password</mat-label>
-            <input matInput (change)="formValid()" type="password" formControlName="password" required>
-        </mat-form-field>
+  <h1>Login</h1>
+  <form [formGroup]="loginForm">
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput (change)="formValid()" formControlName="username" required />
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput (change)="formValid()" type="password" formControlName="password" required />
+    </mat-form-field>
 
-        <br>
-        <button matButton="filled" (click)="login()" [disabled]="btnLoginDisabled">Login</button>
-        <label>New user? <a [routerLink]="['/register']">Sign up</a></label>
-    </form>
-    
+    <br />
+    <button matButton="filled" (click)="login()" [disabled]="btnLoginDisabled">Login</button>
+    <label>New user? <a [routerLink]="['/register']">Sign up</a></label>
+  </form>
 </div>

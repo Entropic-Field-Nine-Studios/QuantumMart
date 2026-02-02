@@ -4,7 +4,7 @@ import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ItemListingComponent } from '../item-listings/item-listing/item-listing';
 import { AuthService } from '../auth/auth.service';
-import { MatFabButton } from "@angular/material/button";
+import { MatFabButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { AddListingDialogComponent } from './add-listing-dialog/add-listing.dialog';
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -33,10 +33,10 @@ export class HomeComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(AddListingDialogComponent, {
       width: '600px',
-      disableClose: true
+      disableClose: true,
     });
 
-    dialogRef.beforeClosed().subscribe(result => {
+    dialogRef.beforeClosed().subscribe((result) => {
       if (result === 'confirm-close') {
         // allow closing
       } else {

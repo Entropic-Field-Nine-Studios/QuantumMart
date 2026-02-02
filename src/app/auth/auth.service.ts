@@ -9,7 +9,7 @@ import { JwtPayload } from './jwt-payload.model';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly baseUrl = "http://localhost:8080/api/auth";
+  private readonly baseUrl = 'http://localhost:8080/api/auth';
 
   constructor(private http: HttpClient) {}
 

@@ -1,24 +1,38 @@
 <div class="center-align">
-    <h1>New User</h1>
+  <h1>New User</h1>
 
-    <form [formGroup]="registerForm" class="center-align">
-        <mat-form-field>
-            <mat-label>Username</mat-label>
-            <input matInput (change)="isValidForm()" formControlName="username" required/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input matInput (change)="isValidForm()" formControlName="email"/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Password</mat-label>
-            <input matInput (change)="isValidForm()" type="password" formControlName="password" required/>
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Confirm password</mat-label>
-            <input matInput (change)="isValidForm()" type="password" formControlName="password2" required/>
-        </mat-form-field>
+  <form [formGroup]="registerForm" class="center-align">
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput (change)="isValidForm()" formControlName="username" required />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput (change)="isValidForm()" formControlName="email" />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        (change)="isValidForm()"
+        type="password"
+        formControlName="password"
+        required
+      />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Confirm password</mat-label>
+      <input
+        matInput
+        (change)="isValidForm()"
+        type="password"
+        formControlName="password2"
+        required
+      />
+    </mat-form-field>
 
-    <button matButton="filled" [disabled]="this.btnRegisterDisabled" (click)="registerUser()">Register</button>
-    </form>
+    <button matButton="filled" [disabled]="this.btnRegisterDisabled" (click)="registerUser()">
+      Register
+    </button>
+  </form>
 </div>

@@ -6,7 +6,6 @@ import { ItemListing } from './item-listing.model';
 
 @Injectable({ providedIn: 'root' })
 export class ItemListingResolver implements Resolve<ItemListing[]> {
-
   constructor(private listingService: ItemListingService) {}
 
   resolve(): Observable<ItemListing[]> {
