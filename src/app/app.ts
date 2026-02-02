@@ -32,6 +32,10 @@ export class AppComponent {
     this.router.navigate(['/login']);
   }
 
+  profile(): void {
+    this.router.navigate(['/profile/'+this.authService.username]);
+  }
+
   showNavBar(): boolean {
     return !this.hiddenRoutes.includes(this.router.url);
   }

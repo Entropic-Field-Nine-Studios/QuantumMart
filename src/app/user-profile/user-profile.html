@@ -1,1 +1,8 @@
-<p>user-profile works!</p>
+<mat-card class="user-card" >
+          <mat-card-header>
+            <div mat-card-avatar class="avatar-img"></div>
+            <mat-card-title>Username: {{ this.username}}</mat-card-title>
+            <mat-card-title>User Role: {{ this.user.role}}</mat-card-title>
+            <mat-card-title>Created: {{ this.sDateCreated}}</mat-card-title>
+          </mat-card-header>
+</mat-card>
