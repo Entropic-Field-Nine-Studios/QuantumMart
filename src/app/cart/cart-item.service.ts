@@ -19,7 +19,7 @@ export class CartItemService {
    * @returns List of cart items in user's cart.
    */
   getCartItemsByUserId(userId: string): Observable<CartItem[]> {
-    return this.http.get<CartItem[]>(`${this.baseUrl}/userid=${userId}`);
+    return this.http.get<CartItem[]>(`${this.baseUrl}/user/${userId}`);
   }
 
   /**
@@ -30,7 +30,7 @@ export class CartItemService {
    * @returns Cart item that was added.
    */
   addItemToCart(userId: string, listing: ItemListing): Observable<CartItem> {
-    return this.http.post<CartItem>(`${this.baseUrl}/userid=${userId}`, listing);
+    return this.http.post<CartItem>(`${this.baseUrl}/user/${userId}`, listing);
   }
 
   /**
@@ -40,6 +40,17 @@ export class CartItemService {
    * @returns Observable showing successsful cart clearing.
    */
   clearCart(userId: string): Observable<Object> {
-    return this.http.delete(`${this.baseUrl}/userid=${userId}`);
+    return this.http.delete(`${this.baseUrl}/user/${userId}`);
+  }
+
+  /**
+   * Removes an item from a user's cart.
+   *
+   * @param userId The cart's user ID
+   * @param listingId ID of the listing to remove
+   * @returns
+   */
+  removeItemFromCart(userId: string, listingId: string): Observable<Object> {
+    return this.http.delete(`${this.baseUrl}/user/${userId}/listing/${listingId}`);
   }
 }

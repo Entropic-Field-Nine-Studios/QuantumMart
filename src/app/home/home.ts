@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddListingDialogComponent } from './add-listing-dialog/add-listing.dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CartDialogComponent } from './cart-dialog/cart-dialog';
+import { CartItemService } from '../cart/cart-item.service';
 
 @Component({
   selector: 'app-home',
@@ -24,6 +25,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private cartService: CartItemService,
     private itemListingService: ItemListingService,
   ) {}
 
@@ -51,10 +53,17 @@ export class HomeComponent implements OnInit {
   }
 
   openCartDialog(): void {
-    const dialogRef = this.dialog.open(CartDialogComponent, {
-      width: '600px',
-      height: '900px',
-      data: { reload: true },
+    this.cartService.getCartItemsByUserId(this.authService.userId!!).subscribe({
+      next: (cartItems) => {
+        this.dialog.open(CartDialogComponent, {
+          width: '600px',
+          height: cartItems.length > 0 ? '600px' : '200px',
+          data: {
+            cartItems: cartItems,
+          },
+        });
+      },
+      error: (_) => alert("Couldn't open cart!"),
     });
   }
 

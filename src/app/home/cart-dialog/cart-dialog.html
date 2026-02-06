@@ -1,18 +1,43 @@
-<div>
-  <mat-list>
-    @for (item of cartItems; track $index) {
-      <mat-list-item>
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title>{{ item.itemListing.title }}</mat-card-title>
-            <mat-card-subtitle>{{ item.itemListing.sellerUsername }}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            <h3>{{ item.itemListing.price }}</h3>
-          </mat-card-content>
-        </mat-card>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-    }
-  </mat-list>
-</div>
+<h2 mat-dialog-title>Your Cart</h2>
+<mat-dialog-content class="dialog-content">
+  @if (cartItems().length > 0) {
+    <mat-list>
+      @for (item of cartItems(); track $index) {
+        <mat-list-item>
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ item.itemListing.title }}</mat-card-title>
+              <mat-card-subtitle>{{ item.itemListing.sellerUsername }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <b>Amount: {{ item.quantity }}</b>
+              <h3>
+                {{ item.itemListing.price * item.quantity | currency }}
+              </h3>
+              @if (item.quantity > 1) {
+                <p>({{ item.itemListing.price | currency }} / ea.)</p>
+              }
+            </mat-card-content>
+            <mat-card-actions>
+              <button matIconButton matTooltip="Remove" (click)="removeItem(item.itemListing)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-list-item>
+        <br />
+        <mat-divider></mat-divider>
+        <br />
+      }
+    </mat-list>
+  } @else {
+    <p>There are no items currently in your cart. Go do some shopping! :D</p>
+  }
+</mat-dialog-content>
+@if (cartItems().length > 0) {
+  <mat-dialog-actions>
+    <h2 disabled matButton>Total: {{ cartTotal() | currency }}</h2>
+    <button matButton (click)="clearCart()">Clear Cart</button>
+    <button matButton="filled" autofocus>Checkout</button>
+  </mat-dialog-actions>
+}

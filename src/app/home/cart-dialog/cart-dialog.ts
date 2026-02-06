@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CartItemService } from '../../cart/cart-item.service';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CartItem } from '../../cart/cart-item.model';
-import { AuthService } from '../../auth/auth.service';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import {
@@ -10,8 +8,22 @@ import {
   MatCardTitle,
   MatCardSubtitle,
   MatCardContent,
+  MatCardActions,
 } from '@angular/material/card';
-import { MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogContent,
+  MatDialogTitle,
+  MatDialogActions,
+} from '@angular/material/dialog';
+import { CurrencyPipe } from '@angular/common';
+import { A11yModule } from '@angular/cdk/a11y';
+import { MatAnchor, MatIconButton } from '@angular/material/button';
+import { CartItemService } from '../../cart/cart-item.service';
+import { AuthService } from '../../auth/auth.service';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { ItemListing } from '../../item-listings/item-listing.model';
 
 @Component({
   selector: 'app-cart-dialog',
@@ -23,32 +35,52 @@ import { MatDialogRef } from '@angular/material/dialog';
     MatCardTitle,
     MatCardSubtitle,
     MatCardContent,
+    CurrencyPipe,
+    MatDialogContent,
+    MatDialogTitle,
+    A11yModule,
+    MatDialogActions,
+    MatAnchor,
+    MatCardActions,
+    MatIconButton,
+    MatIcon,
+    MatTooltip,
   ],
   templateUrl: './cart-dialog.html',
   styleUrl: './cart-dialog.scss',
 })
-export class CartDialogComponent implements OnInit {
-  cartItems: CartItem[] = [];
+export class CartDialogComponent {
+  readonly data = inject<CartDialogData>(MAT_DIALOG_DATA);
+  readonly cartItems = signal(this.data.cartItems);
+  readonly cartTotal = computed(() =>
+    // Dynamically calculates the cart total as items are retrieved
+    this.cartItems().reduce((sum, item) => sum + item.itemListing.price * item.quantity, 0),
+  );
 
   constructor(
     private cartService: CartItemService,
     private authService: AuthService,
-    private dialogRef: MatDialogRef<CartDialogComponent>,
   ) {}
 
-  ngOnInit(): void {
-    this.dialogRef.afterOpened().subscribe(() => {
-      if (this.authService.userId == null) {
-        alert('You must be logged in to view this cart!');
-        return;
-      }
+  clearCart(): void {
+    const shouldClear = confirm('Are you sure you want to remove ALL items in your cart?');
 
-      console.log('Cart items are ' + this.cartItems.toString());
-
-      this.cartService.getCartItemsByUserId(this.authService.userId).subscribe({
-        next: (items) => (this.cartItems = items),
-        error: (_) => alert('Could not fetch cart items!'),
+    if (shouldClear) {
+      this.cartService.clearCart(this.authService.userId!!).subscribe({
+        next: (_) => alert('Your cart was cleared.'),
+        error: (_) => alert("ERROR: Couldn't clear your cart."),
       });
+    }
+  }
+
+  removeItem(listing: ItemListing) {
+    this.cartService.removeItemFromCart(this.authService.userId!!, listing.id!).subscribe({
+      next: (_) => alert('Removed item: ' + listing.title),
+      error: (_) => alert("ERROR: Couldn't remove item!"),
     });
   }
+}
+
+interface CartDialogData {
+  cartItems: CartItem[];
 }

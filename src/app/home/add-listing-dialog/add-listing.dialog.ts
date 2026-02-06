@@ -69,6 +69,7 @@ export class AddListingDialogComponent {
           sellerId: this.authService.userId!,
           imageUrl: formValues.imageUrl ?? null,
           price: Number(formValues.price!),
+          sellerUsername: this.authService.username!!,
         })
         .subscribe({
           next: (_) => {
