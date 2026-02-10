@@ -8,10 +8,12 @@ import { MatFabButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { AddListingDialogComponent } from './add-listing-dialog/add-listing.dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CartDialogComponent } from './cart-dialog/cart-dialog';
 
 @Component({
   selector: 'app-home',
-  imports: [ItemListingComponent, MatGridListModule, MatFabButton, MatIconModule],
+  imports: [ItemListingComponent, MatGridListModule, MatFabButton, MatIconModule, MatTooltipModule],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -32,7 +34,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
+  openAddListingDialog(): void {
     const dialogRef = this.dialog.open(AddListingDialogComponent, {
       width: '600px',
       disableClose: true,
@@ -45,6 +47,14 @@ export class HomeComponent implements OnInit {
         // user cancelled the close
         dialogRef.disableClose = false;
       }
+    });
+  }
+
+  openCartDialog(): void {
+    this.dialog.open(CartDialogComponent, {
+      width: '600px',
+      height: '600px',
+      data: { userId: this.authService.userId },
     });
   }
 
