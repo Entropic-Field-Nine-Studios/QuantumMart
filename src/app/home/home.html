@@ -12,7 +12,17 @@
   }
 </div>
 @if (loggedIn) {
-  <button matFab (click)="openDialog()" class="floating-btn">
-    <mat-icon>add</mat-icon>
-  </button>
+  <div class="floating-btn-container">
+    <button matFab matTooltip="View cart" (click)="openCartDialog()">
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+    <button
+      matFab
+      matTooltip="Create listing"
+      class="create-listing-btn"
+      (click)="openAddListingDialog()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
 }

@@ -7,4 +7,5 @@ export interface ItemListing {
   createdAt?: string;
   updatedAt?: string;
   id?: string;
+  sellerUsername?: string;
 }
