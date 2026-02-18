@@ -6,7 +6,6 @@ import { UserProfile } from './user-profile/user-profile';
 
 import { AboutUs } from './about-us/about-us';
 import { Support } from './support/support';
-import { ItemListingResolver } from './item-listings/item-listing.resolver';
 
 export const routes: Routes = [
     { path: "", redirectTo: "home", pathMatch: "full" },

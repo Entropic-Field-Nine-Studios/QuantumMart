@@ -2,10 +2,9 @@ import { Directive, HostListener, ElementRef } from '@angular/core';
 
 @Directive({
   selector: '[priceInput]',
-  standalone: true
+  standalone: true,
 })
 export class PriceInputDirective {
-
   constructor(private el: ElementRef<HTMLInputElement>) {}
 
   @HostListener('input', ['$event'])

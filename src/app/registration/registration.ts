@@ -11,27 +11,20 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registration',
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule
-  ],
+  imports: [FormsModule, ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
   templateUrl: './registration.html',
   styleUrl: './registration.scss',
 })
 export class RegistrationComponent {
-
   registerForm = new FormGroup({
     username: new FormControl<string>('', Validators.required),
     email: new FormControl<string>('', Validators.email),
     password: new FormControl<string>('', Validators.required),
-    password2: new FormControl<string>('', Validators.required)
+    password2: new FormControl<string>('', Validators.required),
   });
 
   btnRegisterDisabled = true;
-  
+
   constructor(private userService: UserService) {}
 
   registerUser() {
@@ -39,29 +32,31 @@ export class RegistrationComponent {
       const usernameInput = this.registerForm.value.username!;
 
       this.userService.getUserByUsername(usernameInput).subscribe({
-        next: user => {
+        next: (user) => {
           if (user == null) {
             const newUser: RegisterUserInfo = {
               username: usernameInput,
               rawPassword: this.registerForm.value.password!,
-              email: this.registerForm.value.email ?? ""
+              email: this.registerForm.value.email ?? '',
             };
 
             this.userService.createUser(newUser).subscribe({
-              next: _ => alert("User created successfully."),
-              error: (err: HttpErrorResponse) => alert("Couldn't create user. Error " + err.status)
+              next: (_) => alert('User created successfully.'),
+              error: (err: HttpErrorResponse) => alert("Couldn't create user. Error " + err.status),
             });
           } else {
-            alert("Username is already taken.");
+            alert('Username is already taken.');
           }
         },
-        error: (err: HttpErrorResponse) => alert(err.message)
+        error: (err: HttpErrorResponse) => alert(err.message),
       });
     }
   }
 
   isValidForm(): boolean {
-    const valid = this.registerForm.valid && this.registerForm.value.password! === this.registerForm.value.password2!;
+    const valid =
+      this.registerForm.valid &&
+      this.registerForm.value.password! === this.registerForm.value.password2!;
 
     this.btnRegisterDisabled = !valid;
 

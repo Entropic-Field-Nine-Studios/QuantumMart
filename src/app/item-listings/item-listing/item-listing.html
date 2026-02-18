@@ -1,12 +1,15 @@
-@if (loaded()) {
-    <mat-card>
-        <mat-card-header>
-            <div mat-card-avatar class="avatar-img"></div>
-            <mat-card-title>{{ listing.title }}</mat-card-title>
-            <mat-card-subtitle>{{ sellerUsername }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-footer>
-            <h2>{{ listing.price | currency }}</h2>
-        </mat-card-footer>
-    </mat-card>
-}
+<mat-card>
+  <mat-card-header>
+    <div mat-card-avatar class="avatar-img"></div>
+    <mat-card-title>{{ listing.title }}</mat-card-title>
+    <mat-card-subtitle>{{ listing.sellerUsername }}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-footer>
+    <h2>{{ listing.price | currency }}</h2>
+  </mat-card-footer>
+  @if (loggedIn) {
+    <mat-card-actions>
+      <button matButton="filled" (click)="addToCart()">Add to Cart</button>
+    </mat-card-actions>
+  }
+</mat-card>

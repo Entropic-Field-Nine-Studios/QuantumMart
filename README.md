@@ -1,4 +1,5 @@
 # QuantumMart (frontend)
+
 Backend services: https://github.com/MattCumbo99/qmart
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.0.

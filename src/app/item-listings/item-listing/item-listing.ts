@@ -1,39 +1,36 @@
-import { Component, Input, numberAttribute, OnInit, signal } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { UserService } from '../../users/user.service';
 import { ItemListing } from '../item-listing.model';
+import { MatAnchor } from '@angular/material/button';
+import { CartItemService } from '../../cart/cart-item.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-item-listing',
-  imports: [MatCardModule, CurrencyPipe],
+  imports: [MatCardModule, CurrencyPipe, MatAnchor],
   templateUrl: './item-listing.html',
   styleUrl: './item-listing.scss',
 })
 export class ItemListingComponent implements OnInit {
-
   @Input({ required: true }) listing!: ItemListing;
 
-  sellerImgUrl?: string;
-  sellerUsername!: string;
-
-  loaded = signal(false);
+  loggedIn = false;
 
   constructor(
-    private userService: UserService
+    private cartService: CartItemService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
-    // Load seller information
-    this.userService.getUserById(this.listing.sellerId).subscribe({
-      next: user => {
-        if (user != null) {
-          this.sellerImgUrl = "" // TODO
-          this.sellerUsername = user.username;
+    this.loggedIn = this.authService.isLoggedIn;
+    console.log('User logged in: ' + this.loggedIn);
+  }
 
-          this.loaded.set(true);
-        }
-      }
+  addToCart(): void {
+    this.cartService.addItemToCart(this.authService.userId!!, this.listing).subscribe({
+      next: (item) => alert(`${item.itemListing.title} was added to your cart.`),
+      error: (_) => alert('Unable to add item to cart.'),
     });
   }
 }

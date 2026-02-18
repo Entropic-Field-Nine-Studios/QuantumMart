@@ -4,12 +4,11 @@ import { Observable } from 'rxjs';
 import { RegisterUserInfo } from './register-user-info.model';
 import { User } from './user.model';
 
-
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private readonly baseUrl = "http://localhost:8080/api/users";
+  private readonly baseUrl = 'http://localhost:8080/api/users';
 
   constructor(private http: HttpClient) {}
 
