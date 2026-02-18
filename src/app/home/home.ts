@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -18,7 +18,7 @@ import { CartDialogComponent } from './cart-dialog/cart-dialog';
   styleUrl: './home.scss',
 })
 export class HomeComponent implements OnInit {
-  listings: ItemListing[] = [];
+  listings = signal<ItemListing[]>([]);
 
   readonly dialog = inject(MatDialog);
 
@@ -29,8 +29,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.itemListingService.getAllListings().subscribe({
-      next: (data) => (this.listings = data),
-      error: (_) => (this.listings = []),
+      next: (data) => this.listings.set(data),
+      error: (_) => this.listings.set([]),
     });
   }
 
