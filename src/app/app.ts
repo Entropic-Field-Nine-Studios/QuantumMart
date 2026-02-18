@@ -46,7 +46,6 @@ export class AppComponent {
   logout(event: Event): void {
     event.stopPropagation();
     this.authService.logout();
-    this.router.navigate(['/login']);
   }
 
   profile(): void {
