@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   MatCard,
   MatCardTitle,
@@ -15,6 +15,7 @@ import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ItemListingComponent } from '../item-listings/item-listing/item-listing';
 import { DateService } from '../date/date.service';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-user-profile',
   imports: [
@@ -34,21 +35,21 @@ export class UserProfile {
     private authService: AuthService,
     private itemListingService: ItemListingService,
     private dateService: DateService,
+    private activatedRoute: ActivatedRoute,
   ) {}
-  user!: User;
+  user = signal<User | null>(null);
   sDateCreated!: string;
-
-  listings: ItemListing[] = [];
+  listings = signal<ItemListing[] | null>(null);
 
   ngOnInit(): void {
-    this.userService.getUserByUsername(this.authService.username ?? '').subscribe({
+    this.userService.getUserById(this.activatedRoute.snapshot.params['userid']).subscribe({
       next: (user) => {
         if (user != null) {
-          this.user = user;
-          this.sDateCreated = this.dateService.formatDate(new Date(this.user.createdAt));
-          this.itemListingService.getAllListingsByUsername(this.user.username ?? '').subscribe({
-            next: (data) => (this.listings = data),
-            error: (_) => (this.listings = []),
+          this.user.set(user);
+          this.sDateCreated = this.dateService.formatDate(new Date(user.createdAt));
+          this.itemListingService.getAllListingsByUsername(user.username ?? '').subscribe({
+            next: (data) => this.listings!.set(data),
+            error: (_) => this.listings.set([]),
           });
         }
       },
