@@ -40,8 +40,6 @@ export class RegistrationComponent {
         next: (_) => alert('User created successfully.'),
         error: (err: HttpErrorResponse) => alert("Couldn't create user. Error " + err.status),
       });
-    } else {
-      alert('Username is already taken.');
     }
   }
 
