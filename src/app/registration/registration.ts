@@ -30,26 +30,18 @@ export class RegistrationComponent {
   registerUser() {
     if (this.isValidForm()) {
       const usernameInput = this.registerForm.value.username!;
+      const newUser: RegisterUserInfo = {
+        username: usernameInput,
+        rawPassword: this.registerForm.value.password!,
+        email: this.registerForm.value.email ?? '',
+      };
 
-      this.userService.getUserByUsername(usernameInput).subscribe({
-        next: (user) => {
-          if (user == null) {
-            const newUser: RegisterUserInfo = {
-              username: usernameInput,
-              rawPassword: this.registerForm.value.password!,
-              email: this.registerForm.value.email ?? '',
-            };
-
-            this.userService.createUser(newUser).subscribe({
-              next: (_) => alert('User created successfully.'),
-              error: (err: HttpErrorResponse) => alert("Couldn't create user. Error " + err.status),
-            });
-          } else {
-            alert('Username is already taken.');
-          }
-        },
-        error: (err: HttpErrorResponse) => alert(err.message),
+      this.userService.createUser(newUser).subscribe({
+        next: (_) => alert('User created successfully.'),
+        error: (err: HttpErrorResponse) => alert("Couldn't create user. Error " + err.status),
       });
+    } else {
+      alert('Username is already taken.');
     }
   }
 
