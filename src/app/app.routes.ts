@@ -14,5 +14,5 @@ export const routes: Routes = [
   { path: 'contact', component: Support },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegistrationComponent },
-  { path: 'profile/:user', component: UserProfile },
+  { path: 'profile/:userid', component: UserProfile },
 ];
