@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RegisterUserInfo } from './register-user-info.model';
@@ -10,7 +10,7 @@ import { User } from './user.model';
 export class UserService {
   private readonly baseUrl = 'http://localhost:8080/api/users';
 
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   createUser(registrationInfo: RegisterUserInfo): Observable<User> {
     return this.http.post<User>(`${this.baseUrl}`, registrationInfo);

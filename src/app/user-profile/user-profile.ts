@@ -1,7 +1,6 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatCard, MatCardTitle, MatCardHeader, MatCardAvatar } from '@angular/material/card';
 import { UserService } from '../users/user.service';
-import { AuthService } from '../auth/auth.service';
 import { User } from '../users/user.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ItemListingService } from '../item-listings/item-listing.service';
@@ -23,13 +22,12 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './user-profile.html',
   styleUrl: './user-profile.scss',
 })
-export class UserProfile {
-  constructor(
-    private userService: UserService,
-    private itemListingService: ItemListingService,
-    private dateService: DateService,
-    private activatedRoute: ActivatedRoute,
-  ) {}
+export class UserProfile implements OnInit {
+  private userService = inject(UserService);
+  private itemListingService = inject(ItemListingService);
+  private dateService = inject(DateService);
+  private activatedRoute = inject(ActivatedRoute);
+
   user = signal<User | null>(null);
   sDateCreated!: string;
   listings = signal<ItemListing[] | null>(null);
@@ -42,7 +40,7 @@ export class UserProfile {
           this.sDateCreated = this.dateService.formatDate(new Date(user.createdAt));
           this.itemListingService.getAllListingsByUsername(user.username ?? '').subscribe({
             next: (data) => this.listings!.set(data),
-            error: (_) => this.listings.set([]),
+            error: () => this.listings.set([]),
           });
         }
       },

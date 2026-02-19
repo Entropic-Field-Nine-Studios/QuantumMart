@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ItemListing } from '../item-listing.model';
@@ -18,10 +18,8 @@ export class ItemListingComponent implements OnInit {
   loggedIn = false;
   isListingCurrentUser = false;
 
-  constructor(
-    private cartService: CartItemService,
-    private authService: AuthService,
-  ) {}
+  private cartService = inject(CartItemService);
+  private authService = inject(AuthService);
 
   ngOnInit(): void {
     this.loggedIn = this.authService.isLoggedIn;
@@ -29,9 +27,9 @@ export class ItemListingComponent implements OnInit {
   }
 
   addToCart(): void {
-    this.cartService.addItemToCart(this.authService.userId!!, this.listing).subscribe({
+    this.cartService.addItemToCart(this.authService.userId!, this.listing).subscribe({
       next: (item) => alert(`${item.itemListing.title} was added to your cart.`),
-      error: (_) => alert('Unable to add item to cart.'),
+      error: () => alert('Unable to add item to cart.'),
     });
   }
 }

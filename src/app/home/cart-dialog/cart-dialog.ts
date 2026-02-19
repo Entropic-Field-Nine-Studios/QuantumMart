@@ -57,10 +57,8 @@ export class CartDialogComponent implements OnInit {
     this.cartItems().reduce((sum, item) => sum + item.itemListing.price * item.quantity, 0),
   );
 
-  constructor(
-    private cartService: CartItemService,
-    private authService: AuthService,
-  ) {}
+  private cartService = inject(CartItemService);
+  private authService = inject(AuthService);
 
   ngOnInit(): void {
     this.loadCartItems();
@@ -69,7 +67,7 @@ export class CartDialogComponent implements OnInit {
   private loadCartItems(): void {
     this.cartService.getCartItemsByUserId(this.data.userId).subscribe({
       next: (items) => this.cartItems.set(items),
-      error: (_) => alert("ERROR: Couldn't fetch items for user!"),
+      error: () => alert("ERROR: Couldn't fetch items for user!"),
     });
   }
 
@@ -77,23 +75,23 @@ export class CartDialogComponent implements OnInit {
     const shouldClear = confirm('Are you sure you want to remove ALL items in your cart?');
 
     if (shouldClear) {
-      this.cartService.clearCart(this.authService.userId!!).subscribe({
-        next: (_) => {
+      this.cartService.clearCart(this.authService.userId!).subscribe({
+        next: () => {
           alert('Your cart was cleared.');
           this.loadCartItems();
         },
-        error: (_) => alert("ERROR: Couldn't clear your cart."),
+        error: () => alert("ERROR: Couldn't clear your cart."),
       });
     }
   }
 
   removeItem(listing: ItemListing): void {
-    this.cartService.removeItemFromCart(this.authService.userId!!, listing.id!).subscribe({
-      next: (_) => {
+    this.cartService.removeItemFromCart(this.authService.userId!, listing.id!).subscribe({
+      next: () => {
         alert('Removed item: ' + listing.title);
         this.loadCartItems();
       },
-      error: (_) => alert("ERROR: Couldn't remove item!"),
+      error: () => alert("ERROR: Couldn't remove item!"),
     });
   }
 }

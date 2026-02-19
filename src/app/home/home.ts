@@ -22,15 +22,13 @@ export class HomeComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
 
-  constructor(
-    private authService: AuthService,
-    private itemListingService: ItemListingService,
-  ) {}
+  private authService = inject(AuthService);
+  private itemListingService = inject(ItemListingService);
 
   ngOnInit(): void {
     this.itemListingService.getAllListings().subscribe({
       next: (data) => this.listings.set(data),
-      error: (_) => this.listings.set([]),
+      error: () => this.listings.set([]),
     });
   }
 

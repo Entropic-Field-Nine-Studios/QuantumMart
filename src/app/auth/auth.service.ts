@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginResponse } from './login-response.model';
 import { jwtDecode } from 'jwt-decode';
@@ -12,10 +12,8 @@ import { Router } from '@angular/router';
 export class AuthService {
   private readonly baseUrl = 'http://localhost:8080/api/auth';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-  ) {}
+  private http = inject(HttpClient);
+  private router = inject(Router);
 
   login(username: string, rawPassword: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, { username, rawPassword });
@@ -27,7 +25,7 @@ export class AuthService {
    *
    * @param navigateLogin If the application should route the user to the login page.
    */
-  logout(navigateLogin: boolean = true): void {
+  logout(navigateLogin = true): void {
     this.storage?.removeItem('token');
 
     if (navigateLogin) {
@@ -83,7 +81,7 @@ export class AuthService {
 
     try {
       return jwtDecode<JwtPayload>(token);
-    } catch (e) {
+    } catch {
       return null; // Token is malformed or tampered with
     }
   }

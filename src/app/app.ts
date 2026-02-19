@@ -29,15 +29,12 @@ import {
 })
 export class AppComponent {
   private http = inject(HttpClient);
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
   protected readonly title = signal('QuantumMart');
 
   private readonly hiddenRoutes = ['/login', '/register'];
-
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-  ) {}
 
   get username(): string | null {
     return this.authService.username;

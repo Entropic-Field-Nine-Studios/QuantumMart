@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { ItemListing } from './item-listing.model';
 import { Observable } from 'rxjs';
 
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class ItemListingService {
   private readonly baseUrl = 'http://localhost:8080/api/item-listings';
 
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   getAllListings(): Observable<ItemListing[]> {
     return this.http.get<ItemListing[]>(`${this.baseUrl}`);
