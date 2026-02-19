@@ -1,10 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import {
-  MatCard,
-  MatCardTitle,
-  MatCardHeader,
-  MatCardAvatar,
-} from '@angular/material/card';
+import { MatCard, MatCardTitle, MatCardHeader, MatCardAvatar } from '@angular/material/card';
 import { UserService } from '../users/user.service';
 import { AuthService } from '../auth/auth.service';
 import { User } from '../users/user.model';
