@@ -2,14 +2,12 @@
   <h1>Quantum Mart</h1>
   @if (showNavBar()) {
     @if (username != null) {
-      <mat-card class="clickable-card user-card" (click)="profile()">
+      <mat-card class="user-card">
         <mat-card-header>
-          <div mat-card-avatar class="avatar-img"></div>
-          <mat-card-title>{{ username }}</mat-card-title>
+          <div mat-card-avatar class="avatar-img clickable" (click)="profile()"></div>
+          <mat-card-title class="clickable" (click)="profile()">{{ username }}</mat-card-title>
           <mat-card-subtitle>
-            <button matButton="filled" class="logout-button" (click)="logout($event)">
-              Logout
-            </button>
+            <button matButton="filled" class="clickable" (click)="logout()">Logout</button>
           </mat-card-subtitle>
         </mat-card-header>
       </mat-card>

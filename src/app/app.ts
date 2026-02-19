@@ -43,8 +43,7 @@ export class AppComponent {
     return this.authService.username;
   }
 
-  logout(event: Event): void {
-    event.stopPropagation();
+  logout(): void {
     this.authService.logout();
   }
 
