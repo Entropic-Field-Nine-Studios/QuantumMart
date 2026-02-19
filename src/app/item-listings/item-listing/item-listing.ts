@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ItemListing } from '../item-listing.model';
@@ -16,6 +16,7 @@ export class ItemListingComponent implements OnInit {
   @Input({ required: true }) listing!: ItemListing;
 
   loggedIn = false;
+  isListingCurrentUser = false;
 
   constructor(
     private cartService: CartItemService,
@@ -24,7 +25,7 @@ export class ItemListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedIn = this.authService.isLoggedIn;
-    console.log('User logged in: ' + this.loggedIn);
+    this.isListingCurrentUser = this.authService.userId == this.listing.sellerId;
   }
 
   addToCart(): void {
