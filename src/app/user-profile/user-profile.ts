@@ -4,7 +4,6 @@ import {
   MatCardTitle,
   MatCardHeader,
   MatCardAvatar,
-  MatCardSubtitle,
 } from '@angular/material/card';
 import { UserService } from '../users/user.service';
 import { AuthService } from '../auth/auth.service';
@@ -32,7 +31,6 @@ import { ActivatedRoute } from '@angular/router';
 export class UserProfile {
   constructor(
     private userService: UserService,
-    private authService: AuthService,
     private itemListingService: ItemListingService,
     private dateService: DateService,
     private activatedRoute: ActivatedRoute,
