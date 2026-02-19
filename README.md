@@ -1,6 +1,6 @@
 # QuantumMart (frontend)
 
-Backend services: https://github.com/MattCumbo99/qmart
+Backend services: https://github.com/Entropic-Field-Nine-Studios/qmart
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.0.
 
