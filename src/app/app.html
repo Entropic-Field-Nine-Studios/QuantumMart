@@ -1,10 +1,12 @@
 <main>
   <h1>Quantum Mart</h1>
   @if (showNavBar()) {
-    @if (username != null) {
+    @if (username !== null) {
       <mat-card class="user-card">
         <mat-card-header>
-          <div mat-card-avatar class="avatar-img clickable" (click)="profile()"></div>
+          <button mat-card-avatar class="avatar-btn clickable" (click)="profile()">
+            <img src="assets/pfp/msn-avatar.png" class="avatar-img" alt="My Profile" />
+          </button>
           <mat-card-title class="clickable" (click)="profile()">{{ username }}</mat-card-title>
           <mat-card-subtitle>
             <button matButton="filled" class="clickable" (click)="logout()">Logout</button>

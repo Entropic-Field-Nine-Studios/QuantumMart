@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,7 +25,7 @@ export class RegistrationComponent {
 
   btnRegisterDisabled = true;
 
-  constructor(private userService: UserService) {}
+  private userService = inject(UserService);
 
   registerUser() {
     if (this.isValidForm()) {
@@ -37,16 +37,16 @@ export class RegistrationComponent {
       };
 
       this.userService.createUser(newUser).subscribe({
-        next: (_) => alert('User created successfully.'),
+        next: () => alert('User created successfully.'),
         error: (err: HttpErrorResponse) => alert("Couldn't create user. Error " + err.status),
       });
     }
   }
 
   isValidForm(): boolean {
-    const valid =
-      this.registerForm.valid &&
-      this.registerForm.value.password! === this.registerForm.value.password2!;
+    const pass1 = this.registerForm.value.password!;
+    const pass2 = this.registerForm.value.password2!;
+    const valid = this.registerForm.valid && pass1 === pass2;
 
     this.btnRegisterDisabled = !valid;
 

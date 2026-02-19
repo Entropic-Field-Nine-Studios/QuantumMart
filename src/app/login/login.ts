@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,10 +29,8 @@ export class LoginComponent {
 
   btnLoginDisabled = true;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+  private authService = inject(AuthService);
+  private router = inject(Router);
 
   formValid(): boolean {
     this.btnLoginDisabled = !this.loginForm.valid;
@@ -56,7 +54,7 @@ export class LoginComponent {
 
           this.router.navigate(['/home']);
         },
-        error: (_) => alert('Invalid credentials.'),
+        error: () => alert('Invalid credentials.'),
       });
     }
   }

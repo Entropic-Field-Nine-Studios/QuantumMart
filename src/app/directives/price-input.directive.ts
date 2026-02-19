@@ -1,14 +1,14 @@
-import { Directive, HostListener, ElementRef } from '@angular/core';
+import { Directive, HostListener, ElementRef, inject } from '@angular/core';
 
 @Directive({
-  selector: '[priceInput]',
+  selector: '[appPriceInput]',
   standalone: true,
 })
 export class PriceInputDirective {
-  constructor(private el: ElementRef<HTMLInputElement>) {}
+  private el = inject(ElementRef<HTMLInputElement>);
 
-  @HostListener('input', ['$event'])
-  onInput(event: Event) {
+  @HostListener('input')
+  onInput() {
     const input = this.el.nativeElement;
 
     // Remove all non-digits except decimal

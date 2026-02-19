@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartItem } from './cart-item.model';
 import { ItemListing } from '../item-listings/item-listing.model';
@@ -10,7 +10,7 @@ import { ItemListing } from '../item-listings/item-listing.model';
 export class CartItemService {
   private readonly baseUrl = 'http://localhost:8080/api/cart-items';
 
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   /**
    * Retrieves a list of cart items associated with a user ID.
@@ -39,7 +39,7 @@ export class CartItemService {
    * @param userId ID of user to clear their cart.
    * @returns Observable showing successsful cart clearing.
    */
-  clearCart(userId: string): Observable<Object> {
+  clearCart(userId: string): Observable<object> {
     return this.http.delete(`${this.baseUrl}/user/${userId}`);
   }
 
@@ -50,7 +50,7 @@ export class CartItemService {
    * @param listingId ID of the listing to remove
    * @returns
    */
-  removeItemFromCart(userId: string, listingId: string): Observable<Object> {
+  removeItemFromCart(userId: string, listingId: string): Observable<object> {
     return this.http.delete(`${this.baseUrl}/user/${userId}/listing/${listingId}`);
   }
 }

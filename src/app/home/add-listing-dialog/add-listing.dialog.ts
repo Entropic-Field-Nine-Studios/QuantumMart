@@ -17,11 +17,10 @@ import {
 } from '@angular/material/dialog';
 import { PriceInputDirective } from '../../directives/price-input.directive';
 import { ItemListingService } from '../../item-listings/item-listing.service';
-import { ItemListing } from '../../item-listings/item-listing.model';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
-  selector: 'add-listing-dialog',
+  selector: 'app-add-listing-dialog',
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -45,14 +44,12 @@ export class AddListingDialogComponent {
     imageUrl: new FormControl(''),
     price: new FormControl('0.00', [
       Validators.required,
-      Validators.pattern(RegExp('^[0-9]+(\.[0-9]{1,2})?$')),
+      Validators.pattern(RegExp('^[0-9]+(\\.[0-9]{1,2})?$')),
     ]),
   });
 
-  constructor(
-    private itemListingService: ItemListingService,
-    private authService: AuthService,
-  ) {}
+  private itemListingService = inject(ItemListingService);
+  private authService = inject(AuthService);
 
   formValid() {
     return this.listingForm.valid;
@@ -69,14 +66,14 @@ export class AddListingDialogComponent {
           sellerId: this.authService.userId!,
           imageUrl: formValues.imageUrl ?? null,
           price: Number(formValues.price!),
-          sellerUsername: this.authService.username!!,
+          sellerUsername: this.authService.username!,
         })
         .subscribe({
-          next: (_) => {
+          next: () => {
             alert('Listing created!');
             this.dialogRef.close();
           },
-          error: (_) => alert('Error: Could not create listing.'),
+          error: () => alert('Error: Could not create listing.'),
         });
     }
   }
