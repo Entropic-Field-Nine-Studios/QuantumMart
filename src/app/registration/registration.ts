@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { UserService } from '../users/user.service';
 import { RegisterUserInfo } from '../users/register-user-info.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -26,6 +27,7 @@ export class RegistrationComponent {
   btnRegisterDisabled = true;
 
   private userService = inject(UserService);
+  private router = inject(Router);
 
   registerUser() {
     if (this.isValidForm()) {
@@ -37,8 +39,19 @@ export class RegistrationComponent {
       };
 
       this.userService.createUser(newUser).subscribe({
-        next: () => alert('User created successfully.'),
-        error: (err: HttpErrorResponse) => alert("Couldn't create user. Error " + err.status),
+        next: () => {
+          alert('User registered successfully!');
+          this.router.navigate(['/login']);
+        },
+        error: (err: HttpErrorResponse) => {
+          switch (err.status) {
+            case 409:
+              alert('Username already in use.');
+              break;
+            default:
+              alert(err.message);
+          }
+        },
       });
     }
   }

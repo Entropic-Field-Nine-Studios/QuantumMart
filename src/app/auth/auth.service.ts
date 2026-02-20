@@ -15,15 +15,24 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
 
+  /**
+   * Attempts to validate the provided credentials against an existing user in the database.
+   *
+   * ### Error codes
+   * - 400 (Bad Request) - If ANY of the parameters are mismatched.
+   *
+   * @param username User to login as.
+   * @param rawPassword Password of the user.
+   * @returns A login response which holds a brand-new Java Web Token and the user's username.
+   */
   login(username: string, rawPassword: string): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, { username, rawPassword });
   }
 
   /**
-   * Removes token and username information from browser storage, then navigates
-   * to the login page.
+   * Removes token and username information from browser storage.
    *
-   * @param navigateLogin If the application should route the user to the login page.
+   * @param navigateLogin If the application should route the user to the login page (default `true`).
    */
   logout(navigateLogin = true): void {
     this.storage?.removeItem('token');
@@ -37,18 +46,30 @@ export class AuthService {
     return typeof window !== 'undefined' ? window.localStorage : null;
   }
 
+  /**
+   * Gets the currently logged in user's username, or `null` if the client isn't logged in.
+   */
   get username(): string | null {
     return this.decodedToken?.sub ?? null;
   }
 
+  /**
+   * Checks if the client is currently logged in (aka, token is valid).
+   */
   get isLoggedIn(): boolean {
     return this.isTokenValid();
   }
 
+  /**
+   * Gets the logged in user's UUID, or `null` if the client isn't logged in.
+   */
   get userId(): string | null {
     return this.decodedToken?.uid ?? null;
   }
 
+  /**
+   * Retrieves the logged in user's level of privilege, or `null` if the client isn't logged in.
+   */
   get userRole(): string | null {
     return this.decodedToken?.role ?? null;
   }
@@ -70,6 +91,10 @@ export class AuthService {
     return now < expiresAt;
   }
 
+  /**
+   * Retrieves the string currently being stored via `token` key in browser storage. This normally shouldn't be referenced
+   * on a typical component page. If the client isn't logged in, the token will be `null`.
+   */
   get rawToken(): string | null {
     return this.storage?.getItem('token') ?? null;
   }
