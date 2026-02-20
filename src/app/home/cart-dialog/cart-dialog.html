@@ -38,6 +38,6 @@
   <mat-dialog-actions>
     <h2 disabled matButton>Total: {{ cartTotal() | currency }}</h2>
     <button matButton (click)="clearCart()">Clear Cart</button>
-    <button matButton="filled">Checkout</button>
+    <button matButton="filled" (click)="checkout()">Checkout</button>
   </mat-dialog-actions>
 }

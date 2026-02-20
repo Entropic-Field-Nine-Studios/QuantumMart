@@ -24,6 +24,7 @@ import { AuthService } from '../../auth/auth.service';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ItemListing } from '../../item-listings/item-listing.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart-dialog',
@@ -59,6 +60,7 @@ export class CartDialogComponent implements OnInit {
 
   private cartService = inject(CartItemService);
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.loadCartItems();
@@ -69,6 +71,10 @@ export class CartDialogComponent implements OnInit {
       next: (items) => this.cartItems.set(items),
       error: () => alert("ERROR: Couldn't fetch items for user!"),
     });
+  }
+
+  checkout() {
+    this.router.navigateByUrl('/checkout');
   }
 
   clearCart(): void {
