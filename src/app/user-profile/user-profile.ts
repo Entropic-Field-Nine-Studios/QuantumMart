@@ -35,14 +35,12 @@ export class UserProfile implements OnInit {
   ngOnInit(): void {
     this.userService.getUserById(this.activatedRoute.snapshot.params['userid']).subscribe({
       next: (user) => {
-        if (user != null) {
-          this.user.set(user);
-          this.sDateCreated = this.dateService.formatDate(new Date(user.createdAt));
-          this.itemListingService.getAllListingsByUsername(user.username ?? '').subscribe({
-            next: (data) => this.listings!.set(data),
-            error: () => this.listings.set([]),
-          });
-        }
+        this.user.set(user);
+        this.sDateCreated = this.dateService.formatDate(new Date(user.createdAt));
+        this.itemListingService.getAllListingsByUsername(user.username ?? '').subscribe({
+          next: (data) => this.listings.set(data),
+          error: () => this.listings.set([]),
+        });
       },
       error: (err: HttpErrorResponse) => alert(err.message),
     });

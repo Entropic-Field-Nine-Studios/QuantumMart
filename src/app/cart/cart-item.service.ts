@@ -15,7 +15,7 @@ export class CartItemService {
   /**
    * Retrieves a list of cart items associated with a user ID.
    *
-   * @param userId ID of user to retrieve cart items from.
+   * @param userId UUID of the user to retrieve cart items from.
    * @returns List of cart items in user's cart.
    */
   getCartItemsByUserId(userId: string): Observable<CartItem[]> {
@@ -23,9 +23,10 @@ export class CartItemService {
   }
 
   /**
-   * Adds an item with quantity 1 to a user's cart.
+   * Adds an item with quantity 1 to a user's cart. If the user already has this item
+   * in their cart, the quantity of the existing item is incremented by 1 instead.
    *
-   * @param userId ID of user to update cart on.
+   * @param userId UUID of the user to update cart on.
    * @param listing Item listing being added to cart.
    * @returns Cart item that was added.
    */
@@ -36,7 +37,7 @@ export class CartItemService {
   /**
    * Deletes every single cart item associated with a user.
    *
-   * @param userId ID of user to clear their cart.
+   * @param userId UUID of user to clear their cart.
    * @returns Observable showing successsful cart clearing.
    */
   clearCart(userId: string): Observable<object> {
@@ -47,7 +48,7 @@ export class CartItemService {
    * Removes an item from a user's cart.
    *
    * @param userId The cart's user ID
-   * @param listingId ID of the listing to remove
+   * @param listingId UUID of the listing to remove
    * @returns
    */
   removeItemFromCart(userId: string, listingId: string): Observable<object> {
