@@ -1,1 +1,79 @@
 <h1>Checkout</h1>
+<div class="checkout-layout">
+  <section class="form-box">
+    <mat-stepper [linear]="true" #stepper>
+      <mat-step [stepControl]="shippingForm">
+        <form [formGroup]="shippingForm">
+          <ng-template matStepLabel>Shipping Information</ng-template>
+          <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput maxlength="150" formControlName="firstName" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput maxlength="150" formControlName="lastName" />
+          </mat-form-field>
+          <br />
+          <mat-form-field>
+            <mat-label>Address Line 1</mat-label>
+            <input matInput maxlength="500" formControlName="address1" />
+          </mat-form-field>
+          <br />
+          <mat-form-field>
+            <mat-label>Address Line 2</mat-label>
+            <input matInput maxlength="100" formControlName="address2" />
+          </mat-form-field>
+          <br />
+          <mat-form-field>
+            <mat-label>City</mat-label>
+            <input matInput maxlength="100" formControlName="city" />
+          </mat-form-field>
+          <br />
+          <mat-form-field>
+            <mat-label>State</mat-label>
+            <mat-select formControlName="state">
+              @for (state of states; track $index) {
+                <mat-option [value]="state">{{ state }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+          <br />
+          <mat-form-field>
+            <mat-label>ZIP Code</mat-label>
+            <input matInput maxlength="10" formControlName="zip" />
+          </mat-form-field>
+          <br />
+          <mat-form-field>
+            <mat-label>Phone</mat-label>
+            <input matInput type="tel" formControlName="phone" />
+          </mat-form-field>
+          <br />
+          <button matButton="filled" matStepperNext>Next</button>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Review and Submit</ng-template>
+        <h2>Review your shipping address</h2>
+        <h3>Ships to:</h3>
+        <p>{{ getFullName() }}</p>
+        <p>{{ getFullAddress() }}</p>
+      </mat-step>
+    </mat-stepper>
+  </section>
+
+  <section class="summary-box">
+    <h2>Summary</h2>
+    <hr />
+    <h3>Subtotal: {{ subTotal() | currency }}</h3>
+    <h3>Shipping: FREE</h3>
+    <h3>Fees: {{ (subTotal() ?? 0) * taxAmount | currency }}</h3>
+    <h3>Total: {{ getTotal() | currency }}</h3>
+  </section>
+
+  <section class="cart-contents-box">
+    @if (cartItems() !== null) {
+      <h2>In your cart</h2>
+      <app-cart-item-card-list [cartItems]="cartItems()!" [showDelete]="false" />
+    }
+  </section>
+</div>

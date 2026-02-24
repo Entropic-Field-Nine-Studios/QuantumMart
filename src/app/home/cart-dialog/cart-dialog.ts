@@ -15,6 +15,7 @@ import {
   MatDialogContent,
   MatDialogTitle,
   MatDialogActions,
+  MatDialogRef,
 } from '@angular/material/dialog';
 import { CurrencyPipe } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
@@ -25,27 +26,20 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ItemListing } from '../../item-listings/item-listing.model';
 import { Router } from '@angular/router';
+import { CartItemCardComponent } from '../../cart/cart-item-card/cart-item-card';
 
 @Component({
   selector: 'app-cart-dialog',
   imports: [
     MatListModule,
     MatDividerModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardSubtitle,
-    MatCardContent,
     CurrencyPipe,
     MatDialogContent,
     MatDialogTitle,
     A11yModule,
     MatDialogActions,
     MatAnchor,
-    MatCardActions,
-    MatIconButton,
-    MatIcon,
-    MatTooltip,
+    CartItemCardComponent,
   ],
   templateUrl: './cart-dialog.html',
   styleUrl: './cart-dialog.scss',
@@ -61,6 +55,7 @@ export class CartDialogComponent implements OnInit {
   private cartService = inject(CartItemService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private dialogRef = inject(MatDialogRef<CartDialogComponent>);
 
   ngOnInit(): void {
     this.loadCartItems();
@@ -75,6 +70,7 @@ export class CartDialogComponent implements OnInit {
 
   checkout() {
     this.router.navigateByUrl('/checkout');
+    this.dialogRef.close();
   }
 
   clearCart(): void {
