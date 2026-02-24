@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       bump:
-        description: "Version bump type"
+        description: 'Version bump type'
         required: true
         type: choice
         options:
@@ -63,10 +63,9 @@ jobs:
           git tag v${{ steps.newTag.outputs.version }}
           git push origin v${{ steps.newTag.outputs.version }}
 
-
       - run: npm ci
       - run: npm run build --if-present -Pversion=${{ steps.newTag.outputs.version }}
-      
+
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
         with:
