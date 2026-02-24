@@ -14,7 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { US_STATES } from './us-states';
 import { MatAnchor } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
-import { OrderService } from '../order/order-service';
+import { OrderService } from '../order/order.service';
 import { Order, OrderStatus } from '../order/order.model';
 import { Router } from '@angular/router';
 
