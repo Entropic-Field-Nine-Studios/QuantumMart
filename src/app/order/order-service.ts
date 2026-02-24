@@ -22,7 +22,7 @@ export class OrderService {
    * @returns List of orders.
    */
   getOrdersByUserId(userId: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/buyerId/${userId}`);
+    return this.http.get<Order[]>(`${this.baseUrl}/userId/${userId}`);
   }
 
   /**
