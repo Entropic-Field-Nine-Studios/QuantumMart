@@ -58,7 +58,7 @@
         <p>{{ getFullName() }}</p>
         <p>{{ getFullAddress() }}</p>
         <h3>Total: {{ getTotal() | currency }}</h3>
-        <button matButton="filled">Finalize and Submit</button>
+        <button matButton="filled" (click)="placeOrder()">Place Order</button>
       </mat-step>
     </mat-stepper>
   </section>

@@ -14,6 +14,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { US_STATES } from './us-states';
 import { MatAnchor } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
+import { OrderService } from '../order/order-service';
+import { Order, OrderStatus } from '../order/order.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-checkout',
@@ -35,6 +38,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 export class CheckoutComponent implements OnInit {
   private cartItemService = inject(CartItemService);
   private authService = inject(AuthService);
+  private orderService = inject(OrderService);
+  private router = inject(Router);
 
   cartItems = signal<CartItem[] | null>(null);
 
@@ -97,5 +102,47 @@ export class CheckoutComponent implements OnInit {
       ' ' +
       formValues.zip
     );
+  }
+
+  placeOrder() {
+    const currentItems = this.cartItems();
+
+    if (currentItems == null || currentItems.length == 0) {
+      alert('Error: Cannot place order (cart is empty).');
+      return;
+    }
+
+    if (this.shippingForm.valid && this.authService.isLoggedIn) {
+      const formValues = this.shippingForm.value!;
+      const orderInfo: Order = {
+        buyerId: this.authService.userId!,
+        status: OrderStatus.PENDING,
+        totalPaid: this.getTotal(),
+        shippingFirstname: formValues.firstName!,
+        shippingLastname: formValues.lastName!,
+        shippingAddress1: formValues.address1!,
+        shippingAddress2: formValues.address2,
+        shippingCity: formValues.city!,
+        shippingState: formValues.state!,
+        shippingZip: formValues.zip!,
+        shippingPhone: formValues.phone!,
+      };
+
+      this.orderService.createOrder(orderInfo).subscribe({
+        next: (orderWithItems) => {
+          alert(`You have successfully placed your order! Ref ID: ${orderWithItems.order.orderId}`);
+          this.router.navigate(['/home']);
+        },
+        error: (err: HttpErrorResponse) => {
+          switch (err.status) {
+            case 403:
+              alert('Error: Cannot place order (insufficient funds).');
+              break;
+            default:
+              alert(err.message);
+          }
+        },
+      });
+    }
   }
 }
