@@ -64,7 +64,7 @@ jobs:
           git push origin v${{ steps.newTag.outputs.version }}
 
       - run: npm ci
-      - run: npm run build --if-present -Pversion=${{ steps.newTag.outputs.version }}
+      - run: ng build --prod
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
@@ -74,6 +74,6 @@ jobs:
           generate_release_notes: true
           prerelease: ${{ steps.newTag.outputs.prerelease }}
           files: |
-            dist\QuantumMart-${{ steps.newTag.outputs.version }}.jar
+            dist\QuantumMart\browser\{{ steps.newTag.outputs.version }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
