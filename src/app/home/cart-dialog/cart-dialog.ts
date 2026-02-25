@@ -16,7 +16,7 @@ import { CartItemService } from '../../cart/cart-item.service';
 import { AuthService } from '../../auth/auth.service';
 import { ItemListing } from '../../item-listings/item-listing.model';
 import { Router } from '@angular/router';
-import { CartItemCardComponent } from '../../cart/cart-item-card/cart-item-card';
+import { CartItemCardListComponent } from '../../cart/cart-item-card-list/cart-item-card-list';
 
 @Component({
   selector: 'app-cart-dialog',
@@ -29,7 +29,7 @@ import { CartItemCardComponent } from '../../cart/cart-item-card/cart-item-card'
     A11yModule,
     MatDialogActions,
     MatAnchor,
-    CartItemCardComponent,
+    CartItemCardListComponent,
   ],
   templateUrl: './cart-dialog.html',
   styleUrl: './cart-dialog.scss',

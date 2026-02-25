@@ -1,19 +1,10 @@
 <h2 mat-dialog-title>Your Cart</h2>
 <mat-dialog-content class="dialog-content">
   @if (cartItems().length > 0) {
-    <mat-list>
-      @for (item of cartItems(); track $index) {
-        <mat-list-item>
-          <app-cart-item-card
-            [cartItem]="item"
-            (removeItem)="removeItem($event)"
-          ></app-cart-item-card>
-        </mat-list-item>
-        <br />
-        <mat-divider></mat-divider>
-        <br />
-      }
-    </mat-list>
+    <app-cart-item-card-list
+      [cartItems]="cartItems()"
+      (removeItem)="removeItem($event)"
+    ></app-cart-item-card-list>
   } @else {
     <p>There are no items currently in your cart. Go do some shopping! :D</p>
   }
