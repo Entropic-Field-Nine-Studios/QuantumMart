@@ -69,7 +69,7 @@ export class CheckoutComponent implements OnInit {
     address2: new FormControl(''),
     city: new FormControl('', Validators.required),
     state: new FormControl('', Validators.required),
-    zip: new FormControl('', [Validators.required, Validators.pattern('[0-9]+')]),
+    zip: new FormControl('', [Validators.required, Validators.pattern('[0-9]+(|-[0-9]{4})')]),
     phone: new FormControl(''),
   });
 
