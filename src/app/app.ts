@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { MatTabsModule, MatTabNav } from '@angular/material/tabs';
 import { Router, RouterOutlet, RouterLinkWithHref } from '@angular/router';
@@ -28,13 +27,12 @@ import {
   styleUrl: './app.scss',
 })
 export class AppComponent {
-  private http = inject(HttpClient);
   private router = inject(Router);
   private authService = inject(AuthService);
 
   protected readonly title = signal('QuantumMart');
 
-  private readonly hiddenRoutes = ['/login', '/register'];
+  private readonly loginRegisterRoutes = ['/login', '/register'];
 
   get username(): string | null {
     return this.authService.username;
@@ -48,7 +46,11 @@ export class AppComponent {
     this.router.navigate(['/profile/' + this.authService.userId]);
   }
 
-  showNavBar(): boolean {
-    return !this.hiddenRoutes.includes(this.router.url);
+  showUserCard(): boolean {
+    return !this.loginRegisterRoutes.includes(this.router.url) && !this.isAtCheckout();
+  }
+
+  isAtCheckout(): boolean {
+    return this.router.url.includes('/checkout');
   }
 }

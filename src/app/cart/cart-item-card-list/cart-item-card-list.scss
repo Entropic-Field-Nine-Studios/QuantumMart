@@ -1,0 +1,10 @@
+::ng-deep mat-list-item {
+  height: auto !important;
+  min-height: auto !important;
+  align-items: stretch !important;
+}
+
+::ng-deep .mat-mdc-list-item {
+  height: auto !important;
+  min-height: auto !important;
+}

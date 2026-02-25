@@ -3,48 +3,33 @@ import { CartItem } from '../../cart/cart-item.model';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import {
-  MatCard,
-  MatCardHeader,
-  MatCardTitle,
-  MatCardSubtitle,
-  MatCardContent,
-  MatCardActions,
-} from '@angular/material/card';
-import {
   MAT_DIALOG_DATA,
   MatDialogContent,
   MatDialogTitle,
   MatDialogActions,
+  MatDialogRef,
 } from '@angular/material/dialog';
 import { CurrencyPipe } from '@angular/common';
 import { A11yModule } from '@angular/cdk/a11y';
-import { MatAnchor, MatIconButton } from '@angular/material/button';
+import { MatAnchor } from '@angular/material/button';
 import { CartItemService } from '../../cart/cart-item.service';
 import { AuthService } from '../../auth/auth.service';
-import { MatIcon } from '@angular/material/icon';
-import { MatTooltip } from '@angular/material/tooltip';
 import { ItemListing } from '../../item-listings/item-listing.model';
+import { Router } from '@angular/router';
+import { CartItemCardListComponent } from '../../cart/cart-item-card-list/cart-item-card-list';
 
 @Component({
   selector: 'app-cart-dialog',
   imports: [
     MatListModule,
     MatDividerModule,
-    MatCard,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardSubtitle,
-    MatCardContent,
     CurrencyPipe,
     MatDialogContent,
     MatDialogTitle,
     A11yModule,
     MatDialogActions,
     MatAnchor,
-    MatCardActions,
-    MatIconButton,
-    MatIcon,
-    MatTooltip,
+    CartItemCardListComponent,
   ],
   templateUrl: './cart-dialog.html',
   styleUrl: './cart-dialog.scss',
@@ -59,6 +44,8 @@ export class CartDialogComponent implements OnInit {
 
   private cartService = inject(CartItemService);
   private authService = inject(AuthService);
+  private router = inject(Router);
+  private dialogRef = inject(MatDialogRef<CartDialogComponent>);
 
   ngOnInit(): void {
     this.loadCartItems();
@@ -69,6 +56,11 @@ export class CartDialogComponent implements OnInit {
       next: (items) => this.cartItems.set(items),
       error: () => alert("ERROR: Couldn't fetch items for user!"),
     });
+  }
+
+  checkout() {
+    this.router.navigateByUrl('/checkout');
+    this.dialogRef.close();
   }
 
   clearCart(): void {

@@ -7,6 +7,8 @@ import { UserProfile } from './user-profile/user-profile';
 import { AboutUs } from './about-us/about-us';
 import { Support } from './support/support';
 import { userRedirectGuard } from './auth/user-redirect-guard';
+import { CheckoutComponent } from './checkout/checkout.component';
+import { checkoutGuard } from './auth/checkout-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -16,4 +18,5 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [userRedirectGuard] },
   { path: 'register', component: RegistrationComponent, canActivate: [userRedirectGuard] },
   { path: 'profile/:userid', component: UserProfile },
+  { path: 'checkout', component: CheckoutComponent, canActivate: [checkoutGuard] },
 ];

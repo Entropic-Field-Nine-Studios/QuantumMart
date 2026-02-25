@@ -15,7 +15,7 @@ import {
   MatDialogRef,
   MatDialogTitle,
 } from '@angular/material/dialog';
-import { PriceInputDirective } from '../../directives/price-input.directive';
+import { PriceInputDirective } from '../../shared/directives/price-input.directive';
 import { ItemListingService } from '../../item-listings/item-listing.service';
 import { AuthService } from '../../auth/auth.service';
 

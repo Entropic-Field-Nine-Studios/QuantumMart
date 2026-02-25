@@ -1,6 +1,6 @@
 <main>
   <h1>Quantum Mart</h1>
-  @if (showNavBar()) {
+  @if (showUserCard()) {
     @if (username !== null) {
       <mat-card class="user-card">
         <mat-card-header>
@@ -20,11 +20,14 @@
     }
   }
 
-  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-    <a mat-tab-link routerLink="/home">Home</a>
-    <a mat-tab-link routerLink="/about-us">About Us</a>
-    <a mat-tab-link routerLink="/contact">Contact Support</a>
-  </nav>
-  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  @if (!isAtCheckout()) {
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      <a mat-tab-link routerLink="/home">Home</a>
+      <a mat-tab-link routerLink="/about-us">About Us</a>
+      <a mat-tab-link routerLink="/contact">Contact Support</a>
+    </nav>
+    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  }
+
   <router-outlet />
 </main>
