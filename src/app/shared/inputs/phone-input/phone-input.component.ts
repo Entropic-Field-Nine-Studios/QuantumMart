@@ -8,13 +8,21 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { MatFormField, MatLabel, MatError } from '@angular/material/form-field';
+import { MatFormField, MatLabel, MatError, MatPrefix } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { DigitsOnlyDirective } from '../../directives/digits-only.directive';
 
 @Component({
   selector: 'app-phone-input',
-  imports: [MatFormField, MatLabel, MatInput, DigitsOnlyDirective, ReactiveFormsModule, MatError],
+  imports: [
+    MatFormField,
+    MatLabel,
+    MatInput,
+    DigitsOnlyDirective,
+    ReactiveFormsModule,
+    MatError,
+    MatPrefix,
+  ],
   templateUrl: './phone-input.component.html',
   styleUrl: './phone-input.component.scss',
   standalone: true,
