@@ -4,7 +4,6 @@ import { AuthService } from '../auth/auth.service';
 import { CartItem } from '../cart/cart-item.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CartItemCardListComponent } from '../cart/cart-item-card-list/cart-item-card-list';
-import { MatCard, MatCardContent } from '@angular/material/card';
 import { CurrencyPipe } from '@angular/common';
 import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
@@ -65,7 +64,7 @@ export class CheckoutComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.cartItemService.getCartItemsByUserId(this.authService.userId!!).subscribe({
+    this.cartItemService.getCartItemsByUserId(this.authService.userId!).subscribe({
       next: (items) => this.cartItems.set(items),
       error: (err: HttpErrorResponse) => alert(err.message),
     });
@@ -129,8 +128,8 @@ export class CheckoutComponent implements OnInit {
       };
 
       this.orderService.createOrder(orderInfo).subscribe({
-        next: (orderWithItems) => {
-          alert(`You have successfully placed your order! Ref ID: ${orderWithItems.order.orderId}`);
+        next: () => {
+          alert(`You have successfully placed your order!`);
           this.router.navigate(['/home']);
         },
         error: (err: HttpErrorResponse) => {
