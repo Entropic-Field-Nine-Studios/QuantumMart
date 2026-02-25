@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CheckoutComponent } from './checkout';
+import { PhoneInputComponent } from './phone-input.component';
 
-describe('Checkout', () => {
-  let component: CheckoutComponent;
-  let fixture: ComponentFixture<CheckoutComponent>;
+describe('PhoneInput', () => {
+  let component: PhoneInputComponent;
+  let fixture: ComponentFixture<PhoneInputComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CheckoutComponent],
+      imports: [PhoneInputComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(CheckoutComponent);
+    fixture = TestBed.createComponent(PhoneInputComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -16,6 +16,11 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { OrderService } from '../order/order.service';
 import { Order, OrderStatus } from '../order/order.model';
 import { Router } from '@angular/router';
+import { AddressDirective } from '../shared/directives/address.directive';
+import { PersonNameDirective } from '../shared/directives/person-name.directive';
+import { CityDirective } from '../shared/directives/city.directive';
+import { ZipCodeDirective } from '../shared/directives/zip-code.directive';
+import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.component';
 
 @Component({
   selector: 'app-checkout',
@@ -30,9 +35,14 @@ import { Router } from '@angular/router';
     MatSelectModule,
     MatAnchor,
     MatStepperModule,
+    AddressDirective,
+    PersonNameDirective,
+    CityDirective,
+    ZipCodeDirective,
+    PhoneInputComponent,
   ],
-  templateUrl: './checkout.html',
-  styleUrl: './checkout.scss',
+  templateUrl: './checkout.component.html',
+  styleUrl: './checkout.component.scss',
 })
 export class CheckoutComponent implements OnInit {
   private cartItemService = inject(CartItemService);
@@ -58,9 +68,9 @@ export class CheckoutComponent implements OnInit {
     address1: new FormControl('', Validators.required),
     address2: new FormControl(''),
     city: new FormControl('', Validators.required),
-    state: new FormControl(''),
+    state: new FormControl('', Validators.required),
     zip: new FormControl('', [Validators.required, Validators.pattern('[0-9]+')]),
-    phone: new FormControl('', Validators.required),
+    phone: new FormControl(''),
   });
 
   ngOnInit(): void {

@@ -1,0 +1,15 @@
+<mat-form-field>
+  <mat-label>{{ label }}</mat-label>
+  <input
+    matInput
+    appDigitsOnly
+    maxlength="14"
+    [required]="required"
+    [value]="value"
+    (input)="handleInput($event)"
+    (blur)="handleBlur()"
+  />
+</mat-form-field>
+@if (errors && value !== '') {
+  <mat-error>Invalid phone number.</mat-error>
+}
