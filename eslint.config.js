@@ -31,6 +31,20 @@ module.exports = defineConfig([
           style: 'kebab-case',
         },
       ],
+      '@typescript-eslint/naming-convention': [
+        'error',
+        {
+          selector: 'variable',
+          format: ['camelCase', 'UPPER_CASE'],
+          leadingUnderscore: 'allow',
+        },
+        {
+          selector: 'class',
+          modifiers: ['exported'],
+          format: ['PascalCase'],
+          suffix: ['Component', 'Service', 'Directive', 'Pipe', 'Guard'],
+        },
+      ],
     },
   },
   {
