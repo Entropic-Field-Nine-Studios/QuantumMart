@@ -20,7 +20,7 @@
     }
   }
 
-  @if (!isAtCheckout()) {
+  @if (showNavTabs()) {
     <nav mat-tab-nav-bar [tabPanel]="tabPanel">
       <a mat-tab-link routerLink="/home">Home</a>
       <a mat-tab-link routerLink="/about-us">About Us</a>

@@ -9,6 +9,7 @@ import {
   MatCardAvatar,
   MatCardSubtitle,
 } from '@angular/material/card';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @Component({
   selector: 'app-root',
@@ -47,10 +48,20 @@ export class AppComponent {
   }
 
   showUserCard(): boolean {
-    return !this.loginRegisterRoutes.includes(this.router.url) && !this.isAtCheckout();
+    return (
+      !this.loginRegisterRoutes.includes(this.router.url) && !this.isAtCheckout() && !this.isAt404()
+    );
   }
 
-  isAtCheckout(): boolean {
+  showNavTabs(): boolean {
+    return !this.isAtCheckout() && !this.isAt404();
+  }
+
+  private isAtCheckout(): boolean {
     return this.router.url.includes('/checkout');
+  }
+
+  private isAt404(): boolean {
+    return this.router.routerState.snapshot.root.firstChild?.component === NotFoundComponent;
   }
 }
