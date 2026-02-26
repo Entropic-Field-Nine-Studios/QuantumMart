@@ -23,8 +23,8 @@ import {
     MatCardAvatar,
     MatCardSubtitle,
   ],
-  templateUrl: './app.html',
-  styleUrl: './app.scss',
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   private router = inject(Router);

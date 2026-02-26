@@ -6,9 +6,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { ItemListingComponent } from '../item-listings/item-listing/item-listing';
+import { ItemListingComponent } from '../item-listings/item-listing/item-listing.component';
 import { DateService } from '../date/date.service';
 import { ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-user-profile',
   imports: [
@@ -19,10 +20,10 @@ import { ActivatedRoute } from '@angular/router';
     MatGridListModule,
     ItemListingComponent,
   ],
-  templateUrl: './user-profile.html',
-  styleUrl: './user-profile.scss',
+  templateUrl: './user-profile.component.html',
+  styleUrl: './user-profile.component.scss',
 })
-export class UserProfile implements OnInit {
+export class UserProfileComponent implements OnInit {
   private userService = inject(UserService);
   private itemListingService = inject(ItemListingService);
   private dateService = inject(DateService);

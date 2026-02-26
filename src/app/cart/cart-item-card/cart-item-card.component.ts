@@ -26,8 +26,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatIcon,
     MatButtonModule,
   ],
-  templateUrl: './cart-item-card.html',
-  styleUrl: './cart-item-card.scss',
+  templateUrl: './cart-item-card.component.html',
+  styleUrl: './cart-item-card.component.scss',
 })
 export class CartItemCardComponent {
   @Input({ required: true }) cartItem!: CartItem;

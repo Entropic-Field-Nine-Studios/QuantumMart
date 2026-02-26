@@ -9,8 +9,8 @@ import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-item-listing',
   imports: [MatCardModule, CurrencyPipe, MatAnchor],
-  templateUrl: './item-listing.html',
-  styleUrl: './item-listing.scss',
+  templateUrl: './item-listing.component.html',
+  styleUrl: './item-listing.component.scss',
 })
 export class ItemListingComponent implements OnInit {
   @Input({ required: true }) listing!: ItemListing;

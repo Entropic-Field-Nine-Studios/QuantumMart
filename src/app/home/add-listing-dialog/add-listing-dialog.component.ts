@@ -32,8 +32,8 @@ import { AuthService } from '../../auth/auth.service';
     ReactiveFormsModule,
     PriceInputDirective,
   ],
-  templateUrl: './add-listing.dialog.html',
-  styleUrl: './add-listing.dialog.scss',
+  templateUrl: './add-listing-dialog.component.html',
+  styleUrl: './add-listing-dialog.component.scss',
 })
 export class AddListingDialogComponent {
   readonly dialogRef = inject(MatDialogRef<AddListingDialogComponent>);

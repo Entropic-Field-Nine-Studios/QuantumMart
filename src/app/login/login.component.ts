@@ -18,8 +18,8 @@ import { jwtDecode } from 'jwt-decode';
     MatInputModule,
     RouterLink,
   ],
-  templateUrl: './login.html',
-  styleUrl: './login.scss',
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
   readonly loginForm = new FormGroup({

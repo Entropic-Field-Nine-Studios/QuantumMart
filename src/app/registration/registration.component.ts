@@ -13,8 +13,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-registration',
   imports: [FormsModule, ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
-  templateUrl: './registration.html',
-  styleUrl: './registration.scss',
+  templateUrl: './registration.component.html',
+  styleUrl: './registration.component.scss',
 })
 export class RegistrationComponent {
   registerForm = new FormGroup({

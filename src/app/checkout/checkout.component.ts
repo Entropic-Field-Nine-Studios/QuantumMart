@@ -3,24 +3,25 @@ import { CartItemService } from '../cart/cart-item.service';
 import { AuthService } from '../auth/auth.service';
 import { CartItem } from '../cart/cart-item.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CartItemCardListComponent } from '../cart/cart-item-card-list/cart-item-card-list';
+import { CartItemCardListComponent } from '../cart/cart-item-card-list/cart-item-card-list.component';
 import { CurrencyPipe } from '@angular/common';
 import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { COUNTRIES } from './countries';
+import { COUNTRIES } from '../shared/data/countries';
 import { MatSelectModule } from '@angular/material/select';
-import { US_STATES } from './us-states';
+import { US_STATES } from '../shared/data/us-states';
 import { MatAnchor } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
 import { OrderService } from '../order/order.service';
-import { Order, OrderStatus } from '../order/order.model';
+import { Order } from '../order/order.model';
 import { Router } from '@angular/router';
 import { AddressDirective } from '../shared/directives/address.directive';
 import { PersonNameDirective } from '../shared/directives/person-name.directive';
 import { CityDirective } from '../shared/directives/city.directive';
 import { ZipCodeDirective } from '../shared/directives/zip-code.directive';
 import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.component';
+import { OrderStatus } from '../order/order-status.enum';
 
 @Component({
   selector: 'app-checkout',

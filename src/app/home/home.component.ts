@@ -2,20 +2,20 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { ItemListingComponent } from '../item-listings/item-listing/item-listing';
+import { ItemListingComponent } from '../item-listings/item-listing/item-listing.component';
 import { AuthService } from '../auth/auth.service';
 import { MatFabButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { AddListingDialogComponent } from './add-listing-dialog/add-listing.dialog';
+import { AddListingDialogComponent } from './add-listing-dialog/add-listing-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CartDialogComponent } from './cart-dialog/cart-dialog';
+import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 
 @Component({
   selector: 'app-home',
   imports: [ItemListingComponent, MatGridListModule, MatFabButton, MatIconModule, MatTooltipModule],
-  templateUrl: './home.html',
-  styleUrl: './home.scss',
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   listings = signal<ItemListing[]>([]);

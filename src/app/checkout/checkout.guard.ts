@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth/auth.service';
 import { CartItemService } from '../cart/cart-item.service';
 import { catchError, map, of } from 'rxjs';
 

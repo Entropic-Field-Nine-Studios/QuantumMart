@@ -16,7 +16,7 @@ import { CartItemService } from '../../cart/cart-item.service';
 import { AuthService } from '../../auth/auth.service';
 import { ItemListing } from '../../item-listings/item-listing.model';
 import { Router } from '@angular/router';
-import { CartItemCardListComponent } from '../../cart/cart-item-card-list/cart-item-card-list';
+import { CartItemCardListComponent } from '../../cart/cart-item-card-list/cart-item-card-list.component';
 
 @Component({
   selector: 'app-cart-dialog',
@@ -31,8 +31,8 @@ import { CartItemCardListComponent } from '../../cart/cart-item-card-list/cart-i
     MatAnchor,
     CartItemCardListComponent,
   ],
-  templateUrl: './cart-dialog.html',
-  styleUrl: './cart-dialog.scss',
+  templateUrl: './cart-dialog.component.html',
+  styleUrl: './cart-dialog.component.scss',
 })
 export class CartDialogComponent implements OnInit {
   readonly data = inject<CartDialogData>(MAT_DIALOG_DATA);

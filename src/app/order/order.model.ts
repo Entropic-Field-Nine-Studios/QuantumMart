@@ -1,7 +1,4 @@
-export enum OrderStatus {
-  PENDING = 'PENDING',
-  COMPLETED = 'COMPLETED',
-}
+import { OrderStatus } from './order-status.enum';
 
 export interface Order {
   orderId?: string;

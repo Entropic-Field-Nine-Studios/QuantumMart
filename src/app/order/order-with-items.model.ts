@@ -1,4 +1,4 @@
-import { OrderItem } from '../orderitem/order-item.model';
+import { OrderItem } from '../order-item/order-item.model';
 import { Order } from './order.model';
 
 export interface OrderWithItems {
