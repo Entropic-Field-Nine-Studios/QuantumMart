@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Your Cart</h2>
+<mat-dialog-content class="dialog-content">
+  @if (cartItems().length > 0) {
+    <app-cart-item-card-list
+      [cartItems]="cartItems()"
+      (removeItem)="removeItem($event)"
+    ></app-cart-item-card-list>
+  } @else {
+    <p>There are no items currently in your cart. Go do some shopping! :D</p>
+  }
+</mat-dialog-content>
+@if (cartItems().length > 0) {
+  <mat-dialog-actions>
+    <h2 disabled matButton>Total: {{ cartTotal() | currency }}</h2>
+    <button matButton (click)="clearCart()">Clear Cart</button>
+    <button matButton="filled" (click)="checkout()">Checkout</button>
+  </mat-dialog-actions>
+}
