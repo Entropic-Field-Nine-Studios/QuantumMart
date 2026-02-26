@@ -1,0 +1,82 @@
+name: Create Release
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type'
+        required: true
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+      - name: Construct new version name
+        id: newTag
+        run: |
+          git fetch --tags
+          latest=$(git tag --sort=version:refname | tail -n 1)
+          currVersion="${latest#v}"
+          currVersion="${currVersion%%-*}"
+          major=$(echo "$currVersion" | cut -d. -f1)
+          minor=$(echo "$currVersion" | cut -d. -f2)
+          patch=$(echo "$currVersion" | cut -d. -f3)
+          case "${{ github.event.inputs.bump }}" in
+            major)
+              major=$((major + 1))
+              minor=0
+              patch=0
+              ;;
+            minor)
+              minor=$((minor + 1))
+              patch=0
+              ;;
+            patch)
+              patch=$((patch + 1))
+              ;;
+          esac
+          suffix=""
+          if [ "$major" -lt 1 ]; then
+            suffix="-alpha"
+          fi
+          newVersion="${major}.${minor}.${patch}${suffix}"
+          echo "version=$newVersion" >> $GITHUB_OUTPUT
+          if [ "$suffix" = "-alpha" ]; then
+            echo "prerelease=true" >> $GITHUB_OUTPUT
+          else
+            echo "prerelease=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Create tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag v${{ steps.newTag.outputs.version }}
+          git push origin v${{ steps.newTag.outputs.version }}
+
+      - run: npm ci
+      - run: ng build --configuration production
+
+      - name: zip
+        run: zip -r QuantumMart-v${{ steps.newTag.outputs.version }}.zip  dist/QuantumMart/browser/*
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.newTag.outputs.version }}
+          name: v${{ steps.newTag.outputs.version }}
+          generate_release_notes: true
+          prerelease: ${{ steps.newTag.outputs.prerelease }}
+          files: |
+            QuantumMart-v${{ steps.newTag.outputs.version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
