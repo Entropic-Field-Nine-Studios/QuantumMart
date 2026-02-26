@@ -1,0 +1,33 @@
+<main>
+  <h1>Quantum Mart</h1>
+  @if (showUserCard()) {
+    @if (username !== null) {
+      <mat-card class="user-card">
+        <mat-card-header>
+          <button mat-card-avatar class="avatar-btn clickable" (click)="profile()">
+            <img src="assets/pfp/msn-avatar.png" class="avatar-img" alt="My Profile" />
+          </button>
+          <mat-card-title class="clickable" (click)="profile()">{{ username }}</mat-card-title>
+          <mat-card-subtitle>
+            <button matButton="filled" class="clickable" (click)="logout()">Logout</button>
+          </mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    } @else {
+      <div class="login-register">
+        <h2><a routerLink="/login">Login</a> or <a routerLink="/register">Register</a></h2>
+      </div>
+    }
+  }
+
+  @if (!isAtCheckout()) {
+    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+      <a mat-tab-link routerLink="/home">Home</a>
+      <a mat-tab-link routerLink="/about-us">About Us</a>
+      <a mat-tab-link routerLink="/contact">Contact Support</a>
+    </nav>
+    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+  }
+
+  <router-outlet />
+</main>
