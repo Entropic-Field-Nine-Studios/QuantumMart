@@ -64,7 +64,8 @@ jobs:
           git push origin v${{ steps.newTag.outputs.version }}
 
       - run: npm ci
-      - run: ng build --configuration production
+      - run: npm install @angular/cli
+      - run: npx ng build --configuration=production
 
       - name: zip
         run: zip -r QuantumMart-v${{ steps.newTag.outputs.version }}.zip  dist/QuantumMart/browser/*
