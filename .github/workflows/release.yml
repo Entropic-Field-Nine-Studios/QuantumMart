@@ -67,8 +67,10 @@ jobs:
       - run: npm install @angular/cli
       - run: npx ng build --configuration=production
 
-      - name: zip
-        run: zip -r QuantumMart-v${{ steps.newTag.outputs.version }}.zip  dist/QuantumMart/browser/*
+      - name: Zip Angular browser build
+        run: |
+          cd dist/QuantumMart/browser
+          zip -r ../../../QuantumMart-v${{ steps.newTag.outputs.version }}.zip .
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
