@@ -10,15 +10,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddListingDialogComponent } from './add-listing-dialog/add-listing-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-home',
-  imports: [ItemListingComponent, MatGridListModule, MatFabButton, MatIconModule, MatTooltipModule],
+  imports: [
+    ItemListingComponent,
+    MatGridListModule,
+    MatFabButton,
+    MatIconModule,
+    MatTooltipModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  listings = signal<ItemListing[]>([]);
+  listings = signal<ItemListing[] | null>(null);
 
   readonly dialog = inject(MatDialog);
 

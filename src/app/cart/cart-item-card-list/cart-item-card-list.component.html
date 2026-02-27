@@ -1,14 +1,18 @@
-<mat-list>
-  @for (item of cartItems; track $index) {
-    <mat-list-item>
-      <app-cart-item-card
-        [cartItem]="item"
-        [showDelete]="showDelete"
-        (removeItem)="remove($event)"
-      />
-    </mat-list-item>
-    <br />
-    <mat-divider></mat-divider>
-    <br />
-  }
-</mat-list>
+@if (cartItems === null) {
+  <mat-spinner></mat-spinner>
+} @else {
+  <mat-list>
+    @for (item of cartItems; track $index) {
+      <mat-list-item>
+        <app-cart-item-card
+          [cartItem]="item"
+          [showDelete]="showDelete"
+          (removeItem)="remove($event)"
+        />
+      </mat-list-item>
+      <br />
+      <mat-divider></mat-divider>
+      <br />
+    }
+  </mat-list>
+}
