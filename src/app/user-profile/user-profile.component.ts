@@ -9,6 +9,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { ItemListingComponent } from '../item-listings/item-listing/item-listing.component';
 import { DateService } from '../date/date.service';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,6 +29,7 @@ export class UserProfileComponent implements OnInit {
   private itemListingService = inject(ItemListingService);
   private dateService = inject(DateService);
   private activatedRoute = inject(ActivatedRoute);
+  private router = inject(Router);
 
   user = signal<User | null>(null);
   sDateCreated!: string;
@@ -43,7 +45,16 @@ export class UserProfileComponent implements OnInit {
           error: () => this.listings.set([]),
         });
       },
-      error: (err: HttpErrorResponse) => alert(err.message),
+      error: (err: HttpErrorResponse) => {
+        switch (err.status) {
+          case 400:
+          case 404:
+            this.router.navigate(['/404']);
+            break;
+          default:
+            alert(err.message);
+        }
+      },
     });
   }
 }
