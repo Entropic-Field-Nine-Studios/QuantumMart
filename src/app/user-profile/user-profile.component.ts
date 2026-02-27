@@ -9,16 +9,18 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { ItemListingComponent } from '../item-listings/item-listing/item-listing.component';
 import { DateService } from '../date/date.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-user-profile',
   imports: [
     MatCard,
     MatCardTitle,
     MatCardHeader,
     MatCardAvatar,
     MatGridListModule,
+    ItemListingComponent,
+    MatProgressSpinner,
     ItemListingComponent,
   ],
   templateUrl: './user-profile.component.html',

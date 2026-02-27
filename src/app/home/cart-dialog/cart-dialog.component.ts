@@ -17,6 +17,7 @@ import { AuthService } from '../../auth/auth.service';
 import { ItemListing } from '../../item-listings/item-listing.model';
 import { Router } from '@angular/router';
 import { CartItemCardListComponent } from '../../cart/cart-item-card-list/cart-item-card-list.component';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-cart-dialog',
@@ -30,16 +31,17 @@ import { CartItemCardListComponent } from '../../cart/cart-item-card-list/cart-i
     MatDialogActions,
     MatAnchor,
     CartItemCardListComponent,
+    MatProgressSpinner,
   ],
   templateUrl: './cart-dialog.component.html',
   styleUrl: './cart-dialog.component.scss',
 })
 export class CartDialogComponent implements OnInit {
   readonly data = inject<CartDialogData>(MAT_DIALOG_DATA);
-  readonly cartItems = signal<CartItem[]>([]);
+  readonly cartItems = signal<CartItem[] | null>(null);
   readonly cartTotal = computed(() =>
     // Dynamically calculates the cart total as items are retrieved
-    this.cartItems().reduce((sum, item) => sum + item.itemListing.price * item.quantity, 0),
+    this.cartItems()?.reduce((sum, item) => sum + item.itemListing.price * item.quantity, 0),
   );
 
   private cartService = inject(CartItemService);

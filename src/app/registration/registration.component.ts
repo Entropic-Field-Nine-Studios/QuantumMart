@@ -9,10 +9,18 @@ import { UserService } from '../users/user.service';
 import { RegisterUserInfo } from '../users/register-user-info.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-registration',
-  imports: [FormsModule, ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinner,
+  ],
   templateUrl: './registration.component.html',
   styleUrl: './registration.component.scss',
 })
@@ -25,6 +33,7 @@ export class RegistrationComponent {
   });
 
   btnRegisterDisabled = true;
+  loading = false;
 
   private userService = inject(UserService);
   private router = inject(Router);
@@ -38,12 +47,15 @@ export class RegistrationComponent {
         email: this.registerForm.value.email ?? '',
       };
 
+      this.loading = true;
       this.userService.createUser(newUser).subscribe({
         next: () => {
           alert('User registered successfully!');
+          this.loading = false;
           this.router.navigate(['/login']);
         },
         error: (err: HttpErrorResponse) => {
+          this.loading = false;
           switch (err.status) {
             case 409:
               alert('Username already in use.');

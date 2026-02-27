@@ -1,25 +1,31 @@
-<h2>{{ user()!.username }}'s Profile</h2>
+@if (user() === null) {
+  <mat-spinner></mat-spinner>
+} @else {
+  <h2>{{ user()!.username }}'s Profile</h2>
 
-<mat-card class="user-card">
-  <mat-card-header>
-    <div mat-card-avatar class="avatar-img"></div>
-    <mat-card-title>Username: {{ user()!.username }}</mat-card-title>
-    <mat-card-title>User Role: {{ user()!.role }}</mat-card-title>
-    <mat-card-title>Created: {{ sDateCreated }}</mat-card-title>
-  </mat-card-header>
-</mat-card>
+  <mat-card class="user-card">
+    <mat-card-header>
+      <div mat-card-avatar class="avatar-img"></div>
+      <mat-card-title>Username: {{ user()!.username }}</mat-card-title>
+      <mat-card-title>User Role: {{ user()!.role }}</mat-card-title>
+      <mat-card-title>Created: {{ sDateCreated }}</mat-card-title>
+    </mat-card-header>
+  </mat-card>
 
-<div>
-  <h2>{{ user()!.username }}'s Listings</h2>
-  <mat-grid-list cols="4" rowHeight="2:1">
-    @for (item of listings()!; track $index) {
-      <mat-grid-tile>
-        <app-item-listing [listing]="item"></app-item-listing>
-      </mat-grid-tile>
+  <div>
+    <h2>{{ user()!.username }}'s Listings</h2>
+    @if (listings() === null) {
+      <mat-spinner></mat-spinner>
+    } @else if (listings()!.length === 0) {
+      <p class="center-align">This user has no available listings.</p>
+    } @else {
+      <mat-grid-list cols="4" rowHeight="2:1">
+        @for (item of listings()!; track $index) {
+          <mat-grid-tile>
+            <app-item-listing [listing]="item"></app-item-listing>
+          </mat-grid-tile>
+        }
+      </mat-grid-list>
     }
-  </mat-grid-list>
-
-  @if (listings()!.length === 0 || listings() === null) {
-    <p class="center-align">This user has no available listings.</p>
-  }
-</div>
+  </div>
+}

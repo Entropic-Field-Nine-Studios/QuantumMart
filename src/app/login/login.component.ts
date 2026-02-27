@@ -6,7 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
-import { jwtDecode } from 'jwt-decode';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ import { jwtDecode } from 'jwt-decode';
     MatFormFieldModule,
     MatInputModule,
     RouterLink,
+    MatProgressSpinner,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -28,6 +30,7 @@ export class LoginComponent {
   });
 
   btnLoginDisabled = true;
+  loading = false;
 
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -43,18 +46,25 @@ export class LoginComponent {
       const username = this.loginForm.value.username!;
       const password = this.loginForm.value.password!;
 
+      this.loading = true;
       this.authService.login(username, password).subscribe({
         next: (res) => {
+          this.loading = false;
           localStorage.setItem('token', res.token);
-          localStorage.setItem('username', res.username);
-
-          const payload = jwtDecode(res.token);
-
-          console.log(payload);
 
           this.router.navigate(['/home']);
         },
-        error: () => alert('Invalid credentials.'),
+        error: (err: HttpErrorResponse) => {
+          this.loading = false;
+
+          switch (err.status) {
+            case 400:
+              alert('Invalid credentials.');
+              break;
+            default:
+              alert(err.message);
+          }
+        },
       });
     }
   }
