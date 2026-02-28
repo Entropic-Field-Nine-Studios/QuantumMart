@@ -1,0 +1,31 @@
+<div class="dashboard-container">
+  <h1>Seller Dashboard</h1>
+
+  <h2>In-progress orders</h2>
+  @if (pendingOrderItems() === null) {
+    <mat-spinner></mat-spinner>
+  } @else if (pendingOrderItems()!.length === 0) {
+    <p>Nothing to show.</p>
+  } @else {
+    <mat-accordion>
+      <div class="panel">
+        @for (item of pendingOrderItems(); track $index) {
+          <app-order-item [itemInfo]="item" [isAlt]="$index % 2 === 0"></app-order-item>
+        }
+      </div>
+    </mat-accordion>
+  }
+
+  <h2>Completed orders</h2>
+  @if (otherOrderItems() === null) {
+    <mat-spinner></mat-spinner>
+  } @else if (otherOrderItems()!.length === 0) {
+    <p>Nothing to show.</p>
+  } @else {
+    <mat-accordion>
+      @for (item of otherOrderItems(); track $index) {
+        <app-order-item [itemInfo]="item"></app-order-item>
+      }
+    </mat-accordion>
+  }
+</div>

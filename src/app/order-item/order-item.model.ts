@@ -6,7 +6,10 @@ export interface OrderItem {
   listingId: string;
   sellerId: string;
   quantity: number;
-  priceEach: number;
+  listingPrice: number;
   status?: OrderItemStatus;
   paidAt?: string;
+  listingTitle: string;
+  listingDescription?: string | null;
+  listingImageUrl?: string | null;
 }

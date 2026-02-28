@@ -25,6 +25,9 @@
       <a mat-tab-link routerLink="/home">Home</a>
       <a mat-tab-link routerLink="/about-us">About Us</a>
       <a mat-tab-link routerLink="/contact">Contact Support</a>
+      @if (username !== null) {
+        <a mat-tab-link routerLink="/dashboard">Seller Dashboard</a>
+      }
     </nav>
     <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
   }

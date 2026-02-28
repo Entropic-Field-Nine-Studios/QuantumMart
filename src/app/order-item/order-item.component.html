@@ -1,0 +1,30 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header [class.even]="!isAlt" [class.odd]="isAlt">
+    <mat-panel-title>
+      <span class="qty-badge">x{{ itemInfo.orderItem.quantity }}</span>
+      <span>&nbsp;{{ itemInfo.orderItem.listingTitle }}</span>
+    </mat-panel-title>
+    <mat-panel-description>
+      <span>
+        {{ itemInfo.orderItem.paidAt | date: 'EEEE, MMMM d, y' }}
+        at {{ itemInfo.orderItem.paidAt | date: 'h:mm a (z)' }}
+      </span>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <hr />
+  <div>
+    <h3>Shipping info for this order</h3>
+    <div>Ship to:</div>
+    <div>
+      {{ fullName }}
+    </div>
+    <div>
+      {{ addressPart1 }}
+    </div>
+    <div>
+      {{ addressPart2 }}
+    </div>
+    <br />
+    <div><b>Contact: </b>{{ itemInfo.shippingInfo.phone }}</div>
+  </div>
+</mat-expansion-panel>

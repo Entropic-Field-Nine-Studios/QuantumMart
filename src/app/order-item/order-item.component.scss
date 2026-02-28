@@ -1,0 +1,19 @@
+.qty-badge {
+  background: #eee;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.even {
+  background-color: #fafafa;
+}
+
+.odd {
+  background-color: #f0f0f0;
+}
+
+.odd .qty-badge {
+  background-color: #dfe9ff;
+}
