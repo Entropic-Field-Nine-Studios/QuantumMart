@@ -1,0 +1,32 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header [class.even]="!isAlt" [class.odd]="isAlt">
+    <mat-panel-title>ID: {{ order.id! }} </mat-panel-title>
+    <mat-panel-description>
+      Placed on {{ order.createdAt | date: 'MMMM d, y' }} at
+      {{ order.createdAt | date: 'h:mm a (z)' }}
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <hr />
+  <div>
+    <h3>Shipping info for this order</h3>
+    <div>Ship to:</div>
+    <div>
+      {{ fullName }}
+    </div>
+    <div>
+      {{ addressPart1 }}
+    </div>
+    <div>
+      {{ addressPart2 }}
+    </div>
+    <div><b>Contact:</b>&nbsp;{{ order.shippingPhone }}</div>
+  </div>
+  @if (order.orderItems && order.orderItems.length > 0) {
+    <div>
+      <h3>Items in this order</h3>
+      @for (item of order.orderItems; track $index) {
+        <app-order-item [itemInfo]="item" [forSeller]="forSeller"></app-order-item>
+      }
+    </div>
+  }
+</mat-expansion-panel>

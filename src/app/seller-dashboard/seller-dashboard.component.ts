@@ -1,23 +1,24 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { OrderItemService } from '../order-item/order-item.service';
 import { AuthService } from '../auth/auth.service';
-import { OrderItemStatus } from '../order-item/order-item-status.enum';
 import { MatAccordion } from '@angular/material/expansion';
 import { OrderItemWithShippingInfo } from '../order-item/order-item-with-shipping.model';
-import { OrderItemComponent } from '../order-item/order-item.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { OrderService } from '../order/order.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Order } from '../order/order.model';
+import { OrderComponent } from '../order/ui/order.component';
 
 @Component({
   selector: 'app-seller-dashboard',
-  imports: [MatAccordion, OrderItemComponent, MatProgressSpinner],
+  imports: [MatAccordion, MatProgressSpinner, OrderComponent],
   templateUrl: './seller-dashboard.component.html',
   styleUrl: './seller-dashboard.component.scss',
 })
 export class SellerDashboardComponent implements OnInit {
-  private orderItemService = inject(OrderItemService);
+  private orderService = inject(OrderService);
   private authService = inject(AuthService);
 
-  readonly pendingOrderItems = signal<OrderItemWithShippingInfo[] | null>(null);
+  readonly pendingOrders = signal<Order[] | null>(null);
   readonly otherOrderItems = signal<OrderItemWithShippingInfo[] | null>(null);
 
   ngOnInit(): void {
@@ -25,21 +26,11 @@ export class SellerDashboardComponent implements OnInit {
   }
 
   private loadItems() {
-    this.orderItemService
-      .getOrderItemsSoldBy(this.authService.userId!, OrderItemStatus.PAID_PENDING_SHIPMENT)
-      .subscribe({
-        next: (items) => this.pendingOrderItems.set(items),
-      });
-
-    this.orderItemService.getOrderItemsSoldBy(this.authService.userId!).subscribe({
-      next: (items) => {
-        const filtered = items.filter(
-          (orderItemInfo) =>
-            orderItemInfo.orderItem.status !== OrderItemStatus.PAID_PENDING_SHIPMENT,
-        );
-
-        this.otherOrderItems.set(filtered);
-      },
+    this.orderService.getOrdersRelevantToSeller(this.authService.userId!).subscribe({
+      next: (sellerOrders) => this.pendingOrders.set(sellerOrders),
+      error: (err: HttpErrorResponse) => alert(err.message),
     });
+
+    this.otherOrderItems.set([]);
   }
 }

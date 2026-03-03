@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Order } from './order.model';
 import { Observable } from 'rxjs';
-import { OrderWithItems } from './order-with-items.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +22,17 @@ export class OrderService {
    */
   getOrdersByUserId(userId: string): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.baseUrl}/userId/${userId}`);
+  }
+
+  /**
+   * Retrieves all orders where at least one item was bought from the specified seller. The retrieved order items will only be
+   * from the seller.
+   *
+   * @param sellerId The seller's user ID.
+   * @returns A list of orders showing purchased items sold by the seller.
+   */
+  getOrdersRelevantToSeller(sellerId: string): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.baseUrl}/sellerId/${sellerId}`);
   }
 
   /**
@@ -48,7 +58,7 @@ export class OrderService {
    * @param order Information for the order.
    * @returns The order and its order items.
    */
-  createOrder(orderInfo: Order): Observable<OrderWithItems> {
-    return this.http.post<OrderWithItems>(`${this.baseUrl}`, orderInfo);
+  createOrder(orderInfo: Order): Observable<Order> {
+    return this.http.post<Order>(`${this.baseUrl}`, orderInfo);
   }
 }
