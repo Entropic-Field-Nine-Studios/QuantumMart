@@ -29,10 +29,13 @@ export class OrderService {
    * from the seller.
    *
    * @param sellerId The seller's user ID.
+   * @param unfinished If the orders should be grouped for in-progress orders
    * @returns A list of orders showing purchased items sold by the seller.
    */
-  getOrdersRelevantToSeller(sellerId: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/sellerId/${sellerId}`);
+  getOrdersRelevantToSeller(sellerId: string, unfinished: boolean): Observable<Order[]> {
+    return this.http.get<Order[]>(`${this.baseUrl}/sellerId/${sellerId}`, {
+      params: { unfinished },
+    });
   }
 
   /**

@@ -14,7 +14,7 @@
       <h3>{{ itemInfo.listingTitle }}</h3>
       <p><b>Quantity: </b> {{ itemInfo.quantity }}</p>
       <p><b>Original Price: </b>{{ itemInfo.listingPrice * itemInfo.quantity | currency }}</p>
-      <p>{{ itemInfo.listingDescription }}</p>
+      <p><b>Description: </b>{{ itemInfo.listingDescription || '(empty)' }}</p>
     </section>
     @if (forSeller) {
       <section class="description-form">
@@ -27,7 +27,7 @@
             </mat-radio-group>
           </form>
           <button matButton (click)="sendUpdate()">Submit</button>
-        } @else {
+        } @else if (itemInfo.shippedOn) {
           <h3>This item was shipped on:</h3>
           <p>
             {{ itemInfo.shippedOn | date: 'MMMM d, y' }} at
