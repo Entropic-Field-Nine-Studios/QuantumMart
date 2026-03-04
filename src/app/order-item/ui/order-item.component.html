@@ -1,0 +1,40 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header [class.even]="!isAlt" [class.odd]="isAlt">
+    <mat-panel-title>
+      <span class="qty-badge">x{{ itemInfo.quantity }}</span>
+      <span>&nbsp;{{ itemInfo.listingTitle }}</span>
+    </mat-panel-title>
+    <mat-panel-description>
+      <span class="status-badge" [class]="'status-' + normalizeStatus()">{{ itemStatus }}</span>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <hr />
+  <div class="description-layout">
+    <section class="description-summary">
+      <h3>{{ itemInfo.listingTitle }}</h3>
+      <p><b>Quantity: </b> {{ itemInfo.quantity }}</p>
+      <p><b>Total Paid: </b>{{ itemInfo.listingPrice * itemInfo.quantity | currency }}</p>
+      <p><b>Description: </b>{{ itemInfo.listingDescription || '(empty)' }}</p>
+    </section>
+    @if (forSeller) {
+      <section class="description-form">
+        @if (!sentUpdate() && itemInfo.status === OrderItemStatus.PAID_PENDING_SHIPMENT) {
+          <h3>Update status</h3>
+          <form>
+            <mat-radio-group [formControl]="selectedStatus" class="status-form-radio-group">
+              <mat-radio-button [value]="OrderItemStatus.SHIPPED"><b>Shipped</b></mat-radio-button>
+              <mat-radio-button [value]="OrderItemStatus.CANCELLED">Cancelled</mat-radio-button>
+            </mat-radio-group>
+          </form>
+          <button matButton (click)="sendUpdate()">Submit</button>
+        } @else if (itemInfo.shippedOn) {
+          <h3>This item was shipped on:</h3>
+          <p>
+            {{ itemInfo.shippedOn | date: 'MMMM d, y' }} at
+            {{ itemInfo.shippedOn | date: 'h:mm a (z)' }}
+          </p>
+        }
+      </section>
+    }
+  </div>
+</mat-expansion-panel>

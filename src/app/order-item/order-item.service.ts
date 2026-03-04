@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrderItem } from './order-item.model';
+import { OrderItemStatus } from './order-item-status.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -12,22 +13,14 @@ export class OrderItemService {
   private http = inject(HttpClient);
 
   /**
-   * Retrieves a list of order items sold by a specified user. All order items are part of an order.
+   * Updates the status of an order item.
    *
-   * @param sellerId User ID of the seller.
-   * @returns List of order items sold by the user.
+   * @param orderItemId The UUID of the order item to update.
+   * @param newStatus What to set the status field to.
+   * @returns The updated order item.
    */
-  getOrderItemsSoldBy(sellerId: string): Observable<OrderItem[]> {
-    return this.http.get<OrderItem[]>(`${this.baseUrl}/sellerId/${sellerId}`);
-  }
-
-  /**
-   * Retrieves every order item in an order.
-   *
-   * @param orderId UUID of the order.
-   * @returns List of order items in the order.
-   */
-  getOrderItems(orderId: string): Observable<OrderItem[]> {
-    return this.http.get<OrderItem[]>(`${this.baseUrl}/orderId/${orderId}`);
+  updateStatus(orderItemId: string, newStatus: OrderItemStatus): Observable<OrderItem> {
+    const params = new HttpParams().set('newStatus', newStatus);
+    return this.http.patch<OrderItem>(`${this.baseUrl}/${orderItemId}`, {}, { params });
   }
 }
