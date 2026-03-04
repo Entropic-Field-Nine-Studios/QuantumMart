@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { OrderItem } from './order-item.model';
@@ -20,6 +20,7 @@ export class OrderItemService {
    * @returns The updated order item.
    */
   updateStatus(orderItemId: string, newStatus: OrderItemStatus): Observable<OrderItem> {
-    return this.http.patch<OrderItem>(`${this.baseUrl}/${orderItemId}`, { status: newStatus });
+    const params = new HttpParams().set('newStatus', newStatus);
+    return this.http.patch<OrderItem>(`${this.baseUrl}/${orderItemId}`, {}, { params });
   }
 }
