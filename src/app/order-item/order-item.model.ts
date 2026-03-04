@@ -1,12 +1,16 @@
 import { OrderItemStatus } from './order-item-status.enum';
 
 export interface OrderItem {
-  orderItemId?: string;
+  id?: string;
   orderId?: string;
   listingId: string;
   sellerId: string;
   quantity: number;
-  priceEach: number;
+  listingPrice: number;
   status?: OrderItemStatus;
   paidAt?: string;
+  listingTitle: string;
+  listingDescription?: string | null;
+  listingImageUrl?: string | null;
+  shippedOn?: string | null;
 }

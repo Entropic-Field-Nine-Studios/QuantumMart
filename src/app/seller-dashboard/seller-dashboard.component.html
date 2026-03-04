@@ -1,0 +1,49 @@
+<div class="dashboard-container">
+  <h1>Seller Dashboard</h1>
+
+  <h2>Unfinished orders</h2>
+  @if (inProgressOrders() === null) {
+    <mat-spinner></mat-spinner>
+  } @else if (inProgressOrders()!.length === 0) {
+    <p>Nothing to show.</p>
+  } @else {
+    <mat-accordion>
+      <div>
+        @for (item of pagedInProgressOrders(); track $index) {
+          <app-order [order]="item" [forSeller]="true" [isAlt]="$index % 2 === 0"></app-order>
+          <div class="panel"></div>
+        }
+      </div>
+    </mat-accordion>
+
+    <mat-paginator
+      [length]="inProgressOrders()!.length"
+      [pageIndex]="pageIndexInProgress"
+      [pageSize]="pageSizeInProgress"
+      [pageSizeOptions]="[5, 10, 20]"
+      (page)="onInProgressPageCompleted($event)"
+    ></mat-paginator>
+  }
+
+  <h2>Completed orders</h2>
+  @if (completedOrders() === null) {
+    <mat-spinner></mat-spinner>
+  } @else if (completedOrders()!.length === 0) {
+    <p>Nothing to show.</p>
+  } @else {
+    <mat-accordion>
+      @for (item of pagedCompletedOrders(); track $index) {
+        <app-order [order]="item" [forSeller]="true" [isAlt]="$index % 2 === 0"></app-order>
+        <div class="panel"></div>
+      }
+    </mat-accordion>
+
+    <mat-paginator
+      [length]="completedOrders()!.length"
+      [pageIndex]="pageIndexCompleted"
+      [pageSize]="pageSizeCompleted"
+      [pageSizeOptions]="[5, 10, 20]"
+      (page)="onCompletedPageCompleted($event)"
+    ></mat-paginator>
+  }
+</div>
