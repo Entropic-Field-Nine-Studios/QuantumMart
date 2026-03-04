@@ -38,7 +38,7 @@ export class OrderItemComponent {
   OrderItemStatus = OrderItemStatus;
 
   selectedStatus = new FormControl(null, Validators.required);
-  hasSelected = signal(this.selectedStatus.valid);
+  sentUpdate = signal(false);
 
   private confirmService = inject(ConfirmDialogService);
   private orderItemService = inject(OrderItemService);
@@ -80,6 +80,7 @@ export class OrderItemComponent {
                 next: (updatedItem) => {
                   alert('Item has been updated.');
                   this.itemInfo.status = updatedItem.status;
+                  this.sentUpdate.set(true);
                 },
                 error: (err: HttpErrorResponse) => alert(err.message),
               });

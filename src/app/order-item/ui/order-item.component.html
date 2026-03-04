@@ -13,12 +13,12 @@
     <section class="description-summary">
       <h3>{{ itemInfo.listingTitle }}</h3>
       <p><b>Quantity: </b> {{ itemInfo.quantity }}</p>
-      <p><b>Original Price: </b>{{ itemInfo.listingPrice * itemInfo.quantity | currency }}</p>
+      <p><b>Total Paid: </b>{{ itemInfo.listingPrice * itemInfo.quantity | currency }}</p>
       <p><b>Description: </b>{{ itemInfo.listingDescription || '(empty)' }}</p>
     </section>
     @if (forSeller) {
       <section class="description-form">
-        @if (itemInfo.status === OrderItemStatus.PAID_PENDING_SHIPMENT) {
+        @if (!sentUpdate() && itemInfo.status === OrderItemStatus.PAID_PENDING_SHIPMENT) {
           <h3>Update status</h3>
           <form>
             <mat-radio-group [formControl]="selectedStatus" class="status-form-radio-group">
