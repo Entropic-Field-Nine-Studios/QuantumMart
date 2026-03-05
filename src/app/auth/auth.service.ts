@@ -28,7 +28,6 @@ export class AuthService {
    * @returns A login response which holds a brand-new Java Web Token and the user's username.
    */
   login(username: string, rawPassword: string): Observable<LoginResponse> {
-    this.userStore.loadUser(username);
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, { username, rawPassword });
   }
 

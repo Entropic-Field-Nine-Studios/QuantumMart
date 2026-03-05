@@ -53,7 +53,7 @@ export class LoginComponent {
         next: (res) => {
           this.loading = false;
           localStorage.setItem('token', res.token);
-
+          this.userStore.loadUser(username!);
           this.router.navigate(['/home']);
         },
         error: (err: HttpErrorResponse) => {
