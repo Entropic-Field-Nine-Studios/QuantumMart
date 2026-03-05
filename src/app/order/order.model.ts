@@ -1,7 +1,8 @@
+import { OrderItem } from '../order-item/order-item.model';
 import { OrderStatus } from './order-status.enum';
 
 export interface Order {
-  orderId?: string;
+  id?: string;
   buyerId: string;
   status: OrderStatus;
   totalPaid: number;
@@ -14,4 +15,5 @@ export interface Order {
   shippingZip: string;
   shippingPhone: string;
   createdAt?: string;
+  orderItems?: OrderItem[];
 }
