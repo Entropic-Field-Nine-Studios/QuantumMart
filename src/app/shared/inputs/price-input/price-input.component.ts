@@ -58,8 +58,13 @@ export class PriceInputComponent implements ControlValueAccessor, Validator {
     this.onTouched();
   }
 
-  writeValue(obj: any): void {
-    throw new Error('Method not implemented.');
+  writeValue(value: string | null): void {
+    if (!value) {
+      this.value = '0.00';
+      return;
+    }
+
+    this.value = this.format(value);
   }
 
   registerOnChange(fn: any): void {
