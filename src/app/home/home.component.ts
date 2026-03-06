@@ -11,6 +11,7 @@ import { AddListingDialogComponent } from './add-listing-dialog/add-listing-dial
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -20,47 +21,36 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatFabButton,
     MatIconModule,
     MatTooltipModule,
-    MatProgressSpinnerModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
   listings = signal<ItemListing[] | null>(null);
 
   readonly dialog = inject(MatDialog);
 
+  private router = inject(Router);
   private authService = inject(AuthService);
   private itemListingService = inject(ItemListingService);
 
   ngOnInit(): void {
     this.itemListingService.getAllListings().subscribe({
       next: (data) => this.listings.set(data),
-      error: () => this.listings.set([]),
+      error: () => this.listings.set([])
     });
   }
 
   openAddListingDialog(): void {
-    const dialogRef = this.dialog.open(AddListingDialogComponent, {
-      width: '600px',
-      disableClose: true,
-    });
-
-    dialogRef.beforeClosed().subscribe((result) => {
-      if (result === 'confirm-close') {
-        // allow closing
-      } else {
-        // user cancelled the close
-        dialogRef.disableClose = false;
-      }
-    });
+    this.router.navigate(['/create-listing']);
   }
 
   openCartDialog(): void {
     this.dialog.open(CartDialogComponent, {
       width: '600px',
       height: '600px',
-      data: { userId: this.authService.userId },
+      data: { userId: this.authService.userId }
     });
   }
 
