@@ -58,7 +58,6 @@ export class LoginComponent {
         },
         error: (err: HttpErrorResponse) => {
           this.loading = false;
-          this.userStore.clear();
           switch (err.status) {
             case 400:
               alert('Invalid credentials.');
