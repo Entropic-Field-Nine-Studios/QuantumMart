@@ -23,7 +23,7 @@
           <form>
             <mat-radio-group [formControl]="selectedStatus" class="status-form-radio-group">
               <mat-radio-button [value]="OrderItemStatus.SHIPPED"><b>Shipped</b></mat-radio-button>
-              <mat-radio-button [value]="OrderItemStatus.CANCELLED">Cancelled</mat-radio-button>
+              <mat-radio-button [value]="OrderItemStatus.CANCELED">Canceled</mat-radio-button>
             </mat-radio-group>
           </form>
           <button matButton (click)="sendUpdate()">Submit</button>

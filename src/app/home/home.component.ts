@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
       if (result === 'confirm-close') {
         // allow closing
       } else {
-        // user cancelled the close
+        // user canceled the close
         dialogRef.disableClose = false;
       }
     });
