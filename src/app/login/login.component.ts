@@ -8,6 +8,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { UserStore } from '../core/stores/user.store';
 
 @Component({
   selector: 'app-login',
@@ -34,6 +35,7 @@ export class LoginComponent {
 
   private authService = inject(AuthService);
   private router = inject(Router);
+  userStore = inject(UserStore);
 
   formValid(): boolean {
     this.btnLoginDisabled = !this.loginForm.valid;
@@ -51,12 +53,11 @@ export class LoginComponent {
         next: (res) => {
           this.loading = false;
           localStorage.setItem('token', res.token);
-
+          this.userStore.loadUser(username!);
           this.router.navigate(['/home']);
         },
         error: (err: HttpErrorResponse) => {
           this.loading = false;
-
           switch (err.status) {
             case 400:
               alert('Invalid credentials.');

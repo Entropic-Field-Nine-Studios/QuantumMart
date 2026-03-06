@@ -42,7 +42,7 @@ module.exports = defineConfig([
           selector: 'class',
           modifiers: ['exported'],
           format: ['PascalCase'],
-          suffix: ['Component', 'Service', 'Directive', 'Pipe', 'Guard'],
+          suffix: ['Component', 'Service', 'Directive', 'Pipe', 'Guard', 'Store'],
         },
       ],
     },

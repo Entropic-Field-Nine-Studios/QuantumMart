@@ -22,6 +22,7 @@ import { CityDirective } from '../shared/directives/city.directive';
 import { ZipCodeDirective } from '../shared/directives/zip-code.directive';
 import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.component';
 import { OrderStatus } from '../order/order-status.enum';
+import { UserStore } from '../core/stores/user.store';
 
 @Component({
   selector: 'app-checkout',
@@ -50,6 +51,7 @@ export class CheckoutComponent implements OnInit {
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
   private router = inject(Router);
+  userStore = inject(UserStore);
 
   cartItems = signal<CartItem[] | null>(null);
 
@@ -140,6 +142,7 @@ export class CheckoutComponent implements OnInit {
 
       this.orderService.createOrder(orderInfo).subscribe({
         next: () => {
+          this.userStore.loadUser(this.authService.username!);
           alert(`You have successfully placed your order!`);
           this.router.navigate(['/home']);
         },
