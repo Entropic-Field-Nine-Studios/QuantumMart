@@ -35,7 +35,7 @@ export class PriceInputComponent implements ControlValueAccessor, Validator {
   @Input() required = false;
   @Input() label = 'Price';
 
-  value = 0.0;
+  value = '0.00';
   errors: ValidationErrors | null = null;
 
   private onChange: (value: string) => void = () => {
@@ -53,18 +53,20 @@ export class PriceInputComponent implements ControlValueAccessor, Validator {
     this.onChange(input.value);
   }
 
-  @HostListener('blur')
   handleBlur() {
+    console.log('blur');
+    if (!this.value || this.value.trim() === '') {
+      this.value = '0.00';
+      this.onChange(this.value);
+    }
+
     this.onTouched();
   }
 
   writeValue(value: string | null): void {
     if (!value) {
       this.value = '0.00';
-      return;
     }
-
-    this.value = this.format(value);
   }
 
   registerOnChange(fn: any): void {
