@@ -4,11 +4,17 @@
   <form [formGroup]="createListingForm">
     <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
-      <input matInput maxlength="200" formControlName="title" />
+      <input matInput appTitle maxlength="200" formControlName="title" />
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>
-      <textarea matInput maxlength="1000" formControlName="description"></textarea>
+      <textarea
+        matInput
+        appDescription
+        rows="6"
+        maxlength="1000"
+        formControlName="description"
+      ></textarea>
     </mat-form-field>
     <mat-form-field appearance="outline">
       <mat-label>Image URL</mat-label>
@@ -17,5 +23,7 @@
     <app-price-input formControlName="price" [required]="true"></app-price-input>
   </form>
 
-  <button matButton="filled" [disabled]="createListingForm.invalid">Create Listing</button>
+  <button matButton="filled" [disabled]="createListingForm.invalid" (click)="createListing()">
+    Create Listing
+  </button>
 </div>

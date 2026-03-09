@@ -7,7 +7,6 @@ import { AuthService } from '../auth/auth.service';
 import { MatFabButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { AddListingDialogComponent } from './add-listing-dialog/add-listing-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -21,10 +20,10 @@ import { Router } from '@angular/router';
     MatFabButton,
     MatIconModule,
     MatTooltipModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   listings = signal<ItemListing[] | null>(null);
@@ -38,7 +37,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.itemListingService.getAllListings().subscribe({
       next: (data) => this.listings.set(data),
-      error: () => this.listings.set([])
+      error: () => this.listings.set([]),
     });
   }
 
@@ -50,7 +49,7 @@ export class HomeComponent implements OnInit {
     this.dialog.open(CartDialogComponent, {
       width: '600px',
       height: '600px',
-      data: { userId: this.authService.userId }
+      data: { userId: this.authService.userId },
     });
   }
 

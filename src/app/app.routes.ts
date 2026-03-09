@@ -13,6 +13,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.component';
 import { authGuard } from './auth/auth.guard';
 import { CreateItemListingComponent } from './create-item-listing/create-item-listing.component';
+import { createItemListingGuard } from './create-item-listing/create-item-listing.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -24,6 +25,11 @@ export const routes: Routes = [
   { path: 'profile/:userid', component: UserProfileComponent },
   { path: 'checkout', component: CheckoutComponent, canActivate: [checkoutGuard] },
   { path: 'dashboard', component: SellerDashboardComponent, canActivate: [authGuard] },
-  { path: 'create-listing', component: CreateItemListingComponent, canActivate: [authGuard] },
-  { path: '**', component: NotFoundComponent } // Please keep this route at the bottom
+  {
+    path: 'create-listing',
+    component: CreateItemListingComponent,
+    canActivate: [authGuard],
+    canDeactivate: [createItemListingGuard],
+  },
+  { path: '**', component: NotFoundComponent }, // Please keep this route at the bottom
 ];
