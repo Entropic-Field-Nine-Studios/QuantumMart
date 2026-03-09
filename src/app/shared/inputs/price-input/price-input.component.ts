@@ -7,13 +7,12 @@ import {
   ValidationErrors,
   Validator,
 } from '@angular/forms';
-import { MatInput, MatFormField, MatLabel, MatPrefix } from '@angular/material/input';
-import { DigitsOnlyDirective } from '../../directives/digits-only.directive';
+import { MatInput, MatFormField, MatLabel, MatPrefix, MatError } from '@angular/material/input';
 import { MoneyInputDirective } from '../../directives/money.directive';
 
 @Component({
   selector: 'app-price-input',
-  imports: [MatFormField, MatLabel, MatPrefix, MatInput, MoneyInputDirective],
+  imports: [MatFormField, MatLabel, MatPrefix, MatInput, MoneyInputDirective, MatError],
   templateUrl: './price-input.component.html',
   styleUrl: './price-input.component.scss',
   standalone: true,
@@ -35,8 +34,10 @@ export class PriceInputComponent implements ControlValueAccessor, Validator {
   @Input() required = false;
   @Input() label = 'Price';
 
-  value = '0.00';
+  rawValue = '0.00';
+  value = 0.0;
   errors: ValidationErrors | null = null;
+  isFocused = false;
 
   private onChange: (value: string) => void = () => {
     // No op
@@ -46,18 +47,86 @@ export class PriceInputComponent implements ControlValueAccessor, Validator {
     // No op
   };
 
+  @HostListener('focusin')
+  onFocusIn() {
+    this.isFocused = true;
+  }
+
+  @HostListener('focusout')
+  onFocusOut() {
+    this.isFocused = false;
+    this.onTouched();
+  }
+
+  @HostListener('keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const raw = input.value.replace(/,/g, '');
+    const [num] = raw.split('.');
+
+    const isDigit = event.key >= '0' && event.key <= '9';
+
+    if (isDigit && num.length >= 5 && !raw.includes('.')) {
+      event.preventDefault();
+    }
+  }
+
+  @HostListener('paste', ['$event'])
+  onPaste(event: ClipboardEvent) {
+    const input = event.target as HTMLInputElement;
+    const pasted = event.clipboardData?.getData('text') ?? '';
+
+    // Strip commas, currency symbols, spaces
+    const cleaned = pasted.replace(/[^0-9.]/g, '');
+
+    // Reject if more than one decimal
+    if ((cleaned.match(/\./g) || []).length > 1) {
+      event.preventDefault();
+      return;
+    }
+
+    const [int, dec] = cleaned.split('.');
+
+    // Reject if too many integer digits
+    if (int.length > 6) {
+      event.preventDefault();
+      return;
+    }
+
+    // Reject if too many decimal digits
+    if (dec && dec.length > 2) {
+      event.preventDefault();
+      return;
+    }
+
+    // If valid, replace the input with the cleaned value
+    event.preventDefault();
+    this.rawValue = this.formatDisplay(cleaned);
+    input.value = this.rawValue;
+  }
+
   @HostListener('input', ['$event'])
   handleInput(event: Event) {
     const input = event.target as HTMLInputElement;
+    const cleaned = input.value.replace(/,/g, '');
+
+    this.rawValue = this.formatDisplay(cleaned);
+    input.value = this.rawValue;
+
+    this.setCursorToEnd(input);
 
     this.onChange(input.value);
   }
 
+  setCursorToEnd(input: HTMLInputElement) {
+    const len = input.value.length;
+    input.setSelectionRange(len, len);
+  }
+
   handleBlur() {
-    console.log('blur');
-    if (!this.value || this.value.trim() === '') {
-      this.value = '0.00';
-      this.onChange(this.value);
+    if (!this.rawValue || this.rawValue.trim() === '') {
+      this.rawValue = '0.00';
+      this.onChange(this.rawValue);
     }
 
     this.onTouched();
@@ -65,19 +134,45 @@ export class PriceInputComponent implements ControlValueAccessor, Validator {
 
   writeValue(value: string | null): void {
     if (!value) {
-      this.value = '0.00';
+      this.rawValue = '0.00';
     }
   }
 
-  registerOnChange(fn: any): void {
-    throw new Error('Method not implemented.');
+  registerOnChange(fn: (value: string) => void): void {
+    this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
-    throw new Error('Method not implemented.');
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
   }
 
   validate(control: AbstractControl): ValidationErrors | null {
-    throw new Error('Method not implemented.');
+    const inputPrice = Number.parseFloat(control.value.replace(/,/g, ''));
+
+    if (this.required && inputPrice < 0.01) {
+      this.errors = { required: true };
+      return this.errors;
+    }
+
+    this.errors = null;
+    return null;
+  }
+
+  private formatDisplay(value: string): string {
+    if (!value) return '';
+
+    const [int, dec] = value.split('.');
+
+    const formattedInt = Number(int).toLocaleString();
+
+    if (dec === undefined || !value.includes('.')) {
+      return formattedInt;
+    }
+
+    if (dec === '') {
+      return formattedInt + '.';
+    }
+
+    return formattedInt + '.' + dec;
   }
 }
