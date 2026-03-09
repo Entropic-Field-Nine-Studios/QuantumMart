@@ -13,6 +13,19 @@ describe('CartItemCardComponent', () => {
 
     fixture = TestBed.createComponent(CartItemCardComponent);
     component = fixture.componentInstance;
+
+    component.cartItem = {
+      id: '1',
+      quantity: 1,
+      itemListing: {
+        sellerId: '1',
+        title: 'test',
+        description: '',
+        price: 1.0,
+        imageUrl: '',
+      },
+    };
+
     await fixture.whenStable();
   });
 

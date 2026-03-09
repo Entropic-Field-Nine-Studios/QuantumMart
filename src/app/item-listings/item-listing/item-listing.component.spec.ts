@@ -13,6 +13,15 @@ describe('ItemListing', () => {
 
     fixture = TestBed.createComponent(ItemListingComponent);
     component = fixture.componentInstance;
+
+    component.listing = {
+      sellerId: '1',
+      description: 'test desc',
+      title: 'title',
+      price: 2.3,
+      imageUrl: 'testurl',
+    };
+
     await fixture.whenStable();
   });
 
