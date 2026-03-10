@@ -7,10 +7,10 @@ import { AuthService } from '../auth/auth.service';
 import { MatFabButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { AddListingDialogComponent } from './add-listing-dialog/add-listing-dialog.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -30,6 +30,7 @@ export class HomeComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
 
+  private router = inject(Router);
   private authService = inject(AuthService);
   private itemListingService = inject(ItemListingService);
 
@@ -41,19 +42,7 @@ export class HomeComponent implements OnInit {
   }
 
   openAddListingDialog(): void {
-    const dialogRef = this.dialog.open(AddListingDialogComponent, {
-      width: '600px',
-      disableClose: true,
-    });
-
-    dialogRef.beforeClosed().subscribe((result) => {
-      if (result === 'confirm-close') {
-        // allow closing
-      } else {
-        // user cancelled the close
-        dialogRef.disableClose = false;
-      }
-    });
+    this.router.navigate(['/create-listing']);
   }
 
   openCartDialog(): void {

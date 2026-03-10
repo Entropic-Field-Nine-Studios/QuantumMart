@@ -1,0 +1,29 @@
+<div class="page-block">
+  <h1>Create new item listing</h1>
+
+  <form [formGroup]="createListingForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput appTitle maxlength="200" formControlName="title" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        appDescription
+        rows="6"
+        maxlength="1000"
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Image URL</mat-label>
+      <input matInput maxlength="1000" formControlName="imageUrl" />
+    </mat-form-field>
+    <app-price-input formControlName="price" [required]="true"></app-price-input>
+  </form>
+
+  <button matButton="filled" [disabled]="createListingForm.invalid" (click)="createListing()">
+    Create Listing
+  </button>
+</div>

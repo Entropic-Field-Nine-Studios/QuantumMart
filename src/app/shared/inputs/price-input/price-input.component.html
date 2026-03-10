@@ -1,0 +1,17 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+  <span matTextPrefix>$ &nbsp;</span>
+  <input
+    matInput
+    appMoneyInput
+    maxlength="11"
+    [required]="required"
+    [value]="rawValue"
+    (input)="handleInput($event)"
+    (keydown)="onKeyDown($event)"
+    (blur)="handleBlur()"
+  />
+</mat-form-field>
+@if (errors && !isFocused) {
+  <mat-error>Price is required.</mat-error>
+}
