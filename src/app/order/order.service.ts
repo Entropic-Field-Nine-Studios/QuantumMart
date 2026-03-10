@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class OrderService {
-  private readonly baseUrl = 'http://localhost:8080/api/orders';
+  readonly baseUrl = 'http://localhost:8080/api/orders';
 
   private http = inject(HttpClient);
 
