@@ -10,6 +10,8 @@ import {
   MatCardSubtitle,
 } from '@angular/material/card';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { UserStore } from './core/stores/user.store';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +25,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatCardHeader,
     MatCardAvatar,
     MatCardSubtitle,
+    CurrencyPipe,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -30,6 +33,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 export class AppComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
+  userStore = inject(UserStore);
 
   protected readonly title = signal('QuantumMart');
 

@@ -53,8 +53,8 @@ export class OrderItemComponent {
         return 'Shipped';
       case OrderItemStatus.COMPLETED:
         return 'Completed';
-      case OrderItemStatus.CANCELLED:
-        return 'Cancelled';
+      case OrderItemStatus.CANCELED:
+        return 'Canceled';
       case OrderItemStatus.REFUNDED:
         return 'Refunded';
       default:

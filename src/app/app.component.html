@@ -7,7 +7,12 @@
           <button mat-card-avatar class="avatar-btn clickable" (click)="profile()">
             <img src="assets/pfp/msn-avatar.png" class="avatar-img" alt="My Profile" />
           </button>
-          <mat-card-title class="clickable" (click)="profile()">{{ username }}</mat-card-title>
+          <mat-card-title class="clickable" (click)="profile()">{{
+            userStore.user()!.username
+          }}</mat-card-title>
+          <mat-card-title class="clickable" (click)="profile()"
+            >Balance: {{ userStore.user()!.balance | currency }}</mat-card-title
+          >
           <mat-card-subtitle>
             <button matButton="filled" class="clickable" (click)="logout()">Logout</button>
           </mat-card-subtitle>
