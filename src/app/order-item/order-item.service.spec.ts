@@ -48,5 +48,5 @@ describe('OrderItemService', () => {
     expectStatusUpdate(OrderItemStatus.SHIPPED));
 
   it('should PATCH canceled status to order item', () =>
-    expectStatusUpdate(OrderItemStatus.CANCELLED));
+    expectStatusUpdate(OrderItemStatus.CANCELED));
 });
