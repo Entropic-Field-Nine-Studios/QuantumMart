@@ -67,8 +67,8 @@ describe('AuthService', () => {
 
     service.logout();
 
-    expect(mockLocalStorage.getItem('token')).to.be.null;
-    expect(routerSpy.navigate.calledWith(['/login'])).to.be.true;
+    expect(mockLocalStorage.getItem('token')).to.equal(null);
+    expect(routerSpy.navigate.calledWith(['/login'])).to.equal(true);
   });
 
   it('should remove token but NOT navigate when navigateLogin=false', () => {
@@ -76,8 +76,8 @@ describe('AuthService', () => {
 
     service.logout(false);
 
-    expect(routerSpy.navigate.called).to.be.false;
-    expect(mockLocalStorage.getItem('token')).to.be.null;
+    expect(routerSpy.navigate.called).to.equal(false);
+    expect(mockLocalStorage.getItem('token')).to.equal(null);
   });
 
   it('should return null username when no token exists', () => {

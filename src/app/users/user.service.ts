@@ -8,7 +8,7 @@ import { User } from './user.model';
   providedIn: 'root',
 })
 export class UserService {
-  private readonly baseUrl = 'http://localhost:8080/api/users';
+  readonly baseUrl = 'http://localhost:8080/api/users';
 
   private http = inject(HttpClient);
 

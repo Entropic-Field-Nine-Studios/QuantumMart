@@ -57,7 +57,7 @@ describe('OrderService', () => {
     });
 
     const req = httpMock.expectOne(
-      `${service.baseUrl}/sellerId/${sellerId}?unfinished=${unfinished}`
+      `${service.baseUrl}/sellerId/${sellerId}?unfinished=${unfinished}`,
     );
     expect(req.request.method).to.equal('GET');
     expect(req.request.params.get('unfinished')).toBe(`${unfinished}`);
