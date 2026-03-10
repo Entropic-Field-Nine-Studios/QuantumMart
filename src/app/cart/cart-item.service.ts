@@ -8,7 +8,7 @@ import { ItemListing } from '../item-listings/item-listing.model';
   providedIn: 'root',
 })
 export class CartItemService {
-  private readonly baseUrl = 'http://localhost:8080/api/cart-items';
+  readonly baseUrl = 'http://localhost:8080/api/cart-items';
 
   private http = inject(HttpClient);
 
