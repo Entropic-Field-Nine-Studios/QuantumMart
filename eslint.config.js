@@ -45,6 +45,7 @@ module.exports = defineConfig([
           suffix: ['Component', 'Service', 'Directive', 'Pipe', 'Guard'],
         },
       ],
+      '@/no-console': ['error'],
     },
   },
   {
