@@ -14,6 +14,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UserStore } from '../core/stores/user.store';
+import { User } from '../users/user.model';
 
 @Component({
   selector: 'app-home',
@@ -44,7 +45,7 @@ export class HomeComponent implements OnInit {
 
   private readonly allListings = signal<ItemListing[] | null>(null);
   private readonly unownedListings = computed(
-    () => this.allListings()?.filter((item) => item.id !== this.userStore.user()?.id!) ?? []
+    () => this.allListings()?.filter((item) => item.sellerId !== this.user?.id) ?? null,
   );
 
   ngOnInit(): void {
@@ -77,7 +78,15 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  hasOwnedListings(): boolean {
+    return this.allListings()?.length !== this.unownedListings()?.length;
+  }
+
   get loggedIn(): boolean {
     return this.authService.isLoggedIn;
+  }
+
+  private get user(): User | null {
+    return this.userStore.user();
   }
 }

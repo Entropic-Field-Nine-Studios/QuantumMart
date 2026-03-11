@@ -1,9 +1,12 @@
 <div class="listings-container">
-  <div>
-    <mat-slide-toggle [(ngModel)]="showUserListings" (change)="showUserListingsToggled()">
-      Show your listings: {{ showUserListings }}
-    </mat-slide-toggle>
-  </div>
+  @if (loggedIn && hasOwnedListings()) {
+    <div>
+      <mat-slide-toggle [(ngModel)]="showUserListings" (change)="showUserListingsToggled()">
+        Show my listings
+      </mat-slide-toggle>
+    </div>
+  }
+
   @if (displayedListings() === null) {
     <mat-spinner></mat-spinner>
   } @else if (displayedListings()!.length === 0) {
