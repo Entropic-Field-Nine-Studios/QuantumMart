@@ -12,6 +12,7 @@ import {
 import { NotFoundComponent } from './not-found/not-found.component';
 import { UserStore } from './core/stores/user.store';
 import { CurrencyPipe } from '@angular/common';
+import { User } from './users/user.model';
 
 @Component({
   selector: 'app-root',
@@ -33,18 +34,18 @@ import { CurrencyPipe } from '@angular/common';
 export class AppComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
-  userStore = inject(UserStore);
+  private userStore = inject(UserStore);
 
   protected readonly title = signal('QuantumMart');
 
   private readonly loginRegisterRoutes = ['/login', '/register'];
 
-  get username(): string | null {
-    return this.authService.username;
+  getUser(): User | null {
+    return this.userStore.user();
   }
 
   logout(): void {
-    this.authService.logout();
+    this.userStore.clear({ navigateLogin: true });
   }
 
   profile(): void {

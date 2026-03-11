@@ -26,6 +26,15 @@ export class UserService {
   }
 
   /**
+   * Retrieves information on the currently logged-in user.
+   *
+   * @returns Information on the logged-in user.
+   */
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/me`);
+  }
+
+  /**
    * Retrieves a user entity that matches against an ID.
    *
    * ### Error codes

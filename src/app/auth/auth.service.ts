@@ -5,7 +5,6 @@ import { LoginResponse } from './login-response.model';
 import { jwtDecode } from 'jwt-decode';
 import { JwtPayload } from './jwt-payload.model';
 import { Router } from '@angular/router';
-import { UserStore } from '../core/stores/user.store';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +14,6 @@ export class AuthService {
 
   private http = inject(HttpClient);
   private router = inject(Router);
-  private userStore = inject(UserStore);
 
   /**
    * Attempts to validate the provided credentials against an existing user in the database.
@@ -38,10 +36,19 @@ export class AuthService {
    */
   logout(navigateLogin = true): void {
     this.storage?.removeItem('token');
-    this.userStore.clear();
+
     if (navigateLogin) {
       this.router.navigate(['/login']);
     }
+  }
+
+  /**
+   * Sets the token for the browser session.
+   *
+   * @param token Token to set.
+   */
+  setToken(token: string) {
+    this.storage?.setItem('token', token);
   }
 
   private get storage() {
