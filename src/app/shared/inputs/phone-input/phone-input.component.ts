@@ -25,7 +25,7 @@ import { DigitsOnlyDirective } from '../../directives/digits-only.directive';
   ],
   templateUrl: './phone-input.component.html',
   styleUrl: './phone-input.component.scss',
-  standalone: true,
+
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

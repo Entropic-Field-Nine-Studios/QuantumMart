@@ -9,7 +9,6 @@ import { OrderItemComponent } from '../../order-item/ui/order-item.component';
   imports: [MatExpansionModule, DatePipe, OrderItemComponent],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss',
-  standalone: true,
 })
 export class OrderComponent {
   @Input({ required: true }) order!: Order;

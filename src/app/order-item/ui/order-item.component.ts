@@ -28,7 +28,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   ],
   templateUrl: './order-item.component.html',
   styleUrl: './order-item.component.scss',
-  standalone: true,
 })
 export class OrderItemComponent {
   @Input({ required: true }) itemInfo!: OrderItem;

@@ -2,7 +2,6 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: 'input[appMoneyInput]',
-  standalone: true,
 })
 export class MoneyInputDirective {
   @HostListener('input', ['$event'])

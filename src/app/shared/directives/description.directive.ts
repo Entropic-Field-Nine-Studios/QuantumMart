@@ -2,7 +2,6 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: 'textarea[appDescription]',
-  standalone: true,
 })
 export class DescriptionDirective {
   private readonly pattern = /[^\p{L}\p{N}\s\-.'(),&/:+!?";%#\n]/gu;

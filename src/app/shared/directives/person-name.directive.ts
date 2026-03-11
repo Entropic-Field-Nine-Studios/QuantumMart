@@ -2,7 +2,6 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: 'input[appPersonName]',
-  standalone: true,
 })
 export class PersonNameDirective {
   private readonly pattern = /[^\p{L} ]/gu;

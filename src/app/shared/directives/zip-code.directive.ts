@@ -2,7 +2,6 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: 'input[appZipCode]',
-  standalone: true,
 })
 export class ZipCodeDirective {
   private readonly pattern = /[^0-9-]/g;

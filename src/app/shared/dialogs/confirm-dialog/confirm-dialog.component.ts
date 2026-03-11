@@ -13,7 +13,6 @@ import { MatAnchor } from '@angular/material/button';
   imports: [MatDialogContent, MatDialogActions, MatAnchor, MatDialogModule],
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.scss',
-  standalone: true,
 })
 export class ConfirmDialogComponent {
   public readonly data = inject<ConfirmDialogData>(MAT_DIALOG_DATA);

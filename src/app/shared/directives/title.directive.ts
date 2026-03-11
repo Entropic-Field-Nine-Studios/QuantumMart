@@ -2,7 +2,6 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: 'input[appTitle]',
-  standalone: true,
 })
 export class TitleDirective {
   private readonly pattern = /[^\p{L}\p{N}\s\-.'(),&/:+]/gu;

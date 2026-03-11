@@ -2,7 +2,6 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: 'input[appDigitsOnly]',
-  standalone: true,
 })
 export class DigitsOnlyDirective {
   private readonly pattern = /[^0-9]+/g;
