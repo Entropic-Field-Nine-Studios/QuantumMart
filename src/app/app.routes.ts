@@ -14,6 +14,7 @@ import { SellerDashboardComponent } from './seller-dashboard/seller-dashboard.co
 import { authGuard } from './auth/auth.guard';
 import { CreateItemListingComponent } from './create-item-listing/create-item-listing.component';
 import { createItemListingGuard } from './create-item-listing/create-item-listing.guard';
+import { CartComponent } from './cart/cart.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -30,6 +31,11 @@ export const routes: Routes = [
     component: CreateItemListingComponent,
     canActivate: [authGuard],
     canDeactivate: [createItemListingGuard],
+  },
+  {
+    path: 'cart',
+    component: CartComponent,
+    canActivate: [authGuard],
   },
   { path: '**', component: NotFoundComponent }, // Please keep this route at the bottom
 ];
