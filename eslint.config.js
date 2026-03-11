@@ -45,7 +45,26 @@ module.exports = defineConfig([
           suffix: ['Component', 'Service', 'Directive', 'Pipe', 'Guard', 'Store'],
         },
       ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: "Decorator[expression.callee.name='Component'] Property[key.name='standalone']",
+          message:
+            'Do not specify "standalone" in @Component. Angular 19+ treats all components as standalone by default.',
+        },
+        {
+          selector: "Decorator[expression.callee.name='Directive'] Property[key.name='standalone']",
+          message:
+            'Do not specify "standalone" in @Directive. Angular 19+ treats all components as standalone by default.',
+        },
+        {
+          selector: "Decorator[expression.callee.name='Pipe'] Property[key.name='standalone']",
+          message:
+            'Do not specify "standalone" in @Pipe. Angular 19+ treats all components as standalone by default.',
+        },
+      ],
       '@/no-console': ['error'],
+      '@/no-alert': ['error'],
     },
   },
   {
