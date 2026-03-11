@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ItemListing } from '../item-listing.model';
@@ -12,7 +12,7 @@ import { AuthService } from '../../auth/auth.service';
   templateUrl: './item-listing.component.html',
   styleUrl: './item-listing.component.scss',
 })
-export class ItemListingComponent implements OnInit {
+export class ItemListingComponent implements OnInit, OnChanges {
   @Input({ required: true }) listing!: ItemListing;
 
   loggedIn = false;
@@ -22,6 +22,11 @@ export class ItemListingComponent implements OnInit {
   private authService = inject(AuthService);
 
   ngOnInit(): void {
+    this.loggedIn = this.authService.isLoggedIn;
+    this.isListingCurrentUser = this.authService.userId == this.listing.sellerId;
+  }
+
+  ngOnChanges(): void {
     this.loggedIn = this.authService.isLoggedIn;
     this.isListingCurrentUser = this.authService.userId == this.listing.sellerId;
   }

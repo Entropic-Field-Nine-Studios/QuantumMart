@@ -6,9 +6,7 @@ import { ItemListingComponent } from '../item-listings/item-listing/item-listing
 import { AuthService } from '../auth/auth.service';
 import { MatFabButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CartDialogComponent } from './cart-dialog/cart-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { Router } from '@angular/router';
@@ -33,8 +31,6 @@ import { User } from '../users/user.model';
 })
 export class HomeComponent implements OnInit {
   readonly displayedListings = signal<ItemListing[] | null>(null);
-
-  readonly dialog = inject(MatDialog);
 
   showUserListings = true;
 
@@ -63,11 +59,7 @@ export class HomeComponent implements OnInit {
   }
 
   openCartDialog(): void {
-    this.dialog.open(CartDialogComponent, {
-      width: '600px',
-      height: '600px',
-      data: { userId: this.authService.userId },
-    });
+    this.router.navigate(['/cart']);
   }
 
   showUserListingsToggled() {
