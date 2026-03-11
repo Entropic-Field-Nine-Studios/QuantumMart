@@ -52,8 +52,8 @@ export class LoginComponent {
       this.authService.login(username, password).subscribe({
         next: (res) => {
           this.loading = false;
-          localStorage.setItem('token', res.token);
-          this.userStore.loadUser(username!);
+          this.authService.setToken(res.token);
+          this.userStore.init();
           this.router.navigate(['/home']);
         },
         error: (err: HttpErrorResponse) => {

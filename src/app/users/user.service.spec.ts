@@ -60,4 +60,15 @@ describe('UserService', () => {
 
     req.flush(sampleUser);
   });
+
+  it('should GET /me to retrieve current user', () => {
+    service.getCurrentUser().subscribe((res) => {
+      expect(res).to.deep.equal(sampleUser);
+    });
+
+    const req = httpMock.expectOne(`${service.baseUrl}/me`);
+    expect(req.request.method).toBe('GET');
+
+    req.flush(sampleUser);
+  });
 });

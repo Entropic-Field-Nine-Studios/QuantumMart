@@ -1,17 +1,17 @@
 <main>
   <h1>Quantum Mart</h1>
   @if (showUserCard()) {
-    @if (username !== null) {
+    @if (getUser() !== null) {
       <mat-card class="user-card">
         <mat-card-header>
           <button mat-card-avatar class="avatar-btn clickable" (click)="profile()">
             <img src="assets/pfp/msn-avatar.png" class="avatar-img" alt="My Profile" />
           </button>
           <mat-card-title class="clickable" (click)="profile()">{{
-            userStore.user()!.username
+            getUser()!.username
           }}</mat-card-title>
           <mat-card-title class="clickable" (click)="profile()"
-            >Balance: {{ userStore.user()!.balance | currency }}</mat-card-title
+            >Balance: {{ getUser()!.balance | currency }}</mat-card-title
           >
           <mat-card-subtitle>
             <button matButton="filled" class="clickable" (click)="logout()">Logout</button>
@@ -30,7 +30,7 @@
       <a mat-tab-link routerLink="/home">Home</a>
       <a mat-tab-link routerLink="/about-us">About Us</a>
       <a mat-tab-link routerLink="/contact">Contact Support</a>
-      @if (username !== null) {
+      @if (getUser() !== null) {
         <a mat-tab-link routerLink="/dashboard">Seller Dashboard</a>
       }
     </nav>
