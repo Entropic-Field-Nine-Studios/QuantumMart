@@ -6,8 +6,10 @@ import { OrderService } from '../order/order.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Order } from '../order/order.model';
 import { OrderComponent } from '../order/ui/order.component';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MessageService } from '../shared/message/message.service';
+import { Paginator } from '../shared/utils/paginator';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-seller-dashboard',
@@ -20,59 +22,38 @@ export class SellerDashboardComponent implements OnInit {
   private authService = inject(AuthService);
   private messageService = inject(MessageService);
 
-  readonly inProgressOrders = signal<Order[] | null>(null);
-  readonly pagedInProgressOrders = signal<Order[]>([]);
-  pageIndexInProgress = 0;
-  pageSizeInProgress = 5;
+  readonly paginatorInProgress = new Paginator<Order>();
+  readonly paginatorCompleted = new Paginator<Order>();
 
-  readonly completedOrders = signal<Order[] | null>(null);
-  readonly pagedCompletedOrders = signal<Order[]>([]);
-  pageIndexCompleted = 0;
-  pageSizeCompleted = 5;
+  readonly loadingInProgress = signal(true);
+  readonly loadingCompleted = signal(true);
 
   ngOnInit(): void {
     this.loadItems();
   }
 
-  updateInProgressOrders() {
-    const start = this.pageIndexInProgress * this.pageSizeInProgress;
-    const end = start + this.pageSizeInProgress;
-    this.pagedInProgressOrders.set(this.inProgressOrders()!.slice(start, end));
-  }
-
-  updateCompletedOrders() {
-    const start = this.pageIndexCompleted * this.pageSizeCompleted;
-    const end = start + this.pageSizeCompleted;
-    this.pagedCompletedOrders.set(this.completedOrders()!.slice(start, end));
-  }
-
-  onInProgressPageCompleted(event: PageEvent) {
-    this.pageIndexCompleted = event.pageIndex;
-    this.pageSizeCompleted = event.pageSize;
-    this.updateInProgressOrders();
-  }
-
-  onCompletedPageCompleted(event: PageEvent) {
-    this.pageIndexCompleted = event.pageIndex;
-    this.pageSizeCompleted = event.pageSize;
-    this.updateCompletedOrders();
-  }
-
   private loadItems() {
-    this.orderService.getOrdersRelevantToSeller(this.authService.userId!, true).subscribe({
-      next: (sellerOrders) => {
-        this.inProgressOrders.set(sellerOrders);
-        this.updateInProgressOrders();
-      },
-      error: (err: HttpErrorResponse) => this.messageService.error(err.message),
-    });
+    this.loadingCompleted.set(true);
+    this.loadingInProgress.set(true);
 
-    this.orderService.getOrdersRelevantToSeller(this.authService.userId!, false).subscribe({
-      next: (sellerOrders) => {
-        this.completedOrders.set(sellerOrders);
-        this.updateCompletedOrders();
-      },
-      error: (err: HttpErrorResponse) => this.messageService.error(err.message),
-    });
+    this.orderService
+      .getOrdersRelevantToSeller(this.authService.userId!, true)
+      .pipe(finalize(() => this.loadingInProgress.set(false)))
+      .subscribe({
+        next: (sellerOrders) => {
+          this.paginatorInProgress.setItems(sellerOrders);
+        },
+        error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+      });
+
+    this.orderService
+      .getOrdersRelevantToSeller(this.authService.userId!, false)
+      .pipe(finalize(() => this.loadingCompleted.set(false)))
+      .subscribe({
+        next: (sellerOrders) => {
+          this.paginatorCompleted.setItems(sellerOrders);
+        },
+        error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+      });
   }
 }

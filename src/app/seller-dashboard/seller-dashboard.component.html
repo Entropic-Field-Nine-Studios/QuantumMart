@@ -2,14 +2,14 @@
   <h1>Seller Dashboard</h1>
 
   <h2>Unfinished orders</h2>
-  @if (inProgressOrders() === null) {
+  @if (loadingInProgress()) {
     <mat-spinner></mat-spinner>
-  } @else if (inProgressOrders()!.length === 0) {
+  } @else if (paginatorInProgress.length === 0) {
     <p>Nothing to show.</p>
   } @else {
     <mat-accordion>
       <div>
-        @for (item of pagedInProgressOrders(); track $index) {
+        @for (item of paginatorInProgress.pagedItems(); track $index) {
           <app-order [order]="item" [forSeller]="true" [isAlt]="$index % 2 === 0"></app-order>
           <div class="panel"></div>
         }
@@ -17,33 +17,33 @@
     </mat-accordion>
 
     <mat-paginator
-      [length]="inProgressOrders()!.length"
-      [pageIndex]="pageIndexInProgress"
-      [pageSize]="pageSizeInProgress"
+      [length]="paginatorInProgress.length"
+      [pageIndex]="paginatorInProgress.pageIndex"
+      [pageSize]="paginatorInProgress.pageSize"
       [pageSizeOptions]="[5, 10, 20]"
-      (page)="onInProgressPageCompleted($event)"
+      (page)="paginatorInProgress.onPage($event)"
     ></mat-paginator>
   }
 
   <h2>Completed orders</h2>
-  @if (completedOrders() === null) {
+  @if (loadingCompleted()) {
     <mat-spinner></mat-spinner>
-  } @else if (completedOrders()!.length === 0) {
+  } @else if (paginatorCompleted.length === 0) {
     <p>Nothing to show.</p>
   } @else {
     <mat-accordion>
-      @for (item of pagedCompletedOrders(); track $index) {
+      @for (item of paginatorCompleted.pagedItems(); track $index) {
         <app-order [order]="item" [forSeller]="true" [isAlt]="$index % 2 === 0"></app-order>
         <div class="panel"></div>
       }
     </mat-accordion>
 
     <mat-paginator
-      [length]="completedOrders()!.length"
-      [pageIndex]="pageIndexCompleted"
-      [pageSize]="pageSizeCompleted"
+      [length]="paginatorCompleted.length"
+      [pageIndex]="paginatorCompleted.pageIndex"
+      [pageSize]="paginatorCompleted.pageSize"
       [pageSizeOptions]="[5, 10, 20]"
-      (page)="onCompletedPageCompleted($event)"
+      (page)="paginatorCompleted.onPage($event)"
     ></mat-paginator>
   }
 </div>
