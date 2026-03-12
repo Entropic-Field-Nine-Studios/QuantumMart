@@ -13,6 +13,9 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UserStore } from '../core/stores/user.store';
 import { User } from '../users/user.model';
+import { Paginator } from '../shared/utils/paginator';
+import { MatPaginator } from '@angular/material/paginator';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -25,12 +28,16 @@ import { User } from '../users/user.model';
     MatProgressSpinnerModule,
     MatSlideToggleModule,
     FormsModule,
+    MatPaginator,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   readonly displayedListings = signal<ItemListing[] | null>(null);
+  readonly paginatorListings = new Paginator<ItemListing>();
+
+  readonly loadingListings = signal(true);
 
   showUserListings = true;
 
@@ -45,13 +52,16 @@ export class HomeComponent implements OnInit {
   );
 
   ngOnInit(): void {
-    this.itemListingService.getAllListings().subscribe({
-      next: (data) => {
-        this.allListings.set(data);
-        this.showUserListingsToggled();
-      },
-      error: () => this.allListings.set([]),
-    });
+    this.itemListingService
+      .getAllListings()
+      .pipe(finalize(() => this.loadingListings.set(false)))
+      .subscribe({
+        next: (data) => {
+          this.allListings.set(data);
+          this.showUserListingsToggled();
+        },
+        error: () => this.allListings.set([]),
+      });
   }
 
   openAddListingDialog(): void {
@@ -64,10 +74,12 @@ export class HomeComponent implements OnInit {
 
   showUserListingsToggled() {
     if (this.showUserListings) {
-      this.displayedListings.set(this.allListings());
+      this.paginatorListings.setItems(this.allListings() ?? []);
     } else {
-      this.displayedListings.set(this.unownedListings());
+      this.paginatorListings.setItems(this.unownedListings() ?? []);
     }
+
+    this.paginatorListings.pageIndex = 0;
   }
 
   hasOwnedListings(): boolean {

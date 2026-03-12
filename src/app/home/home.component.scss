@@ -1,7 +1,7 @@
 .floating-btn-container {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  left: 20px;
   display: flex;
   gap: 12px; // spacing between buttons
   z-index: 2000;
@@ -13,4 +13,5 @@
 
 .listings-container {
   padding: 2%;
+  padding-bottom: 200px;
 }
