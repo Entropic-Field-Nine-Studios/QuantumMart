@@ -10,6 +10,7 @@ import { RegisterUserInfo } from '../users/register-user-info.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MessageService } from '../shared/message/message.service';
 
 @Component({
   selector: 'app-registration',
@@ -37,6 +38,7 @@ export class RegistrationComponent {
 
   private userService = inject(UserService);
   private router = inject(Router);
+  private messageService = inject(MessageService);
 
   registerUser() {
     if (this.isValidForm()) {
@@ -50,7 +52,7 @@ export class RegistrationComponent {
       this.loading = true;
       this.userService.createUser(newUser).subscribe({
         next: () => {
-          alert('User registered successfully!');
+          this.messageService.success('User registered successfully!');
           this.loading = false;
           this.router.navigate(['/login']);
         },
@@ -58,10 +60,10 @@ export class RegistrationComponent {
           this.loading = false;
           switch (err.status) {
             case 409:
-              alert('Username already in use.');
+              this.messageService.error('Username already in use.');
               break;
             default:
-              alert(err.message);
+              this.messageService.error(err.message);
           }
         },
       });

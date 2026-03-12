@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Order } from '../order/order.model';
 import { OrderComponent } from '../order/ui/order.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MessageService } from '../shared/message/message.service';
 
 @Component({
   selector: 'app-seller-dashboard',
@@ -17,6 +18,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 export class SellerDashboardComponent implements OnInit {
   private orderService = inject(OrderService);
   private authService = inject(AuthService);
+  private messageService = inject(MessageService);
 
   readonly inProgressOrders = signal<Order[] | null>(null);
   readonly pagedInProgressOrders = signal<Order[]>([]);
@@ -62,7 +64,7 @@ export class SellerDashboardComponent implements OnInit {
         this.inProgressOrders.set(sellerOrders);
         this.updateInProgressOrders();
       },
-      error: (err: HttpErrorResponse) => alert(err.message),
+      error: (err: HttpErrorResponse) => this.messageService.error(err.message),
     });
 
     this.orderService.getOrdersRelevantToSeller(this.authService.userId!, false).subscribe({
@@ -70,7 +72,7 @@ export class SellerDashboardComponent implements OnInit {
         this.completedOrders.set(sellerOrders);
         this.updateCompletedOrders();
       },
-      error: (err: HttpErrorResponse) => alert(err.message),
+      error: (err: HttpErrorResponse) => this.messageService.error(err.message),
     });
   }
 }

@@ -5,6 +5,8 @@ import { ItemListing } from '../item-listing.model';
 import { MatAnchor } from '@angular/material/button';
 import { CartItemService } from '../../cart/cart-item.service';
 import { AuthService } from '../../auth/auth.service';
+import { MessageService } from '../../shared/message/message.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-item-listing',
@@ -18,23 +20,25 @@ export class ItemListingComponent implements OnInit, OnChanges {
   loggedIn = false;
   isListingCurrentUser = false;
 
-  private cartService = inject(CartItemService);
-  private authService = inject(AuthService);
+  private readonly cartService = inject(CartItemService);
+  private readonly authService = inject(AuthService);
+  private readonly messageService = inject(MessageService);
 
   ngOnInit(): void {
     this.loggedIn = this.authService.isLoggedIn;
-    this.isListingCurrentUser = this.authService.userId == this.listing.sellerId;
+    this.isListingCurrentUser = this.authService.userId === this.listing.sellerId;
   }
 
   ngOnChanges(): void {
     this.loggedIn = this.authService.isLoggedIn;
-    this.isListingCurrentUser = this.authService.userId == this.listing.sellerId;
+    this.isListingCurrentUser = this.authService.userId === this.listing.sellerId;
   }
 
   addToCart(): void {
     this.cartService.addItemToCart(this.authService.userId!, this.listing).subscribe({
-      next: (item) => alert(`${item.itemListing.title} was added to your cart.`),
-      error: () => alert('Unable to add item to cart.'),
+      next: (item) => this.messageService.info(`${item.itemListing.title} was added to your cart.`),
+      error: (err: HttpErrorResponse) =>
+        this.messageService.error(`Couldn't add item: ${err.message}`),
     });
   }
 }

@@ -13,6 +13,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { UserStore } from './core/stores/user.store';
 import { CurrencyPipe } from '@angular/common';
 import { User } from './users/user.model';
+import { MessageService } from './shared/message/message.service';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +36,7 @@ export class AppComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
   private userStore = inject(UserStore);
+  private messageService = inject(MessageService);
 
   protected readonly title = signal('QuantumMart');
 
@@ -46,6 +48,7 @@ export class AppComponent {
 
   logout(): void {
     this.userStore.clear({ navigateLogin: true });
+    this.messageService.info('You have been logged out.');
   }
 
   profile(): void {

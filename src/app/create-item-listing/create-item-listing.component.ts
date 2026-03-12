@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TitleDirective } from '../shared/directives/title.directive';
 import { DescriptionDirective } from '../shared/directives/description.directive';
+import { MessageService } from '../shared/message/message.service';
 
 @Component({
   selector: 'app-create-item-listing',
@@ -45,6 +46,7 @@ export class CreateItemListingComponent {
   private itemListingService = inject(ItemListingService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private messageService = inject(MessageService);
 
   private canLeave = false;
 
@@ -68,11 +70,11 @@ export class CreateItemListingComponent {
 
       this.itemListingService.createListing(listing).subscribe({
         next: () => {
-          alert('Your listing was created.');
+          this.messageService.success('Your listing was created.');
           this.canLeave = true;
           this.router.navigate(['/home']);
         },
-        error: (err: HttpErrorResponse) => alert(err.message),
+        error: (err: HttpErrorResponse) => this.messageService.error(err.message),
       });
     }
   }

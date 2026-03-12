@@ -14,6 +14,7 @@ import {
 } from '@angular/forms';
 import { MatAnchor } from '@angular/material/button';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from '../../shared/message/message.service';
 
 @Component({
   selector: 'app-order-item',
@@ -41,6 +42,7 @@ export class OrderItemComponent {
 
   private confirmService = inject(ConfirmDialogService);
   private orderItemService = inject(OrderItemService);
+  private messageService = inject(MessageService);
 
   get itemStatus(): string {
     const status = this.itemInfo.status!;
@@ -77,11 +79,11 @@ export class OrderItemComponent {
               .updateStatus(this.itemInfo.id!, this.selectedStatus.value!)
               .subscribe({
                 next: (updatedItem) => {
-                  alert('Item has been updated.');
+                  this.messageService.info('Status updated.');
                   this.itemInfo.status = updatedItem.status;
                   this.sentUpdate.set(true);
                 },
-                error: (err: HttpErrorResponse) => alert(err.message),
+                error: (err: HttpErrorResponse) => this.messageService.error(err.message),
               });
           }
         });

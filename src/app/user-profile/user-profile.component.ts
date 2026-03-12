@@ -11,6 +11,7 @@ import { DateService } from '../date/date.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
+import { MessageService } from '../shared/message/message.service';
 
 @Component({
   imports: [
@@ -32,6 +33,7 @@ export class UserProfileComponent implements OnInit {
   private dateService = inject(DateService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
+  private messageService = inject(MessageService);
 
   user = signal<User | null>(null);
   sDateCreated!: string;
@@ -54,7 +56,7 @@ export class UserProfileComponent implements OnInit {
             this.router.navigate(['/404']);
             break;
           default:
-            alert(err.message);
+            this.messageService.error(err.message);
         }
       },
     });

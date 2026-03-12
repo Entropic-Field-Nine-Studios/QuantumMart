@@ -22,6 +22,7 @@ import { CityDirective } from '../shared/directives/city.directive';
 import { ZipCodeDirective } from '../shared/directives/zip-code.directive';
 import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.component';
 import { OrderStatus } from '../order/order-status.enum';
+import { MessageService } from '../shared/message/message.service';
 
 @Component({
   selector: 'app-checkout',
@@ -50,6 +51,7 @@ export class CheckoutComponent implements OnInit {
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
   private router = inject(Router);
+  private messageService = inject(MessageService);
 
   cartItems = signal<CartItem[] | null>(null);
 
@@ -77,7 +79,7 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.cartItemService.getCartItemsByUserId(this.authService.userId!).subscribe({
       next: (items) => this.cartItems.set(items),
-      error: (err: HttpErrorResponse) => alert(err.message),
+      error: (err: HttpErrorResponse) => this.messageService.error(err.message),
     });
   }
 
@@ -118,7 +120,7 @@ export class CheckoutComponent implements OnInit {
     const currentItems = this.cartItems();
 
     if (currentItems == null || currentItems.length == 0) {
-      alert('Error: Cannot place order (cart is empty).');
+      this.messageService.error('Cannot place order (cart is empty).');
       return;
     }
 
@@ -140,16 +142,16 @@ export class CheckoutComponent implements OnInit {
 
       this.orderService.createOrder(orderInfo).subscribe({
         next: () => {
-          alert(`You have successfully placed your order!`);
+          this.messageService.success('You have successfully placed your order!');
           this.router.navigate(['/home']);
         },
         error: (err: HttpErrorResponse) => {
           switch (err.status) {
             case 403:
-              alert('Error: Cannot place order (insufficient funds).');
+              this.messageService.error('Cannot place order (insufficient funds).');
               break;
             default:
-              alert(err.message);
+              this.messageService.error(err.message);
           }
         },
       });

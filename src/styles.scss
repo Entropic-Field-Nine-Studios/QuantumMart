@@ -42,4 +42,27 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.snackbar-success {
+  .mdc-snackbar__surface {
+    background: #2e7d32 !important;
+    color: white !important;
+  }
+
+  .mdc-snackbar__actions .mdc-button {
+    color: #c8e6c9 !important;
+  }
+}
+
+.snackbar-error {
+  .mdc-snackbar__surface {
+    background: #d32f2f !important;
+    color: white !important;
+  }
+
+  .mdc-snackbar__actions .mdc-button {
+    color: #ffebee !important;
+  }
+}
+
 /* You can add global styles to this file, and also import other style files */

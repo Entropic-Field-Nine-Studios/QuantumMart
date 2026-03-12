@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatAnchor } from '@angular/material/button';
 import { ConfirmDialogService } from '../shared/dialogs/confirm-dialog.service';
+import { MessageService } from '../shared/message/message.service';
 
 @Component({
   selector: 'app-cart',
@@ -24,6 +25,7 @@ export class CartComponent {
   private readonly userStore = inject(UserStore);
   private readonly router = inject(Router);
   private readonly confirmService = inject(ConfirmDialogService);
+  private readonly messageService = inject(MessageService);
 
   constructor() {
     effect(() => {
@@ -34,13 +36,19 @@ export class CartComponent {
   }
 
   removeCartItem(listing: ItemListing) {
-    this.cartItemService.removeItemFromCart(this.user!.id, listing.id!).subscribe({
-      next: () => {
-        alert(`${listing.title} was removed.`);
-        this.loadCart();
-      },
-      error: (err: HttpErrorResponse) => alert(err.message),
-    });
+    this.confirmService
+      .confirm(`Are you sure you want to remove ${listing.title} from your cart?`)
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.cartItemService.removeItemFromCart(this.user!.id, listing.id!).subscribe({
+            next: () => {
+              this.messageService.info(`${listing.title} was removed.`);
+              this.loadCart();
+            },
+            error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+          });
+        }
+      });
   }
 
   clearCart() {
@@ -50,10 +58,10 @@ export class CartComponent {
         if (confirmed) {
           this.cartItemService.clearCart(this.user!.id).subscribe({
             next: () => {
-              alert('Your cart was cleared.');
+              this.messageService.info('Your cart was cleared.');
               this.loadCart();
             },
-            error: (err: HttpErrorResponse) => alert(err.message),
+            error: (err: HttpErrorResponse) => this.messageService.error(err.message),
           });
         }
       });
