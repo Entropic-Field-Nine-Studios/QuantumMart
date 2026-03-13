@@ -96,7 +96,7 @@ jobs:
           version=${{ needs.release.outputs.version }}
 
           # Get previous tag
-          prev=$(git tag --sort=version:refname | tail -n 2 | head -n 1)
+          prev=$(gh release list --limit 2 --json tagName --jq '.[1].tagName')
 
           # Get previous release date
           prev_date=$(gh release view "$prev" --json publishedAt --jq '.publishedAt')
