@@ -88,6 +88,8 @@ jobs:
             --description "Issues shipped in version ${{ needs.release.outputs.version }}" \
 
           echo "label=$label" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Attach label to closed issues
         run: |
           version=${{ needs.release.outputs.version }}
