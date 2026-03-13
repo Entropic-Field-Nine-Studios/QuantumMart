@@ -85,7 +85,7 @@ jobs:
 
           gh label create "$label" \
             --color "#a9a68d" \
-            --description "Issues shipped in version ${{ needs.release.outputs.version }}" \
+            --description "Issues fixed in version ${{ needs.release.outputs.version }}" \
             || echo "Label already exists"
 
           echo "label=$label" >> $GITHUB_OUTPUT
