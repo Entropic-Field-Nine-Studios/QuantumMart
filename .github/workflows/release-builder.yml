@@ -68,7 +68,6 @@ jobs:
           gh label create "$label" \
             --color "#a9a68d" \
             --description "Issues shipped in version $version" \
-            || echo "Label already exists."
 
           # Get all PRs included in this release
           prs=$(gh release view "v$version" --json pullRequests --jq '.pullRequests[].number')
