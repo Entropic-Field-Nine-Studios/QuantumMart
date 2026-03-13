@@ -60,6 +60,30 @@ jobs:
         run: |
           cd dist/QuantumMart/browser
           zip -r ../../../QuantumMart-v${{ steps.newTag.outputs.version }}.zip .
+      - name: Label issues included in release
+        run: |
+          version="${{ steps.newTag.outputs.version }}"
+          label="released:$version"
+
+          gh label create "$label" \
+            --color "#a9a68d" \
+            --description "Issues shipped in version $version" \
+            || echo "Label already exists."
+
+          # Get all PRs included in this release
+          prs=$(gh release view "v$version" --json pullRequests --jq '.pullRequests[].number')
+
+          for pr in $prs; do
+            echo "Processing PR #$pr"
+
+            # Get linked issues for this PR
+            issues=$(gh pr view "$pr" --json closingIssuesReferences --jq '.closingIssuesReferences[].number')
+
+            for issue in $issues; do
+              echo "Labeling issue #$issue"
+              gh issue edit "$issue" --add-label "$label"
+            done
+          done
       - name: Upload new release
         run: |
           gh release create v${{ steps.newTag.outputs.version }} \
