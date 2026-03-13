@@ -79,7 +79,7 @@ jobs:
           # Find issues closed since previous release
           issues=$(gh issue list \
             --state closed \
-            --search "closed:>=$prev_date" \
+            --search "closed:>$prev_date" \
             --json number \
             --jq '.[].number')
 
