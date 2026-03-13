@@ -76,9 +76,6 @@ jobs:
           # Get previous release date
           prev_date=$(gh release view "$prev" --json publishedAt --jq '.publishedAt')
 
-          echo "Previous release: $prev"
-          echo "Previous release date: $prev_date"
-
           # Find issues closed since previous release
           issues=$(gh issue list \
             --state closed \
