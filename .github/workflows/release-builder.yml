@@ -102,19 +102,15 @@ jobs:
           prev_date=$(gh release view "$prev" --json publishedAt --jq '.publishedAt')
           curr_date=$(gh release view "v$version" --json publishedAt --jq '.publishedAt')
 
-          echo "Previous release: $prev @ $prev_date"
-          echo "Current release: v$version @ $curr_date"
-
           # Fetch closed issues and filter by timestamp window
           issues=$(gh api repos/$GITHUB_REPOSITORY/issues \
+            --method GET \
             --paginate \
             -F state=closed \
             -q '.[] 
               | select(.closed_at != null) 
               | select(.closed_at > "'"$prev_date"'" and .closed_at <= "'"$curr_date"'") 
               | .number')
-
-          echo label is ${{ steps.newLabel.outputs.label }}
 
           for issue in $issues; do
             echo "Labeling issue #$issue"
