@@ -8,6 +8,8 @@ on: workflow_dispatch
 jobs:
   release:
     name: Create new major release
+    outputs:
+      version: ${{ steps.newTag.outputs.version }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -37,5 +39,52 @@ jobs:
           gh release create v${{ steps.newTag.outputs.version }} \
             --generate-notes \
             QuantumMart-v${{ steps.newTag.outputs.version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  label:
+    name: Add release label to issues
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Create new label "released:v${{ needs.release.outputs.version }}"
+        id: newLabel
+        run: |
+          label="released:v${{ needs.release.outputs.version }}"
+
+          gh label create "$label" \
+            --color "#a9a68d" \
+            --description "Issues fixed in version ${{ needs.release.outputs.version }}" \
+            || echo "Label already exists"
+
+          echo "label=$label" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Attach label to closed issues
+        run: |
+          version=${{ needs.release.outputs.version }}
+
+          # Get previous tag
+          prev=$(gh release list --limit 2 --json tagName --jq '.[1].tagName')
+
+          # Get previous release date
+          prev_date=$(gh release view "$prev" --json publishedAt --jq '.publishedAt')
+          curr_date=$(gh release view "v$version" --json publishedAt --jq '.publishedAt')
+
+          # Fetch closed issues and filter by timestamp window
+          issues=$(gh api repos/$GITHUB_REPOSITORY/issues \
+            --method GET \
+            --paginate \
+            -F state=closed \
+            -q '.[] 
+              | select(.closed_at != null) 
+              | select(.closed_at > "'"$prev_date"'" and .closed_at <= "'"$curr_date"'") 
+              | .number')
+
+          for issue in $issues; do
+            echo "Labeling issue #$issue"
+            gh issue edit "$issue" --add-label "${{ steps.newLabel.outputs.label }}"
+          done
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
