@@ -84,6 +84,8 @@ jobs:
               gh issue edit "$issue" --add-label "$label"
             done
           done
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload new release
         run: |
           gh release create v${{ steps.newTag.outputs.version }} \
