@@ -64,7 +64,7 @@ jobs:
       - name: Label issues included in release
         run: |
           version="${{ steps.newTag.outputs.version }}"
-          label="released:$version"
+          label="released:v$version"
 
           gh label create "$label" \
             --color "#a9a68d" \
