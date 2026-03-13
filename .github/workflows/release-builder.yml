@@ -18,6 +18,8 @@ on:
 jobs:
   release:
     name: Create new ${{ github.event.inputs.bump }} release
+    outputs:
+      version: ${{ steps.newTag.outputs.version }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -61,14 +63,34 @@ jobs:
         run: |
           cd dist/QuantumMart/browser
           zip -r ../../../QuantumMart-v${{ steps.newTag.outputs.version }}.zip .
-      - name: Label issues included in release
+      - name: Upload new release
         run: |
-          version="${{ steps.newTag.outputs.version }}"
-          label="released:v$version"
+          gh release create v${{ steps.newTag.outputs.version }} \
+            --generate-notes \
+            --prerelease=${{ steps.newTag.outputs.prerelease }} \
+            QuantumMart-v${{ steps.newTag.outputs.version }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  label:
+    name: Add release label to issues
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Create new label "released:v${{ needs.release.outputs.version }}"
+        id: newLabel
+        run: |
+          label="released:v${{ needs.release.outputs.version }}"
 
           gh label create "$label" \
             --color "#a9a68d" \
-            --description "Issues shipped in version $version" \
+            --description "Issues shipped in version ${{ needs.release.outputs.version }}" \
+
+          echo "label=$label" >> $GITHUB_OUTPUT
+      - name: Attach label to closed issues
+        run: |
+          version=${{ needs.release.outputs.version }}
 
           # Get previous tag
           prev=$(git tag --sort=version:refname | tail -n 2 | head -n 1)
@@ -91,15 +113,7 @@ jobs:
 
           for issue in $issues; do
             echo "Labeling issue #$issue"
-            gh issue edit "$issue" --add-label "$label"
+            gh issue edit "$issue" --add-label "${{ steps.newLabel.outputs.label }}"
           done
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload new release
-        run: |
-          gh release create v${{ steps.newTag.outputs.version }} \
-            --generate-notes \
-            --prerelease=${{ steps.newTag.outputs.prerelease }} \
-            QuantumMart-v${{ steps.newTag.outputs.version }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
