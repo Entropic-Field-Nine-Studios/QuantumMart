@@ -13,4 +13,5 @@ export interface OrderItem {
   listingDescription?: string | null;
   listingImageUrl?: string | null;
   shippedOn?: string | null;
+  completedOn?: string | null;
 }
