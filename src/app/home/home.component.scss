@@ -13,5 +13,11 @@
 
 .listings-container {
   padding: 2%;
-  padding-bottom: 200px;
+}
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 50px;
+  padding: 16px;
 }

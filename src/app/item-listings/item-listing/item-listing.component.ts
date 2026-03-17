@@ -2,20 +2,24 @@ import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ItemListing } from '../item-listing.model';
-import { MatAnchor } from '@angular/material/button';
+import { MatFabButton } from '@angular/material/button';
 import { CartItemService } from '../../cart/cart-item.service';
 import { AuthService } from '../../auth/auth.service';
 import { MessageService } from '../../shared/message/message.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-item-listing',
-  imports: [MatCardModule, CurrencyPipe, MatAnchor],
+  imports: [MatCardModule, CurrencyPipe, MatIcon, MatTooltip, MatFabButton],
   templateUrl: './item-listing.component.html',
   styleUrl: './item-listing.component.scss',
 })
 export class ItemListingComponent implements OnInit, OnChanges {
   @Input({ required: true }) listing!: ItemListing;
+  @Input() showUsername = true;
 
   loggedIn = false;
   isListingCurrentUser = false;
@@ -23,6 +27,7 @@ export class ItemListingComponent implements OnInit, OnChanges {
   private readonly cartService = inject(CartItemService);
   private readonly authService = inject(AuthService);
   private readonly messageService = inject(MessageService);
+  private readonly router = inject(Router);
 
   ngOnInit(): void {
     this.loggedIn = this.authService.isLoggedIn;
@@ -32,6 +37,10 @@ export class ItemListingComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     this.loggedIn = this.authService.isLoggedIn;
     this.isListingCurrentUser = this.authService.userId === this.listing.sellerId;
+  }
+
+  navigateToUser() {
+    this.router.navigate([`/profile/${this.listing.sellerId}`]);
   }
 
   addToCart(): void {

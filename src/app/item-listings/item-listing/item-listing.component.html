@@ -1,15 +1,19 @@
-<mat-card>
-  <mat-card-header>
-    <div mat-card-avatar class="avatar-img"></div>
-    <mat-card-title>{{ listing.title }}</mat-card-title>
-    <mat-card-subtitle>{{ listing.sellerUsername }}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-footer>
-    <h2>{{ listing.price | currency }}</h2>
-  </mat-card-footer>
+<div class="item-card">
+  <div class="image-wrapper">
+    <img [src]="listing.imageUrl || 'assets/no_image.jpg'" [alt]="listing.title" />
+  </div>
+
+  <div class="info">
+    <h3 class="title">{{ listing.title }}</h3>
+    <p class="price">{{ listing.price | currency }}</p>
+    @if (showUsername) {
+      <button class="user-link" (click)="navigateToUser()">{{ listing.sellerUsername }}</button>
+    }
+  </div>
+
   @if (loggedIn && !isListingCurrentUser) {
-    <mat-card-actions>
-      <button matButton="filled" (click)="addToCart()">Add to Cart</button>
-    </mat-card-actions>
+    <button class="cart-button" matTooltip="Add to Cart" mat-fab (click)="addToCart()">
+      <mat-icon>add_shopping_cart</mat-icon>
+    </button>
   }
-</mat-card>
+</div>

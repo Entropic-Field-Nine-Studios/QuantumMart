@@ -1,0 +1,5 @@
+<div class="item-grid">
+  @for (item of listings; track $index) {
+    <app-item-listing [showUsername]="showUsernames" [listing]="item"></app-item-listing>
+  }
+</div>

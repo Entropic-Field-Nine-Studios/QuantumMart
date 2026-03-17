@@ -12,19 +12,15 @@
   } @else if (paginatorListings.length === 0) {
     <p class="center-align">There are no listings yet.</p>
   } @else {
-    <mat-grid-list cols="4" rowHeight="2:1">
-      @for (item of paginatorListings.pagedItems(); track $index) {
-        <mat-grid-tile>
-          <app-item-listing [listing]="item"></app-item-listing>
-        </mat-grid-tile>
-      }
-    </mat-grid-list>
+    <app-item-listing-list [listings]="paginatorListings.pagedItems()"></app-item-listing-list>
+
+    <br />
 
     <mat-paginator
       [length]="paginatorListings.length"
       [pageIndex]="paginatorListings.pageIndex"
       [pageSize]="paginatorListings.pageSize"
-      [pageSizeOptions]="[5, 20, 50]"
+      [pageSizeOptions]="[20, 50]"
       (page)="paginatorListings.onPage($event)"
     ></mat-paginator>
   }

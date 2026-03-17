@@ -2,7 +2,6 @@ import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { ItemListingComponent } from '../item-listings/item-listing/item-listing.component';
 import { AuthService } from '../auth/auth.service';
 import { MatFabButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,11 +15,11 @@ import { User } from '../users/user.model';
 import { Paginator } from '../shared/utils/paginator';
 import { MatPaginator } from '@angular/material/paginator';
 import { finalize } from 'rxjs';
+import { ItemListingListComponent } from '../item-listings/item-listing-list/item-listing-list.component';
 
 @Component({
   selector: 'app-home',
   imports: [
-    ItemListingComponent,
     MatGridListModule,
     MatFabButton,
     MatIconModule,
@@ -29,6 +28,7 @@ import { finalize } from 'rxjs';
     MatSlideToggleModule,
     FormsModule,
     MatPaginator,
+    ItemListingListComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -52,6 +52,7 @@ export class HomeComponent implements OnInit {
   );
 
   ngOnInit(): void {
+    this.paginatorListings.pageSize = 20;
     this.itemListingService
       .getAllListings()
       .pipe(finalize(() => this.loadingListings.set(false)))

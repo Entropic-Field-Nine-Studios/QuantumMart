@@ -6,12 +6,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { ItemListingComponent } from '../item-listings/item-listing/item-listing.component';
 import { DateService } from '../date/date.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { MessageService } from '../shared/message/message.service';
+import { ItemListingListComponent } from '../item-listings/item-listing-list/item-listing-list.component';
 
 @Component({
   imports: [
@@ -20,9 +20,8 @@ import { MessageService } from '../shared/message/message.service';
     MatCardHeader,
     MatCardAvatar,
     MatGridListModule,
-    ItemListingComponent,
     MatProgressSpinner,
-    ItemListingComponent,
+    ItemListingListComponent,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
