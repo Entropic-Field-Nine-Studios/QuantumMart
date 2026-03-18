@@ -1,0 +1,24 @@
+<div>
+  <h1>Past purchases</h1>
+
+  @if (paginatorOrders.length === 0) {
+    <p>Nothing to show.</p>
+  } @else {
+    <mat-accordion>
+      <div>
+        @for (item of paginatorOrders.pagedItems(); track $index) {
+          <app-order [order]="item" [forSeller]="false"></app-order>
+          <div class="panel"></div>
+        }
+      </div>
+    </mat-accordion>
+
+    <mat-paginator
+      [length]="paginatorOrders.length"
+      [pageIndex]="paginatorOrders.pageIndex"
+      [pageSize]="paginatorOrders.pageSize"
+      [pageSizeOptions]="[10, 20]"
+      (page)="paginatorOrders.onPage($event)"
+    ></mat-paginator>
+  }
+</div>

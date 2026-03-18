@@ -14,6 +14,7 @@ import { authGuard } from './auth/auth.guard';
 import { CreateItemListingComponent } from './create-item-listing/create-item-listing.component';
 import { createItemListingGuard } from './create-item-listing/create-item-listing.guard';
 import { CartComponent } from './cart/cart.component';
+import { PurchasesComponent } from './purchases/purchases.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -33,6 +34,11 @@ export const routes: Routes = [
   {
     path: 'cart',
     component: CartComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'purchases',
+    component: PurchasesComponent,
     canActivate: [authGuard],
   },
   { path: '**', component: NotFoundComponent }, // Please keep this route at the bottom
