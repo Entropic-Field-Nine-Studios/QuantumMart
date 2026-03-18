@@ -30,7 +30,7 @@ export class ItemListingService {
    * @returns List of item listings being sold by the user.
    */
   getAllListingsByUsername(username: string): Observable<ItemListing[]> {
-    return this.http.get<ItemListing[]>(`${this.baseUrl}/seller=${username}`);
+    return this.http.get<ItemListing[]>(`${this.baseUrl}/seller/${username}`);
   }
 
   /**

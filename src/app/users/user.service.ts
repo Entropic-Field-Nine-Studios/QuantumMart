@@ -57,6 +57,6 @@ export class UserService {
    * @returns User entity associated with the requested username.
    */
   getUserByUsername(username: string): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/username=${username}`);
+    return this.http.get<User>(`${this.baseUrl}/username/${username}`);
   }
 }
