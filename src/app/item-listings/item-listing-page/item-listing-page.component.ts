@@ -14,10 +14,10 @@ import { MatTooltip } from '@angular/material/tooltip';
 @Component({
   selector: 'app-item-listing',
   imports: [MatCardModule, CurrencyPipe, MatIcon, MatTooltip, MatFabButton],
-  templateUrl: './item-listing.component.html',
-  styleUrl: './item-listing.component.scss',
+  templateUrl: './item-listing-page.component.html',
+  styleUrl: './item-listing-page.component.scss',
 })
-export class ItemListingComponent implements OnInit, OnChanges {
+export class ItemListingPageComponent implements OnInit, OnChanges {
   @Input({ required: true }) listing!: ItemListing;
   @Input() showUsername = true;
 
@@ -41,10 +41,6 @@ export class ItemListingComponent implements OnInit, OnChanges {
 
   navigateToUser() {
     this.router.navigate([`/profile/${this.listing.sellerId}`]);
-  }
-
-  navigateToItem() {
-    this.router.navigate([`/listing/${this.listing.id}`]);
   }
 
   addToCart(): void {

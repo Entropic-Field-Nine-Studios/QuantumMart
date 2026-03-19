@@ -15,6 +15,7 @@ import { CreateItemListingComponent } from './create-item-listing/create-item-li
 import { createItemListingGuard } from './create-item-listing/create-item-listing.guard';
 import { CartComponent } from './cart/cart.component';
 import { PurchasesComponent } from './purchases/purchases.component';
+import { ItemListingPageComponent } from './item-listings/item-listing-page/item-listing-page.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -23,6 +24,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [userRedirectGuard] },
   { path: 'register', component: RegistrationComponent, canActivate: [userRedirectGuard] },
   { path: 'profile/:userid', component: UserProfileComponent },
+  { path: 'listing/:listid', component: ItemListingPageComponent },
   { path: 'checkout', component: CheckoutComponent, canActivate: [checkoutGuard] },
   { path: 'dashboard', component: SellerDashboardComponent, canActivate: [authGuard] },
   {
