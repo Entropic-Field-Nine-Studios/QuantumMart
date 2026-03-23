@@ -45,7 +45,7 @@ describe('ItemListingService', () => {
     req.flush(mockResponse);
   });
 
-  it('should GET /seller=:username to retrieve seller listings', () => {
+  it('should GET /seller/:username to retrieve seller listings', () => {
     const sellerUsername = 'seller';
     const mockResponse = [listing1];
 
@@ -53,7 +53,7 @@ describe('ItemListingService', () => {
       expect(res).to.deep.equal(mockResponse);
     });
 
-    const req = httpMock.expectOne(`${service.baseUrl}/seller=${sellerUsername}`);
+    const req = httpMock.expectOne(`${service.baseUrl}/seller/${sellerUsername}`);
     expect(req.request.method).to.equal('GET');
 
     req.flush(mockResponse);
