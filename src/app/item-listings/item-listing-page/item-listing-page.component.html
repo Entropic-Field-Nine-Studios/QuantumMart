@@ -1,5 +1,37 @@
-@if (listing === null) {
- test
+@if (listing() === null) {
+  <mat-spinner></mat-spinner>
 } @else {
- test2
+  <div mat-card-avatar class="image-wrapper"><img src="{{ listing()!.imageUrl }}" /></div>
+  <div>
+    <h3>{{ listing()!.title }}</h3>
+  </div>
+  <div>
+    {{ listing()!.description }}
+  </div>
+  <div>
+    <h3>{{ listing()!.price | currency }}</h3>
+  </div>
+  <div>
+    <button class="user-link" (click)="navigateToUser()">{{ listing()!.sellerUsername }}</button>
+    @if (loggedIn && !isListingCurrentUser) {
+      <button class="cart-button" matTooltip="Add to Cart" mat-fab (click)="addToCart()">
+        <mat-icon>add_shopping_cart</mat-icon>
+      </button>
+    }
+  </div>
+}
+@if (loggedIn) {
+  <div class="floating-btn-container">
+    <button matFab matTooltip="View cart" (click)="openCartDialog()">
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+    <button
+      matFab
+      matTooltip="Create listing"
+      class="create-listing-btn"
+      (click)="openAddListingDialog()"
+    >
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
 }
