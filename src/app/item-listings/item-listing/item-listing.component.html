@@ -1,6 +1,10 @@
 <div class="item-card">
   <div class="image-wrapper">
-    <img [src]="listing.imageUrl || 'assets/no_image.jpg'" [alt]="listing.title" (click)="navigateToItem()"/>
+    <img
+      [src]="listing.imageUrl || 'assets/no_image.jpg'"
+      [alt]="listing.title"
+      (click)="navigateToItem()"
+    />
   </div>
 
   <div class="info">

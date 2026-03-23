@@ -1,7 +1,9 @@
 @if (listing() === null) {
   <mat-spinner></mat-spinner>
 } @else {
-  <div mat-card-avatar class="image-wrapper"><img src="{{ listing()!.imageUrl }}" /></div>
+  <div mat-card-avatar class="image-wrapper">
+    <img src="{{ listing()!.imageUrl }}" alt="Item image" />
+  </div>
   <div>
     <h3>{{ listing()!.title }}</h3>
   </div>
@@ -13,12 +15,12 @@
   </div>
   <div>
     <button class="user-link" (click)="navigateToUser()">{{ listing()!.sellerUsername }}</button>
-    @if (loggedIn && !isListingCurrentUser) {
-      <button class="cart-button" matTooltip="Add to Cart" mat-fab (click)="addToCart()">
-        <mat-icon>add_shopping_cart</mat-icon>
-      </button>
-    }
   </div>
+  @if (loggedIn && !isListingCurrentUser) {
+    <button class="cart-button" matTooltip="Add to Cart" mat-fab (click)="addToCart()">
+      <mat-icon>add_shopping_cart</mat-icon>
+    </button>
+  }
 }
 @if (loggedIn) {
   <div class="floating-btn-container">

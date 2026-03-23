@@ -1,9 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ItemListing } from '../item-listing.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DateService } from '../../date/date.service';
 import { User } from '../../users/user.model';
 import { UserService } from '../../users/user.service';
 import { MessageService } from '../../shared/message/message.service';
@@ -38,14 +35,12 @@ import { MatFabButton } from '@angular/material/button';
 export class ItemListingPageComponent implements OnInit {
   private userService = inject(UserService);
   private itemListingService = inject(ItemListingService);
-  private dateService = inject(DateService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private messageService = inject(MessageService);
   private authService = inject(AuthService);
   private cartService = inject(CartItemService);
   user = signal<User | null>(null);
-  sDateCreated!: string;
   listing = signal<ItemListing | null>(null);
   isListingCurrentUser = false;
   loggedIn = false;
