@@ -30,3 +30,16 @@
   justify-content: right;
   padding-right: 20px;
 }
+
+.banner-img {
+  height: 128px;
+  width: fit-content;
+  display: flex;
+  padding: 8px;
+  cursor: pointer;
+
+  img {
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+}
