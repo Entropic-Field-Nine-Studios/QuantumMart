@@ -1,5 +1,7 @@
 <main>
-  <h1>Quantum Mart</h1>
+  <div class="banner-img" [routerLink]="['/home']">
+    <img src="assets/main_banner.png" alt="Quantum Mart Logo" draggable="false" />
+  </div>
   @if (showUserCard()) {
     @if (getUser() !== null) {
       <mat-card class="user-card">
