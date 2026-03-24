@@ -8,8 +8,8 @@ export class UserStore {
   readonly user = computed(() => this._user());
 
   private readonly _user = signal<User | null>(null);
-  private userService = inject(UserService);
-  private authService = inject(AuthService);
+  private readonly userService = inject(UserService);
+  private readonly authService = inject(AuthService);
 
   /**
    * Initializes the user store using the token in local storage.
