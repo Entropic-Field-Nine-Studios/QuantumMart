@@ -5,12 +5,13 @@ import { LoginResponse } from './login-response.model';
 import { jwtDecode } from 'jwt-decode';
 import { JwtPayload } from './jwt-payload.model';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly baseUrl = 'http://localhost:8080/api/auth';
+  private readonly baseUrl = `${environment.apiUrl}/auth`;
 
   private http = inject(HttpClient);
   private router = inject(Router);

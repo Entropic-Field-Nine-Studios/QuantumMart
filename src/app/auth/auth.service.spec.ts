@@ -4,6 +4,7 @@ import { provideHttpClientTesting, HttpTestingController } from '@angular/common
 import { Router } from '@angular/router';
 import { expect } from 'chai';
 import { spy } from 'sinon';
+import { environment } from '../../environments/environment';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -55,7 +56,7 @@ describe('AuthService', () => {
       expect(res).to.deep.equal(mockResponse);
     });
 
-    const req = httpMock.expectOne('http://localhost:8080/api/auth/login');
+    const req = httpMock.expectOne(`${environment.apiUrl}/auth/login`);
     expect(req.request.method).to.equal('POST');
     expect(req.request.body).to.deep.equal({ username: 'matt', rawPassword: 'pw' });
 

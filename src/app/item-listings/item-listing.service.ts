@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { ItemListing } from './item-listing.model';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemListingService {
-  readonly baseUrl = 'http://localhost:8080/api/item-listings';
+  readonly baseUrl = `${environment.apiUrl}/item-listings`;
 
   private http = inject(HttpClient);
 

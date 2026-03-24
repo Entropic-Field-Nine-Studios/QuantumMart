@@ -3,12 +3,13 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CartItem } from './cart-item.model';
 import { ItemListing } from '../item-listings/item-listing.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartItemService {
-  readonly baseUrl = 'http://localhost:8080/api/cart-items';
+  readonly baseUrl = `${environment.apiUrl}/cart-items`;
 
   private http = inject(HttpClient);
 
