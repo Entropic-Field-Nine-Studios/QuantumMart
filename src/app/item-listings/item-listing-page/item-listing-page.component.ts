@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ItemListing } from '../item-listing.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '../../users/user.model';
 import { UserService } from '../../users/user.service';
 import { MessageService } from '../../shared/message/message.service';
 import { ItemListingService } from '../item-listing.service';
@@ -18,13 +17,9 @@ import { MatFabButton } from '@angular/material/button';
 
 @Component({
   imports: [
-    MatCard,
-    MatCardTitle,
-    MatCardHeader,
     MatCardAvatar,
     MatGridListModule,
     MatProgressSpinner,
-    ItemListingListComponent,
     CurrencyPipe,
     MatIcon,
     MatFabButton,
@@ -33,14 +28,12 @@ import { MatFabButton } from '@angular/material/button';
   styleUrl: './item-listing-page.component.scss',
 })
 export class ItemListingPageComponent implements OnInit {
-  private userService = inject(UserService);
   private itemListingService = inject(ItemListingService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private messageService = inject(MessageService);
   private authService = inject(AuthService);
   private cartService = inject(CartItemService);
-  user = signal<User | null>(null);
   listing = signal<ItemListing | null>(null);
   isListingCurrentUser = false;
   loggedIn = false;
@@ -53,9 +46,6 @@ export class ItemListingPageComponent implements OnInit {
           this.listing.set(listing1);
           this.isListingCurrentUser = this.authService.userId === listing1.sellerId;
           this.loggedIn = this.authService.isLoggedIn;
-          this.userService.getUserById(listing1.sellerId ?? '').subscribe({
-            next: (data) => this.user.set(data),
-          });
         },
         error: (err: HttpErrorResponse) => {
           switch (err.status) {
@@ -68,11 +58,6 @@ export class ItemListingPageComponent implements OnInit {
           }
         },
       });
-  }
-
-  ngOnChanges(): void {
-    this.loggedIn = this.authService.isLoggedIn;
-    this.isListingCurrentUser = this.authService.userId === this.listing()!.sellerId;
   }
 
   addToCart(): void {
@@ -93,5 +78,9 @@ export class ItemListingPageComponent implements OnInit {
 
   navigateToUser() {
     this.router.navigate([`/profile/${this.listing()!.sellerId}`]);
+  }
+
+  get fullListing(): ItemListing | null {
+    return this.listing();
   }
 }
