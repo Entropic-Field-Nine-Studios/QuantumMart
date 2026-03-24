@@ -1,31 +1,34 @@
 <main>
-  <div class="banner-img" [routerLink]="['/home']">
-    <img src="assets/main_banner.png" alt="Quantum Mart Logo" draggable="false" />
-  </div>
-  @if (showUserCard()) {
-    @if (getUser() !== null) {
-      <mat-card class="user-card">
-        <mat-card-header>
-          <button mat-card-avatar class="avatar-btn clickable" (click)="profile()">
-            <img src="assets/pfp/msn-avatar.png" class="avatar-img" alt="My Profile" />
-          </button>
-          <mat-card-title class="clickable" (click)="profile()">{{
-            getUser()!.username
-          }}</mat-card-title>
-          <mat-card-title class="clickable" (click)="profile()"
-            >Balance: {{ getUser()!.balance | currency }}</mat-card-title
-          >
-          <mat-card-subtitle>
-            <button matButton="filled" class="clickable" (click)="logout()">Logout</button>
-          </mat-card-subtitle>
-        </mat-card-header>
-      </mat-card>
-    } @else {
-      <div class="login-register">
-        <h2><a routerLink="/login">Login</a> or <a routerLink="/register">Register</a></h2>
-      </div>
+  <div class="top-header">
+    <div class="banner-img" [routerLink]="['/home']">
+      <img src="assets/main_banner.png" alt="Quantum Mart Logo" draggable="false" />
+    </div>
+
+    @if (showUserCard()) {
+      @if (getUser() !== null) {
+        <mat-card class="user-card">
+          <mat-card-header>
+            <button mat-card-avatar class="avatar-btn clickable" (click)="profile()">
+              <img src="assets/pfp/msn-avatar.png" class="avatar-img" alt="My Profile" />
+            </button>
+            <mat-card-title class="clickable" (click)="profile()">{{
+              getUser()!.username
+            }}</mat-card-title>
+            <mat-card-title class="clickable" (click)="profile()"
+              >Balance: {{ getUser()!.balance | currency }}</mat-card-title
+            >
+            <mat-card-subtitle>
+              <button matButton="filled" class="clickable" (click)="logout()">Logout</button>
+            </mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      } @else {
+        <div class="login-register">
+          <h2><a routerLink="/login">Login</a> or <a routerLink="/register">Register</a></h2>
+        </div>
+      }
     }
-  }
+  </div>
 
   @if (showNavTabs()) {
     <nav mat-tab-nav-bar [tabPanel]="tabPanel">
