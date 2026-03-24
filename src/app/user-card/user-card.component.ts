@@ -1,33 +1,16 @@
-import { Component, inject, Input } from '@angular/core';
-import {
-  MatCardHeader,
-  MatCard,
-  MatCardSubtitle,
-  MatCardTitle,
-  MatCardAvatar,
-} from '@angular/material/card';
+import { Component, inject } from '@angular/core';
 import { User } from '../users/user.model';
 import { UserStore } from '../core/stores/user.store';
 import { MessageService } from '../shared/message/message.service';
 import { Router } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
-import { MatIconButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { MatTooltip } from '@angular/material/tooltip';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
   selector: 'app-user-card',
-  imports: [
-    MatCardHeader,
-    MatCard,
-    MatCardSubtitle,
-    MatCardTitle,
-    CurrencyPipe,
-    MatCardAvatar,
-    MatIcon,
-    MatIconButton,
-    MatTooltip,
-  ],
+  imports: [CurrencyPipe, MatButtonModule, MatIcon, MatMenu, MatMenuItem, MatMenuTrigger],
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.scss',
 })

@@ -1,14 +1,51 @@
+.user-card {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 15px;
+  width: 300px;
+  height: 70px;
+
+  border: 3px solid blue;
+  border-radius: 12px;
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.25),
+    0 1px 2px rgba(255, 255, 255, 0.1) inset;
+}
+
 .avatar-btn {
   border: none;
   background: none;
+  vertical-align: middle;
+
+  img {
+    width: 48px;
+    height: 48px;
+  }
 }
 
-.avatar-img {
-  width: inherit;
-  height: inherit;
-  object-fit: cover;
+.username {
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding-bottom: 6px;
+}
+
+.currency {
+  font-size: 0.95rem;
+  font-weight: 400;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.no-text-cursor {
+  cursor: default;
 }
 
 .clickable {
   cursor: pointer;
+}
+
+.sub-menu {
+  display: flex;
+  margin-left: auto;
 }
