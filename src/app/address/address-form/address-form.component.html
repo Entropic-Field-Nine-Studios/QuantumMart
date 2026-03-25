@@ -1,5 +1,5 @@
 <div>
-  <form [formGroup]="addressForm">
+  <form [formGroup]="formGroup">
     <mat-form-field>
       <mat-label>First Name</mat-label>
       <input matInput appPersonName maxlength="100" formControlName="firstName" />
@@ -65,8 +65,8 @@
 
     <br />
 
-    <button matButton="filled" [disabled]="!addressForm.valid" (click)="onSubmit()">
-      {{ submitBtn }}
+    <button matButton="filled" [disabled]="!formGroup.valid" (click)="onSubmit()">
+      {{ submitText }}
     </button>
   </form>
 </div>

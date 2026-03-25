@@ -6,5 +6,8 @@
     <span>Add a new address</span>
   </h2>
 
-  <app-address-form (submitted)="createAddress($event)"></app-address-form>
+  <app-address-form
+    [formGroup]="addressForm"
+    (submitted)="createAddress($event)"
+  ></app-address-form>
 </div>

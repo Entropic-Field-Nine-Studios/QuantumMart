@@ -2,21 +2,32 @@
 <div class="checkout-layout">
   <section class="form-box">
     <mat-stepper [linear]="true" #stepper>
-      <mat-step>
+      <mat-step [stepControl]="addressForm">
+        <ng-template matStepLabel>Shipping Address</ng-template>
+
+        <h2>Shipping Address</h2>
+
         <app-address-form
+          [formGroup]="addressForm"
           [isCheckout]="true"
           submitBtn="Next"
           (submitted)="setAddress($event)"
         ></app-address-form>
       </mat-step>
 
-      <mat-step>
+      <mat-step [completed]="false">
         <ng-template matStepLabel>Review and Submit</ng-template>
+
         <h2>Review your shipping address</h2>
-        <h3>Ships to:</h3>
-        <p>{{ getFullName() }}</p>
-        <p>{{ getFullAddress() }}</p>
+
+        <div>
+          <h3>Ships to:</h3>
+          <p>{{ getFullName() }}</p>
+          <p>{{ getFullAddress() }}</p>
+        </div>
+
         <h3>Total: {{ getTotal() | currency }}</h3>
+
         <button matButton="filled" (click)="placeOrder()">Place Order</button>
       </mat-step>
     </mat-stepper>

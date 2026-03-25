@@ -20,6 +20,7 @@ import { User } from '../../users/user.model';
 import { MatAnchor } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { AddressForm } from './address-form.model';
+import { AddressUtil } from '../../shared/utils/address-util';
 
 @Component({
   selector: 'app-address-form',
@@ -53,34 +54,21 @@ export class AddressFormComponent {
   /**
    * Text for the submit button.
    */
-  @Input() submitBtn = 'Submit';
+  @Input() submitText = 'Submit';
+
+  @Input({ required: true }) formGroup!: FormGroup;
 
   /**
    * Emits when the user submits the form.
    */
   @Output() submitted = new EventEmitter<AddressForm>();
 
-  readonly addressForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    addressLine1: new FormControl('', Validators.required),
-    addressLine2: new FormControl<string | null>(null),
-    city: new FormControl('', Validators.required),
-    state: new FormControl('', Validators.required),
-    zip: new FormControl('', [Validators.required, Validators.pattern('[0-9]+(|-[0-9]{4})')]),
-    phone: new FormControl(''),
-    makePrimary: new FormControl(false),
-    shouldSave: new FormControl(false),
-  });
-
   private readonly userStore = inject(UserStore);
 
   onSubmit() {
-    if (this.addressForm.valid) {
-      const values = this.addressForm.value!;
+    if (this.formGroup.valid) {
+      const values = this.formGroup.value!;
       const addressForm: AddressForm = {
-        userId: this.user.id!,
-        makePrimary: values.makePrimary!,
         firstName: values.firstName!,
         lastName: values.lastName!,
         addressLine1: values.addressLine1!,
@@ -90,6 +78,7 @@ export class AddressFormComponent {
         zip: values.zip!,
         phone: values.phone!,
         shouldSave: values.shouldSave!,
+        makePrimary: values.makePrimary!,
       };
 
       this.submitted.emit(addressForm);

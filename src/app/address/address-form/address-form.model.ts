@@ -1,5 +1,4 @@
 export interface AddressForm {
-  userId: string; // This is set automatically.
   firstName: string;
   lastName: string;
   addressLine1: string;

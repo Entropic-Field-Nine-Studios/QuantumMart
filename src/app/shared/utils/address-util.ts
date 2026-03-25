@@ -1,3 +1,4 @@
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AddressForm } from '../../address/address-form/address-form.model';
 import { Address } from '../../address/address.model';
 
@@ -54,12 +55,12 @@ export class AddressUtil {
   /**
    * Takes values from an address form and returns it as an Address entity.
    *
-   * @param form
+   * @param userId User ID to associate the address with.
    * @returns
    */
-  static extractData(form: AddressForm): Address {
+  static extractData(form: AddressForm, userId: string): Address {
     const address: Address = {
-      userId: form.userId,
+      userId: userId,
       isPrimary: form.makePrimary,
       firstName: form.firstName,
       lastName: form.lastName,
@@ -72,5 +73,48 @@ export class AddressUtil {
     };
 
     return address;
+  }
+
+  /**
+   * Fills out form values using an existing address.
+   *
+   * @param address
+   * @param form
+   */
+  static autofillForm(address: Address, form: FormGroup) {
+    form.patchValue({
+      firstName: address.firstName,
+      lastName: address.lastName,
+      addressLine1: address.addressLine1,
+      addressLine2: address.addressLine2 ?? null,
+      city: address.city,
+      state: address.state,
+      zip: address.zip,
+      phone: address.phone,
+      makePrimary: false,
+      shouldSave: false,
+    });
+
+    form.markAllAsTouched();
+  }
+
+  /**
+   * Initializes a form group to be used with the address form component.
+   *
+   * @returns
+   */
+  static createAddressForm(): FormGroup {
+    return new FormGroup({
+      firstName: new FormControl('', Validators.required),
+      lastName: new FormControl('', Validators.required),
+      addressLine1: new FormControl('', Validators.required),
+      addressLine2: new FormControl<string | null>(null),
+      city: new FormControl('', Validators.required),
+      state: new FormControl('', Validators.required),
+      zip: new FormControl('', [Validators.required, Validators.pattern('[0-9]+(|-[0-9]{4})')]),
+      phone: new FormControl(''),
+      makePrimary: new FormControl(false),
+      shouldSave: new FormControl(false),
+    });
   }
 }

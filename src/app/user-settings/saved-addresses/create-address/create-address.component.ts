@@ -10,6 +10,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { AddressForm } from '../../../address/address-form/address-form.model';
 import { AddressUtil } from '../../../shared/utils/address-util';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-create-address',
@@ -19,12 +20,15 @@ import { AddressUtil } from '../../../shared/utils/address-util';
 })
 export class CreateAddressComponent {
   private readonly addressService = inject(AddressService);
+  private readonly auth = inject(AuthService);
   private readonly messageService = inject(MessageService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
+  readonly addressForm = AddressUtil.createAddressForm();
+
   createAddress(form: AddressForm) {
-    const newAddress = AddressUtil.extractData(form);
+    const newAddress = AddressUtil.extractData(form, this.auth.userId!);
 
     this.addressService.createAddress(newAddress).subscribe({
       next: () => {

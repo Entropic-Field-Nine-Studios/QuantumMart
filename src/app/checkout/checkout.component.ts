@@ -48,8 +48,7 @@ export class CheckoutComponent implements OnInit {
   readonly cartItems = signal<CartItem[] | null>(null);
   readonly shippingAddress = signal<Address | null>(null);
 
-  readonly countries = COUNTRIES;
-  readonly states = US_STATES;
+  readonly addressForm = AddressUtil.createAddressForm();
 
   readonly taxAmount = 0.04;
 
@@ -84,7 +83,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   setAddress(form: AddressForm) {
-    const address = AddressUtil.extractData(form);
+    const address = AddressUtil.extractData(form, this.authService.userId!);
 
     this.shippingAddress.set(address);
   }
@@ -131,7 +130,7 @@ export class CheckoutComponent implements OnInit {
       shippingCity: addressInfo.city,
       shippingState: addressInfo.state,
       shippingZip: addressInfo.zip,
-      shippingPhone: 'TEMP', // TODO
+      shippingPhone: addressInfo.phone,
     };
 
     return orderInfo;
