@@ -1,12 +1,18 @@
 <div>
-  <h2>Saved Addresses</h2>
+  <h1>Saved Addresses</h1>
   @if (addresses === null) {
     <mat-spinner></mat-spinner>
   } @else if (addresses!.length === 0) {
     <p>You have no saved addresses.</p>
   } @else {
-    <!-- Display the user's saved addresses -->
+    <div class="address-grid">
+      @for (address of addresses; track $index) {
+        <app-address [address]="address"></app-address>
+      }
+    </div>
   }
+
+  <br />
 
   <button matButton="filled" (click)="navigateToCreate()">Add New</button>
 </div>

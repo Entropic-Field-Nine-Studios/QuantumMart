@@ -26,10 +26,7 @@ export class AppComponent {
 
   showUserCard(): boolean {
     return (
-      !this.loginRegisterRoutes.includes(this.router.url) &&
-      !this.isAtCheckout() &&
-      !this.isAt404() &&
-      !this.isAtSettings()
+      !this.loginRegisterRoutes.includes(this.router.url) && !this.isAtCheckout() && !this.isAt404()
     );
   }
 

@@ -8,10 +8,11 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { User } from '../../users/user.model';
 import { MatAnchor } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AddressComponent } from '../../address/address.component';
 
 @Component({
   selector: 'app-saved-addresses',
-  imports: [MatProgressSpinner, MatAnchor],
+  imports: [MatProgressSpinner, MatAnchor, AddressComponent],
   templateUrl: './saved-addresses.component.html',
   styleUrl: './saved-addresses.component.scss',
 })

@@ -1,0 +1,30 @@
+.address-card {
+  padding: 1rem 1.25rem;
+  border: 1px solid #e2e2e2;
+  border-radius: 8px;
+  background: #fff;
+  max-width: 340px;
+}
+
+.address-card__header {
+  margin-bottom: 0.5rem;
+}
+
+.address-card__badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0a3d91;
+  background: #e8f0ff;
+  border-radius: 4px;
+}
+
+.address-card__name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.address-card__line {
+  margin-bottom: 0.15rem;
+}

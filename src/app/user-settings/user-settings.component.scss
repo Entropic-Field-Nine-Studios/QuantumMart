@@ -1,7 +1,8 @@
 .settings-container {
   display: flex;
-  height: calc(100vh - 64px); // adjust if your header height differs
+  min-height: calc(100vh - 64px);
   background: #fafafa;
+  padding-left: 100px;
 }
 
 .settings-menu {
@@ -12,6 +13,9 @@
   flex-direction: column;
   gap: 12px;
   background: white;
+  position: sticky;
+  align-self: flex-start;
+  top: 64px;
 
   a {
     padding: 10px 12px;

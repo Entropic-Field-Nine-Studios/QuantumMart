@@ -1,5 +1,10 @@
 <div>
-  <h2>Add a new address</h2>
+  <h2>
+    <button matIconButton matTooltip="Go back" (click)="navigateBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span>Add a new address</span>
+  </h2>
 
   <app-address-form (submitted)="createAddress($event)"></app-address-form>
 </div>

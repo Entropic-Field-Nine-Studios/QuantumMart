@@ -1,0 +1,13 @@
+<section class="address-card">
+  <header class="address-card__header">
+    @if (address.isPrimary) {
+      <span class="address-card__badge">Primary</span>
+    }
+  </header>
+
+  <div class="address-card__body">
+    <div class="address-card__name">{{ fullName }}</div>
+    <div class="address-card__line">{{ addressPart1 }}</div>
+    <div class="address-card__line">{{ addressPart2 }}</div>
+  </div>
+</section>
