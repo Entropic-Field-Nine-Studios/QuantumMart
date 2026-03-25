@@ -7,7 +7,7 @@
   } @else {
     <div class="address-grid">
       @for (address of addresses; track $index) {
-        <app-address [address]="address"></app-address>
+        <app-address [address]="address" [editable]="true"></app-address>
       }
     </div>
   }

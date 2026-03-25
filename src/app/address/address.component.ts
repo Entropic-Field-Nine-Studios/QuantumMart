@@ -1,14 +1,47 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Address } from './address.model';
+import { AddressService } from './address.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MessageService } from '../shared/message/message.service';
+import { ConfirmDialogService } from '../shared/dialogs/confirm-dialog.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-address',
-  imports: [],
+  imports: [MatButtonModule, MatIcon, MatMenuTrigger, MatMenu, MatMenuItem],
   templateUrl: './address.component.html',
   styleUrl: './address.component.scss',
 })
 export class AddressComponent {
   @Input({ required: true }) address!: Address;
+
+  /**
+   * Whether to show the dropdown button displaying quick actions the user can
+   * perform on the address, such as deleting the address.
+   */
+  @Input() editable = false;
+
+  private readonly addressService = inject(AddressService);
+  private readonly messageService = inject(MessageService);
+  private readonly confirmDialog = inject(ConfirmDialogService);
+
+  deleteAddress() {
+    if (this.editable) {
+      this.confirmDialog.confirm('Delete this address?').subscribe((confirmed) => {
+        if (confirmed) {
+          this.addressService.deleteAddress(this.address.id!).subscribe({
+            next: () => {
+              this.messageService.success('Address deleted.');
+              this.editable = false;
+            },
+            error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+          });
+        }
+      });
+    }
+  }
 
   get fullName(): string {
     return this.address.firstName + ' ' + this.address.lastName;

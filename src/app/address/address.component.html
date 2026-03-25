@@ -1,4 +1,18 @@
 <section class="address-card">
+  @if (editable) {
+    <div class="quick-edit-btn">
+      <button matIconButton [matMenuTriggerFor]="matMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #matMenu>
+        <button mat-menu-item (click)="deleteAddress()">
+          <mat-icon>delete</mat-icon>
+          <span>Delete</span>
+        </button>
+      </mat-menu>
+    </div>
+  }
+
   <header class="address-card__header">
     @if (address.isPrimary) {
       <span class="address-card__badge">Primary</span>

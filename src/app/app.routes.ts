@@ -50,6 +50,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'saved-addresses', // Redirect to the top-most setting tab
+      },
+      {
         path: 'saved-addresses',
         children: [
           { path: '', component: SavedAddressesComponent },

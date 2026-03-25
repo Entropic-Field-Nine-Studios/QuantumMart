@@ -4,6 +4,13 @@
   border-radius: 8px;
   background: #fff;
   max-width: 340px;
+  position: relative;
+}
+
+.quick-edit-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
 }
 
 .address-card__header {
