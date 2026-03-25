@@ -1,7 +1,5 @@
-export interface Address {
-  id?: string;
-  userId: string;
-  isPrimary: boolean;
+export interface AddressForm {
+  userId: string; // This is set automatically.
   firstName: string;
   lastName: string;
   addressLine1: string;
@@ -10,5 +8,6 @@ export interface Address {
   state: string;
   zip: string;
   phone: string;
-  createdAt?: string;
+  makePrimary: boolean;
+  shouldSave: boolean;
 }

@@ -2,52 +2,14 @@
 <div class="checkout-layout">
   <section class="form-box">
     <mat-stepper [linear]="true" #stepper>
-      <mat-step [stepControl]="shippingForm">
-        <form [formGroup]="shippingForm">
-          <ng-template matStepLabel>Shipping Information</ng-template>
-          <mat-form-field>
-            <mat-label>First Name</mat-label>
-            <input matInput appPersonName maxlength="100" formControlName="firstName" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>Last Name</mat-label>
-            <input matInput appPersonName maxlength="100" formControlName="lastName" />
-          </mat-form-field>
-          <br />
-          <mat-form-field>
-            <mat-label>Address Line 1</mat-label>
-            <input matInput appAddress maxlength="150" formControlName="address1" />
-          </mat-form-field>
-          <br />
-          <mat-form-field>
-            <mat-label>Address Line 2</mat-label>
-            <input matInput appAddress maxlength="50" formControlName="address2" />
-          </mat-form-field>
-          <br />
-          <mat-form-field>
-            <mat-label>City</mat-label>
-            <input matInput appCity maxlength="100" formControlName="city" />
-          </mat-form-field>
-          <br />
-          <mat-form-field>
-            <mat-label>State</mat-label>
-            <mat-select formControlName="state">
-              @for (state of states; track $index) {
-                <mat-option [value]="state">{{ state }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <br />
-          <mat-form-field>
-            <mat-label>ZIP Code</mat-label>
-            <input matInput appZipCode maxlength="10" formControlName="zip" />
-          </mat-form-field>
-          <br />
-          <app-phone-input formControlName="phone" [required]="true"></app-phone-input>
-          <br />
-          <button matButton="filled" matStepperNext>Next</button>
-        </form>
+      <mat-step>
+        <app-address-form
+          [isCheckout]="true"
+          submitBtn="Next"
+          (submitted)="setAddress($event)"
+        ></app-address-form>
       </mat-step>
+
       <mat-step>
         <ng-template matStepLabel>Review and Submit</ng-template>
         <h2>Review your shipping address</h2>

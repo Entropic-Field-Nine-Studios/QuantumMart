@@ -55,7 +55,13 @@
 
     <br />
 
-    <mat-checkbox formControlName="isPrimary">Make this my primary address</mat-checkbox>
+    @if (!isCheckout) {
+      <mat-checkbox formControlName="makePrimary">Make this my primary address</mat-checkbox>
+    } @else {
+      <mat-checkbox formControlName="shouldSave"
+        >Save this address for a faster checkout</mat-checkbox
+      >
+    }
 
     <br />
 

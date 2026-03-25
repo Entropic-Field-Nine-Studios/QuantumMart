@@ -16,47 +16,40 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { OrderService } from '../order/order.service';
 import { Order } from '../order/order.model';
 import { Router } from '@angular/router';
-import { AddressDirective } from '../shared/directives/address.directive';
-import { PersonNameDirective } from '../shared/directives/person-name.directive';
-import { CityDirective } from '../shared/directives/city.directive';
-import { ZipCodeDirective } from '../shared/directives/zip-code.directive';
-import { PhoneInputComponent } from '../shared/inputs/phone-input/phone-input.component';
 import { OrderStatus } from '../order/order-status.enum';
 import { MessageService } from '../shared/message/message.service';
+import { AddressFormComponent } from '../address/address-form/address-form.component';
+import { Address } from '../address/address.model';
+import { AddressUtil } from '../shared/utils/address-util';
+import { AddressForm } from '../address/address-form/address-form.model';
 
 @Component({
   selector: 'app-checkout',
   imports: [
     CartItemCardListComponent,
     CurrencyPipe,
-    MatFormField,
-    MatLabel,
-    MatInput,
     MatFormFieldModule,
     ReactiveFormsModule,
     MatSelectModule,
     MatAnchor,
     MatStepperModule,
-    AddressDirective,
-    PersonNameDirective,
-    CityDirective,
-    ZipCodeDirective,
-    PhoneInputComponent,
+    AddressFormComponent,
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })
 export class CheckoutComponent implements OnInit {
-  private cartItemService = inject(CartItemService);
-  private authService = inject(AuthService);
-  private orderService = inject(OrderService);
-  private router = inject(Router);
-  private messageService = inject(MessageService);
+  private readonly cartItemService = inject(CartItemService);
+  private readonly authService = inject(AuthService);
+  private readonly orderService = inject(OrderService);
+  private readonly router = inject(Router);
+  private readonly messageService = inject(MessageService);
 
-  cartItems = signal<CartItem[] | null>(null);
+  readonly cartItems = signal<CartItem[] | null>(null);
+  readonly shippingAddress = signal<Address | null>(null);
 
-  countries = COUNTRIES;
-  states = US_STATES;
+  readonly countries = COUNTRIES;
+  readonly states = US_STATES;
 
   readonly taxAmount = 0.04;
 
@@ -64,17 +57,6 @@ export class CheckoutComponent implements OnInit {
     // Dynamically calculates the cart total as items are retrieved
     this.cartItems()?.reduce((sum, item) => sum + item.itemListing.price * item.quantity, 0),
   );
-
-  shippingForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    address1: new FormControl('', Validators.required),
-    address2: new FormControl(''),
-    city: new FormControl('', Validators.required),
-    state: new FormControl('', Validators.required),
-    zip: new FormControl('', [Validators.required, Validators.pattern('[0-9]+(|-[0-9]{4})')]),
-    phone: new FormControl(''),
-  });
 
   ngOnInit(): void {
     this.cartItemService.getCartItemsByUserId(this.authService.userId!).subscribe({
@@ -90,30 +72,21 @@ export class CheckoutComponent implements OnInit {
   }
 
   getFullName(): string {
-    const formValues = this.shippingForm.value!;
-    return formValues.firstName + ' ' + formValues.lastName;
+    const address = this.shippingAddress();
+
+    return address ? AddressUtil.fullName(address) : '';
   }
 
   getFullAddress(): string {
-    const formValues = this.shippingForm.value!;
+    const address = this.shippingAddress();
 
-    let addressPt2: string;
-    if (formValues.address2) {
-      addressPt2 = ' ' + formValues.address2;
-    } else {
-      addressPt2 = '';
-    }
+    return address ? AddressUtil.fullAddress(address) : '';
+  }
 
-    return (
-      formValues.address1 +
-      addressPt2 +
-      ', ' +
-      formValues.city +
-      ', ' +
-      formValues.state +
-      ' ' +
-      formValues.zip
-    );
+  setAddress(form: AddressForm) {
+    const address = AddressUtil.extractData(form);
+
+    this.shippingAddress.set(address);
   }
 
   placeOrder() {
@@ -124,21 +97,8 @@ export class CheckoutComponent implements OnInit {
       return;
     }
 
-    if (this.shippingForm.valid && this.authService.isLoggedIn) {
-      const formValues = this.shippingForm.value!;
-      const orderInfo: Order = {
-        buyerId: this.authService.userId!,
-        status: OrderStatus.PENDING,
-        totalPaid: this.getTotal(),
-        shippingFirstname: formValues.firstName!,
-        shippingLastname: formValues.lastName!,
-        shippingAddress1: formValues.address1!,
-        shippingAddress2: formValues.address2,
-        shippingCity: formValues.city!,
-        shippingState: formValues.state!,
-        shippingZip: formValues.zip!,
-        shippingPhone: formValues.phone!,
-      };
+    if (this.authService.isLoggedIn) {
+      const orderInfo = this.getOrderInfo();
 
       this.orderService.createOrder(orderInfo).subscribe({
         next: () => {
@@ -156,5 +116,24 @@ export class CheckoutComponent implements OnInit {
         },
       });
     }
+  }
+
+  private getOrderInfo(): Order {
+    const addressInfo = this.shippingAddress()!;
+    const orderInfo: Order = {
+      buyerId: this.authService.userId!,
+      status: OrderStatus.PENDING,
+      totalPaid: this.getTotal(),
+      shippingFirstname: addressInfo.firstName,
+      shippingLastname: addressInfo.lastName,
+      shippingAddress1: addressInfo.addressLine1,
+      shippingAddress2: addressInfo.addressLine2,
+      shippingCity: addressInfo.city,
+      shippingState: addressInfo.state,
+      shippingZip: addressInfo.zip,
+      shippingPhone: 'TEMP', // TODO
+    };
+
+    return orderInfo;
   }
 }

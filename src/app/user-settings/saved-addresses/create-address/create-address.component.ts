@@ -2,13 +2,14 @@ import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AddressService } from '../../../address/address.service';
 import { AddressFormComponent } from '../../../address/address-form/address-form.component';
-import { Address } from '../../../address/address.model';
 import { MessageService } from '../../../shared/message/message.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
+import { AddressForm } from '../../../address/address-form/address-form.model';
+import { AddressUtil } from '../../../shared/utils/address-util';
 
 @Component({
   selector: 'app-create-address',
@@ -22,8 +23,10 @@ export class CreateAddressComponent {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
-  createAddress(address: Address) {
-    this.addressService.createAddress(address).subscribe({
+  createAddress(form: AddressForm) {
+    const newAddress = AddressUtil.extractData(form);
+
+    this.addressService.createAddress(newAddress).subscribe({
       next: () => {
         this.messageService.success('Your address was created.');
         this.navigateBack();
