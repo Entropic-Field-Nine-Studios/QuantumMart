@@ -15,6 +15,9 @@ import { CreateItemListingComponent } from './create-item-listing/create-item-li
 import { createItemListingGuard } from './create-item-listing/create-item-listing.guard';
 import { CartComponent } from './cart/cart.component';
 import { PurchasesComponent } from './purchases/purchases.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { SavedAddressesComponent } from './user-settings/saved-addresses/saved-addresses.component';
+import { CreateAddressComponent } from './user-settings/saved-addresses/create-address/create-address.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -40,6 +43,20 @@ export const routes: Routes = [
     path: 'purchases',
     component: PurchasesComponent,
     canActivate: [authGuard],
+  },
+  {
+    path: 'account-settings',
+    component: UserSettingsComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'saved-addresses',
+        children: [
+          { path: '', component: SavedAddressesComponent },
+          { path: 'create', component: CreateAddressComponent },
+        ],
+      },
+    ],
   },
   { path: '**', component: NotFoundComponent }, // Please keep this route at the bottom
 ];

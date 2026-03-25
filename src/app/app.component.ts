@@ -26,12 +26,15 @@ export class AppComponent {
 
   showUserCard(): boolean {
     return (
-      !this.loginRegisterRoutes.includes(this.router.url) && !this.isAtCheckout() && !this.isAt404()
+      !this.loginRegisterRoutes.includes(this.router.url) &&
+      !this.isAtCheckout() &&
+      !this.isAt404() &&
+      !this.isAtSettings()
     );
   }
 
   showNavTabs(): boolean {
-    return !this.isAtCheckout() && !this.isAt404();
+    return !this.isAtCheckout() && !this.isAt404() && !this.isAtSettings();
   }
 
   private isAtCheckout(): boolean {
@@ -40,5 +43,9 @@ export class AppComponent {
 
   private isAt404(): boolean {
     return this.router.routerState.snapshot.root.firstChild?.component === NotFoundComponent;
+  }
+
+  private isAtSettings(): boolean {
+    return this.router.url.includes('/account-settings');
   }
 }

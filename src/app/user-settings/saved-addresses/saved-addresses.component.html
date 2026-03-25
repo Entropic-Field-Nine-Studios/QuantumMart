@@ -1,0 +1,12 @@
+<div>
+  <h2>Saved Addresses</h2>
+  @if (addresses === null) {
+    <mat-spinner></mat-spinner>
+  } @else if (addresses!.length === 0) {
+    <p>You have no saved addresses.</p>
+  } @else {
+    <!-- Display the user's saved addresses -->
+  }
+
+  <button matButton="filled" (click)="navigateToCreate()">Add New</button>
+</div>

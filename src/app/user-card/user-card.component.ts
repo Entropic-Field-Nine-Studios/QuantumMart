@@ -28,6 +28,10 @@ export class UserCardComponent {
     this.router.navigate([`/profile/${this.user.id}`]);
   }
 
+  navigateSettings() {
+    this.router.navigate(['/account-settings']);
+  }
+
   get user(): User {
     return this.userStore.user()!;
   }
