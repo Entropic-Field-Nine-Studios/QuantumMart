@@ -1,14 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ItemListing } from '../item-listing.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '../../users/user.service';
 import { MessageService } from '../../shared/message/message.service';
 import { ItemListingService } from '../item-listing.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatCard, MatCardTitle, MatCardHeader, MatCardAvatar } from '@angular/material/card';
+import { MatCardAvatar } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { ItemListingListComponent } from '../item-listing-list/item-listing-list.component';
 import { CurrencyPipe } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { CartItemService } from '../../cart/cart-item.service';
