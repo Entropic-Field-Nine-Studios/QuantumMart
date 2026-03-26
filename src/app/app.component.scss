@@ -17,6 +17,7 @@
 
 .avatar-btn {
   border: none;
+  background: none;
 }
 
 .avatar-img {
@@ -28,7 +29,7 @@
 .login-register {
   display: flex;
   justify-content: right;
-  padding-right: 20px;
+  padding-right: 80px;
 }
 
 .banner-img {
@@ -42,4 +43,12 @@
     -webkit-user-drag: none;
     user-select: none;
   }
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  padding-right: 40px; // For the user card
 }
