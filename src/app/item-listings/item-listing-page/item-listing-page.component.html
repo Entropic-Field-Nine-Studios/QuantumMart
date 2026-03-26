@@ -2,28 +2,30 @@
   <mat-spinner></mat-spinner>
 } @else {
   <div class="page-padding">
-    <div mat-card-avatar class="image-wrapper">
-      <img [src]="fullListing!.imageUrl || 'assets/no_image.jpg'" [alt]="fullListing!.title" />
+    <div class="info">
+      <div mat-card-avatar class="image-wrapper">
+        <img [src]="fullListing!.imageUrl || 'assets/no_image.jpg'" [alt]="fullListing!.title" />
+      </div>
+      <div>
+        <h3>{{ fullListing!.title }}</h3>
+      </div>
+      <div>
+        {{ fullListing!.description }}
+      </div>
+      <div>
+        <h3>{{ fullListing!.price | currency }}</h3>
+      </div>
+      <div>
+        <button class="user-link" (click)="navigateToUser()">
+          {{ fullListing!.sellerUsername }}
+        </button>
+      </div>
+      @if (loggedIn && !isListingCurrentUser) {
+        <button class="cart-button" matTooltip="Add to Cart" mat-fab (click)="addToCart()">
+          <mat-icon>add_shopping_cart</mat-icon>
+        </button>
+      }
     </div>
-    <div>
-      <h3>{{ fullListing!.title }}</h3>
-    </div>
-    <div>
-      {{ fullListing!.description }}
-    </div>
-    <div>
-      <h3>{{ fullListing!.price | currency }}</h3>
-    </div>
-    <div>
-      <button class="user-link" (click)="navigateToUser()">
-        {{ fullListing!.sellerUsername }}
-      </button>
-    </div>
-    @if (loggedIn && !isListingCurrentUser) {
-      <button class="cart-button" matTooltip="Add to Cart" mat-fab (click)="addToCart()">
-        <mat-icon>add_shopping_cart</mat-icon>
-      </button>
-    }
   </div>
 }
 @if (loggedIn) {
