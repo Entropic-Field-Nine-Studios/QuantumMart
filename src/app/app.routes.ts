@@ -18,6 +18,7 @@ import { PurchasesComponent } from './purchases/purchases.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { SavedAddressesComponent } from './user-settings/saved-addresses/saved-addresses.component';
 import { CreateAddressComponent } from './user-settings/saved-addresses/create-address/create-address.component';
+import { ItemListingPageComponent } from './item-listings/item-listing-page/item-listing-page.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -26,6 +27,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, canActivate: [userRedirectGuard] },
   { path: 'register', component: RegistrationComponent, canActivate: [userRedirectGuard] },
   { path: 'profile/:userid', component: UserProfileComponent },
+  { path: 'listing/:listid', component: ItemListingPageComponent },
   { path: 'checkout', component: CheckoutComponent, canActivate: [checkoutGuard] },
   { path: 'dashboard', component: SellerDashboardComponent, canActivate: [authGuard] },
   {

@@ -1,10 +1,14 @@
 <div class="item-card">
-  <div class="image-wrapper">
-    <img [src]="listing.imageUrl || 'assets/no_image.jpg'" [alt]="listing.title" />
-  </div>
+  <button class="item-link" (click)="navigateToItem()">
+    <div class="image-wrapper">
+      <img [src]="listing.imageUrl || 'assets/no_image.jpg'" [alt]="listing.title" />
+    </div>
+  </button>
 
   <div class="info">
-    <h3 class="title">{{ listing.title }}</h3>
+    <button class="item-link" (click)="navigateToItem()">
+      <h3 class="title">{{ listing.title }}</h3>
+    </button>
     <p class="price">{{ listing.price | currency }}</p>
     @if (showUsername) {
       <button class="user-link" (click)="navigateToUser()">{{ listing.sellerUsername }}</button>

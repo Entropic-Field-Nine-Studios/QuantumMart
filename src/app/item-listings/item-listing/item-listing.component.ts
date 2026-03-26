@@ -43,6 +43,10 @@ export class ItemListingComponent implements OnInit, OnChanges {
     this.router.navigate([`/profile/${this.listing.sellerId}`]);
   }
 
+  navigateToItem() {
+    this.router.navigate([`/listing/${this.listing.id}`]);
+  }
+
   addToCart(): void {
     this.cartService.addItemToCart(this.authService.userId!, this.listing).subscribe({
       next: (item) => this.messageService.info(`${item.itemListing.title} was added to your cart.`),
