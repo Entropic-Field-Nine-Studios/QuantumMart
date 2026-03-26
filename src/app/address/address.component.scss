@@ -5,6 +5,7 @@
   background: #fff;
   max-width: 340px;
   position: relative;
+  display: block;
 }
 
 .quick-edit-btn {
@@ -25,6 +26,7 @@
   color: #0a3d91;
   background: #e8f0ff;
   border-radius: 4px;
+  user-select: none;
 }
 
 .address-card__name {
@@ -34,4 +36,8 @@
 
 .address-card__line {
   margin-bottom: 0.15rem;
+}
+
+.clickable {
+  cursor: pointer;
 }

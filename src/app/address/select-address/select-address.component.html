@@ -1,0 +1,19 @@
+<section class="section-container">
+  @if (primaryAddress !== null) {
+    <mat-radio-group [formControl]="addressControl">
+      <app-address [address]="primaryAddress!" [selectable]="true" [selected]="true"></app-address>
+
+      @if (otherAddresses.length > 0) {
+        <details class="other-address-details">
+          <summary>Other Addresses</summary>
+
+          <div>
+            @for (address of otherAddresses; track $index) {
+              <app-address [address]="address" [selectable]="true"></app-address>
+            }
+          </div>
+        </details>
+      }
+    </mat-radio-group>
+  }
+</section>

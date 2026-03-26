@@ -1,31 +1,57 @@
-<section class="address-card">
-  @if (editable) {
-    <div class="quick-edit-btn">
-      <button matIconButton [matMenuTriggerFor]="matMenu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #matMenu>
-        <button mat-menu-item (click)="deleteAddress()">
-          <mat-icon>delete</mat-icon>
-          <span>Delete</span>
+@if (selectable) {
+  <label class="address-card clickable">
+    <mat-radio-button
+      class="quick-edit-btn"
+      [value]="address"
+      [checked]="selected"
+    ></mat-radio-button>
+
+    <header class="address-card__header">
+      @if (address.isPrimary) {
+        <span class="address-card__badge">Primary</span>
+      }
+    </header>
+
+    <div class="address-card__body">
+      <div class="address-card__name">{{ fullName }}</div>
+      <div class="address-card__line">{{ addressPart1 }}</div>
+      <div class="address-card__line">{{ addressPart2 }}</div>
+      <div class="address-card__line">
+        <b>Contact: </b>
+        <span>{{ address.phone }}</span>
+      </div>
+    </div>
+  </label>
+} @else {
+  <section class="address-card">
+    @if (editable) {
+      <div class="quick-edit-btn">
+        <button matIconButton [matMenuTriggerFor]="matMenu">
+          <mat-icon>more_vert</mat-icon>
         </button>
-      </mat-menu>
-    </div>
-  }
-
-  <header class="address-card__header">
-    @if (address.isPrimary) {
-      <span class="address-card__badge">Primary</span>
+        <mat-menu #matMenu>
+          <button mat-menu-item (click)="deleteAddress()">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </div>
     }
-  </header>
 
-  <div class="address-card__body">
-    <div class="address-card__name">{{ fullName }}</div>
-    <div class="address-card__line">{{ addressPart1 }}</div>
-    <div class="address-card__line">{{ addressPart2 }}</div>
-    <div class="address-card__line">
-      <b>Contact: </b>
-      <span>{{ address.phone }}</span>
+    <header class="address-card__header">
+      @if (address.isPrimary) {
+        <span class="address-card__badge">Primary</span>
+      }
+    </header>
+
+    <div class="address-card__body">
+      <div class="address-card__name">{{ fullName }}</div>
+      <div class="address-card__line">{{ addressPart1 }}</div>
+      <div class="address-card__line">{{ addressPart2 }}</div>
+      <div class="address-card__line">
+        <b>Contact: </b>
+        <span>{{ address.phone }}</span>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+}

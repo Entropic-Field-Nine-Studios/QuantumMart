@@ -22,6 +22,7 @@ import { AddressFormComponent } from '../address/address-form/address-form.compo
 import { Address } from '../address/address.model';
 import { AddressUtil } from '../shared/utils/address-util';
 import { AddressForm } from '../address/address-form/address-form.model';
+import { SelectAddressComponent } from '../address/select-address/select-address.component';
 
 @Component({
   selector: 'app-checkout',
@@ -34,6 +35,7 @@ import { AddressForm } from '../address/address-form/address-form.model';
     MatAnchor,
     MatStepperModule,
     AddressFormComponent,
+    SelectAddressComponent,
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',

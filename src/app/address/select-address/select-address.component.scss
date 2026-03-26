@@ -1,0 +1,47 @@
+.section-container {
+  padding-bottom: 50px;
+}
+
+.other-address-details {
+  margin-top: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  background: #fafafa;
+  display: block;
+  width: fit-content;
+  min-width: 375px;
+  max-width: 100%;
+}
+
+.other-address-details > summary {
+  cursor: pointer;
+  list-style: none;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  user-select: none;
+}
+
+.other-address-details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.other-address-details > summary::before {
+  content: '▸';
+  font-size: 0.9rem;
+  transition: transform 0.2s ease;
+  color: #6b7280;
+}
+
+.other-address-details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.other-address-details app-address {
+  display: block;
+  margin-top: 0.75rem;
+}

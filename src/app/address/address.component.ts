@@ -7,10 +7,11 @@ import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { MessageService } from '../shared/message/message.service';
 import { ConfirmDialogService } from '../shared/dialogs/confirm-dialog.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatRadioButton } from '@angular/material/radio';
 
 @Component({
   selector: 'app-address',
-  imports: [MatButtonModule, MatIcon, MatMenuTrigger, MatMenu, MatMenuItem],
+  imports: [MatButtonModule, MatIcon, MatMenuTrigger, MatMenu, MatMenuItem, MatRadioButton],
   templateUrl: './address.component.html',
   styleUrl: './address.component.scss',
 })
@@ -22,6 +23,16 @@ export class AddressComponent {
    * perform on the address, such as deleting the address.
    */
   @Input() editable = false;
+
+  /**
+   * Shows a radio button that selects this address.
+   */
+  @Input() selectable = false;
+
+  /**
+   * If the radio button on this address should be selected.
+   */
+  @Input() selected = false;
 
   private readonly addressService = inject(AddressService);
   private readonly messageService = inject(MessageService);
