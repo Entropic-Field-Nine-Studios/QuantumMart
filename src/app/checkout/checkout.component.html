@@ -24,7 +24,7 @@
           <app-address-form
             [formGroup]="addressForm"
             [isCheckout]="true"
-            submitBtn="Next"
+            submitText="Next"
             (submitted)="setAddress($event)"
           ></app-address-form>
         } @else {
@@ -41,6 +41,7 @@
           <h3>Ships to:</h3>
           <p>{{ getFullName() }}</p>
           <p>{{ getFullAddress() }}</p>
+          <p><b>Contact:</b> {{ shippingAddress()?.phone ?? '' }}</p>
         </div>
 
         <h3>Total: {{ getTotal() | currency }}</h3>

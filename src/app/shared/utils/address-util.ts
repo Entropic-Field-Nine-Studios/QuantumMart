@@ -6,7 +6,9 @@ import { Address } from '../../address/address.model';
  * Contains a set of helper functions for displaying an address.
  */
 export class AddressUtil {
-  private constructor() {}
+  private constructor() {
+    // Intentionally hidden
+  }
 
   /**
    * First name and last name.

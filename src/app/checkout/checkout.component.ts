@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CartItemService } from '../cart/cart-item.service';
 import { AuthService } from '../auth/auth.service';
 import { CartItem } from '../cart/cart-item.model';
@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAnchor } from '@angular/material/button';
-import { MatStepperModule } from '@angular/material/stepper';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { OrderService } from '../order/order.service';
 import { Order } from '../order/order.model';
 import { Router } from '@angular/router';
@@ -64,6 +64,8 @@ export class CheckoutComponent implements OnInit {
 
   readonly hasAddress = signal(false);
 
+  @ViewChild(MatStepper) stepper!: MatStepper;
+
   ngOnInit(): void {
     this.cartItemService.getCartItemsByUserId(this.authService.userId!).subscribe({
       next: (items) => this.cartItems.set(items),
@@ -98,6 +100,7 @@ export class CheckoutComponent implements OnInit {
     const address = AddressUtil.extractData(form, this.authService.userId!);
 
     this.shippingAddress.set(address);
+    this.stepper.next();
   }
 
   onSavedAddressCheck(changed: MatCheckboxChange) {
@@ -128,6 +131,16 @@ export class CheckoutComponent implements OnInit {
 
     if (this.authService.isLoggedIn) {
       const orderInfo = this.getOrderInfo();
+
+      if (this.addressForm.value!.shouldSave) {
+        // Save the address for the user
+        const savedAddress = this.shippingAddress()!;
+        savedAddress.isPrimary = false;
+
+        this.addressService.createAddress(savedAddress).subscribe({
+          error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+        });
+      }
 
       this.orderService.createOrder(orderInfo).subscribe({
         next: () => {

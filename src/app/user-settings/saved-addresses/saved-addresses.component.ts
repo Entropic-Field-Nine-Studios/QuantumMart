@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { AddressService } from '../../address/address.service';
 import { UserStore } from '../../core/stores/user.store';
 import { Address } from '../../address/address.model';

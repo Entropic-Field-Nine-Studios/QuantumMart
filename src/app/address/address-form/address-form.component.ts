@@ -1,13 +1,7 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PersonNameDirective } from '../../shared/directives/person-name.directive';
 import { AddressDirective } from '../../shared/directives/address.directive';
 import { CityDirective } from '../../shared/directives/city.directive';
@@ -20,7 +14,6 @@ import { User } from '../../users/user.model';
 import { MatAnchor } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { AddressForm } from './address-form.model';
-import { AddressUtil } from '../../shared/utils/address-util';
 
 @Component({
   selector: 'app-address-form',
