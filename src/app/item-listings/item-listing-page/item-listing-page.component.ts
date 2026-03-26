@@ -66,10 +66,6 @@ export class ItemListingPageComponent implements OnInit {
     });
   }
 
-  openAddListingDialog(): void {
-    this.router.navigate(['/create-listing']);
-  }
-
   openCartDialog(): void {
     this.router.navigate(['/cart']);
   }
