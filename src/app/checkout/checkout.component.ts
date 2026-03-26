@@ -5,12 +5,9 @@ import { CartItem } from '../cart/cart-item.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CartItemCardListComponent } from '../cart/cart-item-card-list/cart-item-card-list.component';
 import { CurrencyPipe } from '@angular/common';
-import { MatFormField, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { COUNTRIES } from '../shared/data/countries';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
-import { US_STATES } from '../shared/data/us-states';
 import { MatAnchor } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
 import { OrderService } from '../order/order.service';
@@ -23,6 +20,8 @@ import { Address } from '../address/address.model';
 import { AddressUtil } from '../shared/utils/address-util';
 import { AddressForm } from '../address/address-form/address-form.model';
 import { SelectAddressComponent } from '../address/select-address/select-address.component';
+import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
+import { AddressService } from '../address/address.service';
 
 @Component({
   selector: 'app-checkout',
@@ -36,6 +35,7 @@ import { SelectAddressComponent } from '../address/select-address/select-address
     MatStepperModule,
     AddressFormComponent,
     SelectAddressComponent,
+    MatCheckbox,
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
@@ -46,6 +46,7 @@ export class CheckoutComponent implements OnInit {
   private readonly orderService = inject(OrderService);
   private readonly router = inject(Router);
   private readonly messageService = inject(MessageService);
+  private readonly addressService = inject(AddressService);
 
   readonly cartItems = signal<CartItem[] | null>(null);
   readonly shippingAddress = signal<Address | null>(null);
@@ -54,15 +55,24 @@ export class CheckoutComponent implements OnInit {
 
   readonly taxAmount = 0.04;
 
+  readonly useSavedAddressControl = new FormControl<boolean>(true);
+
   readonly subTotal = computed(() =>
     // Dynamically calculates the cart total as items are retrieved
     this.cartItems()?.reduce((sum, item) => sum + item.itemListing.price * item.quantity, 0),
   );
 
+  readonly hasAddress = signal(false);
+
   ngOnInit(): void {
     this.cartItemService.getCartItemsByUserId(this.authService.userId!).subscribe({
       next: (items) => this.cartItems.set(items),
       error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+    });
+
+    // Check if the user has any addresses at all
+    this.addressService.getUserPrimaryAddress(this.authService.userId!).subscribe({
+      next: () => this.hasAddress.set(true),
     });
   }
 
@@ -88,6 +98,24 @@ export class CheckoutComponent implements OnInit {
     const address = AddressUtil.extractData(form, this.authService.userId!);
 
     this.shippingAddress.set(address);
+  }
+
+  onSavedAddressCheck(changed: MatCheckboxChange) {
+    if (!changed.checked) {
+      this.shippingAddress.set(null);
+      this.addressForm.reset();
+    }
+  }
+
+  onAddressSelected(address: Address | null) {
+    if (address) {
+      this.shippingAddress.set(address);
+
+      AddressUtil.autofillForm(address, this.addressForm);
+    } else {
+      this.shippingAddress.set(null);
+      this.addressForm.reset();
+    }
   }
 
   placeOrder() {

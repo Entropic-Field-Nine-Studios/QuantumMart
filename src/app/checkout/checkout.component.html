@@ -7,15 +7,29 @@
 
         <h2>Shipping Address</h2>
 
-        <h3>Saved addresses</h3>
-        <app-select-address></app-select-address>
+        @if (hasAddress()) {
+          <mat-checkbox
+            [formControl]="useSavedAddressControl"
+            (change)="onSavedAddressCheck($event)"
+            >Use saved address</mat-checkbox
+          >
+          <br /><br />
 
-        <app-address-form
-          [formGroup]="addressForm"
-          [isCheckout]="true"
-          submitBtn="Next"
-          (submitted)="setAddress($event)"
-        ></app-address-form>
+          @if (useSavedAddressControl.value) {
+            <app-select-address (addressSelected)="onAddressSelected($event)"></app-select-address>
+          }
+        }
+
+        @if (!hasAddress() || !useSavedAddressControl.value) {
+          <app-address-form
+            [formGroup]="addressForm"
+            [isCheckout]="true"
+            submitBtn="Next"
+            (submitted)="setAddress($event)"
+          ></app-address-form>
+        } @else {
+          <button matButton="filled" matStepperNext>Next</button>
+        }
       </mat-step>
 
       <mat-step [completed]="false">

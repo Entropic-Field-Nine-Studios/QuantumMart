@@ -85,6 +85,8 @@ export class PhoneInputComponent implements ControlValueAccessor, Validator {
 
   // Angular form validation
   validate(control: AbstractControl): ValidationErrors | null {
+    if (!control.value) return null;
+
     const digits = this.stripNonDigits(control.value);
 
     if (this.required && digits.length === 0) {
