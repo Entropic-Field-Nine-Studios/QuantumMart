@@ -13,6 +13,19 @@ describe('AddressComponent', () => {
 
     fixture = TestBed.createComponent(AddressComponent);
     component = fixture.componentInstance;
+    component.address = {
+      id: '123',
+      isPrimary: true,
+      userId: '123',
+      firstName: 'test',
+      lastName: 'test',
+      addressLine1: 'test',
+      city: 'test',
+      state: 'test',
+      zip: 'test',
+      phone: '5555555555',
+    };
+
     await fixture.whenStable();
   });
 

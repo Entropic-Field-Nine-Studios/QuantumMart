@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SavedAddressesComponent } from './saved-addresses.component';
+import { provideRouter } from '@angular/router';
 
 describe('SavedAddressesComponent', () => {
   let component: SavedAddressesComponent;
@@ -8,6 +9,7 @@ describe('SavedAddressesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      providers: [provideRouter([])],
       imports: [SavedAddressesComponent],
     }).compileComponents();
 
