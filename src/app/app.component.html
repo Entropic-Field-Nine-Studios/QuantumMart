@@ -1,31 +1,5 @@
 <main>
-  <div class="top-header">
-    <div class="banner-img" [routerLink]="['/home']">
-      <img src="assets/main_banner.png" alt="Quantum Mart Logo" draggable="false" />
-    </div>
-
-    @if (showUserCard()) {
-      @if (user !== null) {
-        <app-user-card></app-user-card>
-      } @else {
-        <div class="login-register">
-          <h2><a routerLink="/login">Login</a> or <a routerLink="/register">Register</a></h2>
-        </div>
-      }
-    }
-  </div>
-
-  @if (showNavTabs()) {
-    <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-      <a mat-tab-link routerLink="/home">Home</a>
-      <a mat-tab-link routerLink="/about-us">About Us</a>
-      @if (user !== null) {
-        <a mat-tab-link routerLink="/purchases">My Purchases</a>
-        <a mat-tab-link routerLink="/dashboard">Seller Dashboard</a>
-      }
-    </nav>
-    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-  }
+  <app-top-header></app-top-header>
 
   <div class="page-padding">
     <router-outlet />

@@ -2,30 +2,3 @@
   padding: 24px;
   padding-bottom: 100px;
 }
-
-.login-register {
-  display: flex;
-  justify-content: right;
-  padding-right: 80px;
-}
-
-.banner-img {
-  height: 128px;
-  width: fit-content;
-  display: flex;
-  padding: 8px;
-  cursor: pointer;
-
-  img {
-    -webkit-user-drag: none;
-    user-select: none;
-  }
-}
-
-.top-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  padding-right: 40px; // For the user card
-}
