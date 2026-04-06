@@ -1,26 +1,69 @@
+:host {
+  position: sticky;
+  top: 0px;
+  z-index: 1000;
+}
+
+.top-header {
+  background: white;
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 20px;
+  gap: 20px;
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.25),
+    0 1px 2px rgba(255, 255, 255, 0.1) inset;
+}
+
+.left,
+.right {
+  flex: 1;
+}
+
+.center {
+  flex: 0;
+}
+
+.banner-img {
+  height: 100px;
+  width: fit-content;
+  display: flex;
+
+  img {
+    cursor: pointer;
+    -webkit-user-drag: none;
+    user-select: none;
+    padding: 0px 20px;
+  }
+}
+
+.checkout-size {
+  height: 48px;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 40px;
+
+  a {
+    text-decoration: none;
+    color: black;
+    font-size: medium;
+    padding: 20px 40px;
+  }
+
+  a.active {
+    font-weight: bold;
+    border: 1px solid gray;
+    border-radius: 12px;
+  }
+}
+
 .login-register {
   display: flex;
   justify-content: right;
   padding-right: 80px;
-}
-
-.banner-img {
-  height: 128px;
-  width: fit-content;
-  display: flex;
-  padding: 8px;
-  cursor: pointer;
-
-  img {
-    -webkit-user-drag: none;
-    user-select: none;
-  }
-}
-
-.top-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  padding-right: 40px; // For the user card
 }

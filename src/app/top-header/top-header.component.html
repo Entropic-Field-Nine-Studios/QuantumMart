@@ -1,9 +1,27 @@
-<div>
-  <div class="top-header">
-    <div class="banner-img" [routerLink]="['/home']">
-      <img src="assets/main_banner.png" alt="Quantum Mart Logo" draggable="false" />
-    </div>
+<header class="top-header">
+  <div class="banner-img left" [class.checkout-size]="isAtCheckout()">
+    <img
+      src="assets/main_banner.png"
+      [routerLink]="['/home']"
+      alt="Quantum Mart Logo"
+      draggable="false"
+    />
+  </div>
 
+  @if (showNavTabs()) {
+    <div>
+      <nav class="nav-tabs center">
+        <a routerLink="/home" routerLinkActive="active">Home</a>
+        <a routerLink="/about-us" routerLinkActive="active">About Us</a>
+        @if (user !== null) {
+          <a routerLink="/purchases" routerLinkActive="active">My Purchases</a>
+          <a routerLink="/dashboard" routerLinkActive="active">Seller Dashboard</a>
+        }
+      </nav>
+    </div>
+  }
+
+  <div class="right">
     @if (showUserCard()) {
       @if (user !== null) {
         <app-user-card></app-user-card>
@@ -14,18 +32,4 @@
       }
     }
   </div>
-
-  @if (showNavTabs()) {
-    <div>
-      <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-        <a mat-tab-link routerLink="/home">Home</a>
-        <a mat-tab-link routerLink="/about-us">About Us</a>
-        @if (user !== null) {
-          <a mat-tab-link routerLink="/purchases">My Purchases</a>
-          <a mat-tab-link routerLink="/dashboard">Seller Dashboard</a>
-        }
-      </nav>
-      <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-    </div>
-  }
-</div>
+</header>
