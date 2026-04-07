@@ -8,4 +8,5 @@ export interface ItemListing {
   updatedAt?: string;
   id?: string;
   sellerUsername?: string;
+  isActive: boolean;
 }

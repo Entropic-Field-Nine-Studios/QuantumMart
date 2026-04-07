@@ -66,6 +66,7 @@ export class CreateItemListingComponent {
         imageUrl: values.imageUrl ?? null,
         price: price,
         sellerUsername: this.authService.username!,
+        isActive: true,
       };
 
       this.itemListingService.createListing(listing).subscribe({

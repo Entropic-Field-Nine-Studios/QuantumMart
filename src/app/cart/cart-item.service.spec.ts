@@ -20,6 +20,7 @@ describe('CartItemService', () => {
     updatedAt: '2026-01-01 00:00:00.000000',
     id: '123',
     sellerUsername: 'testuser',
+    isActive: true,
   };
 
   const cartItem1: CartItem = {

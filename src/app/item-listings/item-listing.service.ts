@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { ItemListing } from './item-listing.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { UpdateItemListing } from './update-listing.model';
 
 @Injectable({
   providedIn: 'root',
@@ -55,5 +56,16 @@ export class ItemListingService {
    */
   createListing(listing: ItemListing): Observable<ItemListing> {
     return this.http.post<ItemListing>(`${this.baseUrl}`, listing);
+  }
+
+  /**
+   * Updates fields in an item listing.
+   *
+   * @param listingId ID of the item listing to update.
+   * @param updates Fields with new information.
+   * @returns
+   */
+  updateListing(listingId: string, updates: UpdateItemListing): Observable<object> {
+    return this.http.patch(`${this.baseUrl}/${listingId}`, updates);
   }
 }

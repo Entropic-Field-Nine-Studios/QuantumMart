@@ -18,6 +18,7 @@ describe('CartItemCardComponent', () => {
       description: '',
       price: 1.0,
       imageUrl: '',
+      isActive: true,
     },
   };
 

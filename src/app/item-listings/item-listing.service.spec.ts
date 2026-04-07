@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ItemListingService } from './item-listing.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ItemListing } from './item-listing.model';
+import { UpdateItemListing } from './update-listing.model';
 
 describe('ItemListingService', () => {
   let service: ItemListingService;
@@ -18,6 +19,7 @@ describe('ItemListingService', () => {
     updatedAt: '2026-01-01 00:00:00.000000',
     id: '123',
     sellerUsername: 'testuser',
+    isActive: true,
   };
 
   beforeEach(() => {
@@ -82,5 +84,19 @@ describe('ItemListingService', () => {
     expect(req.request.body).to.equal(listing1);
 
     req.flush(listing1);
+  });
+
+  it('should PATCH to edit an item listing', () => {
+    const updates: UpdateItemListing = {
+      title: 'new title',
+    };
+
+    service.updateListing(listing1.id!, updates).subscribe();
+
+    const req = httpMock.expectOne(`${service.baseUrl}/${listing1.id}`);
+    expect(req.request.method).to.equal('PATCH');
+    expect(req.request.body).to.equal(updates);
+
+    req.flush(updates);
   });
 });

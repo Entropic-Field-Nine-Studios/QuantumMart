@@ -97,6 +97,7 @@ describe('CreateItemListingComponent', () => {
       imageUrl: 'img.jpg',
       price: 1234,
       sellerUsername: 'testuser',
+      isActive: true,
     });
   });
 });
