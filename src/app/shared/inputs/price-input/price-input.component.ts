@@ -15,7 +15,6 @@ import { MoneyInputDirective } from '../../directives/money.directive';
   imports: [MatFormField, MatLabel, MatPrefix, MatInput, MoneyInputDirective, MatError],
   templateUrl: './price-input.component.html',
   styleUrl: './price-input.component.scss',
-
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -135,7 +134,10 @@ export class PriceInputComponent implements ControlValueAccessor, Validator {
   writeValue(value: string | null): void {
     if (!value) {
       this.rawValue = '0.00';
+      return;
     }
+
+    this.rawValue = value;
   }
 
   registerOnChange(fn: (value: string) => void): void {

@@ -1,1 +1,28 @@
-<h1>Editing item listing</h1>
+<div class="page-block">
+  <h1>Editing item listing</h1>
+
+  <form [formGroup]="editListingForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Title</mat-label>
+      <input matInput appTitle maxlength="200" formControlName="title" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea
+        matInput
+        appDescription
+        rows="6"
+        maxlength="1000"
+        formControlName="description"
+      ></textarea>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Image URL</mat-label>
+      <input matInput maxlength="1000" formControlName="imageUrl" />
+    </mat-form-field>
+    <app-price-input formControlName="price" [required]="true"></app-price-input>
+  </form>
+
+  <button matButton (click)="navigateBack()">Cancel</button>
+  <button matButton="filled" (click)="saveClicked()">Save</button>
+</div>
