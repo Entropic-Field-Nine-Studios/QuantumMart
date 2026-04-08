@@ -98,6 +98,7 @@ describe('CreateItemListingComponent', () => {
       price: 1234,
       sellerUsername: 'testuser',
       isActive: true,
+      quantitySold: 0,
     });
   });
 });

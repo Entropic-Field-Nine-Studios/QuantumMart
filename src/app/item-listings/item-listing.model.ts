@@ -9,4 +9,5 @@ export interface ItemListing {
   id?: string;
   sellerUsername?: string;
   isActive: boolean;
+  quantitySold: number;
 }

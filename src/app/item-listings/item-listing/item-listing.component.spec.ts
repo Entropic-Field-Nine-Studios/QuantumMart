@@ -21,6 +21,7 @@ describe('ItemListing', () => {
       price: 2.3,
       imageUrl: 'testurl',
       isActive: true,
+      quantitySold: 0,
     };
 
     await fixture.whenStable();

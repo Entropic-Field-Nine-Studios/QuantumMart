@@ -20,6 +20,7 @@ describe('ItemListingService', () => {
     id: '123',
     sellerUsername: 'testuser',
     isActive: true,
+    quantitySold: 0,
   };
 
   beforeEach(() => {

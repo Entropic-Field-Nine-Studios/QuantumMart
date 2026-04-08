@@ -21,6 +21,7 @@ describe('CartItemService', () => {
     id: '123',
     sellerUsername: 'testuser',
     isActive: true,
+    quantitySold: 0,
   };
 
   const cartItem1: CartItem = {

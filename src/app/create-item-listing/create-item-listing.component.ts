@@ -67,6 +67,7 @@ export class CreateItemListingComponent {
         price: price,
         sellerUsername: this.authService.username!,
         isActive: true,
+        quantitySold: 0,
       };
 
       this.itemListingService.createListing(listing).subscribe({
