@@ -1,5 +1,5 @@
 <div class="page-block">
-  <h1>Editing item listing</h1>
+  <h1>Editing "{{ listing()?.title ?? 'item listing' }}"</h1>
 
   <form [formGroup]="editListingForm">
     <mat-form-field appearance="outline">
@@ -24,5 +24,7 @@
   </form>
 
   <button matButton (click)="navigateBack()">Cancel</button>
-  <button matButton="filled" (click)="saveClicked()">Save</button>
+  <button matButton="filled" (click)="saveClicked()" [disabled]="!editListingForm.valid">
+    Save
+  </button>
 </div>

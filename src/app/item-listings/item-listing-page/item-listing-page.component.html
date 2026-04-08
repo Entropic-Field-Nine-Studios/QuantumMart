@@ -6,6 +6,11 @@
       <div mat-card-avatar class="image-wrapper">
         <img [src]="fullListing!.imageUrl || 'assets/no_image.jpg'" [alt]="fullListing!.title" />
       </div>
+      @if (loggedIn && isListingCurrentUser) {
+        <button matIconButton (click)="navigateEdit()" matTooltip="Edit listing">
+          <mat-icon>edit</mat-icon>
+        </button>
+      }
       <div>
         <h3>{{ fullListing!.title }}</h3>
       </div>

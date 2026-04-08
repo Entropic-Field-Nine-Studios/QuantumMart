@@ -11,7 +11,8 @@ import { CurrencyPipe } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { CartItemService } from '../../cart/cart-item.service';
 import { MatIcon } from '@angular/material/icon';
-import { MatFabButton } from '@angular/material/button';
+import { MatFabButton, MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   imports: [
@@ -21,18 +22,22 @@ import { MatFabButton } from '@angular/material/button';
     CurrencyPipe,
     MatIcon,
     MatFabButton,
+    MatIconButton,
+    MatTooltip,
   ],
   templateUrl: './item-listing-page.component.html',
   styleUrl: './item-listing-page.component.scss',
 })
 export class ItemListingPageComponent implements OnInit {
-  private itemListingService = inject(ItemListingService);
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-  private messageService = inject(MessageService);
-  private authService = inject(AuthService);
-  private cartService = inject(CartItemService);
-  listing = signal<ItemListing | null>(null);
+  private readonly itemListingService = inject(ItemListingService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly messageService = inject(MessageService);
+  private readonly authService = inject(AuthService);
+  private readonly cartService = inject(CartItemService);
+
+  readonly listing = signal<ItemListing | null>(null);
+
   isListingCurrentUser = false;
   loggedIn = false;
 
@@ -72,6 +77,10 @@ export class ItemListingPageComponent implements OnInit {
 
   navigateToUser() {
     this.router.navigate([`/profile/${this.listing()!.sellerId}`]);
+  }
+
+  navigateEdit() {
+    this.router.navigate(['edit'], { relativeTo: this.activatedRoute });
   }
 
   get fullListing(): ItemListing | null {
