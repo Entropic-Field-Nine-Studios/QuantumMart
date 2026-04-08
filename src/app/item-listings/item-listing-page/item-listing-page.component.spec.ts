@@ -1,17 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ItemListingListComponent } from '../item-listing-list/item-listing-list.component';
+import { ItemListingPageComponent } from './item-listing-page.component';
+import { provideRouter } from '@angular/router';
 
-describe('ItemListingListComponent', () => {
-  let component: ItemListingListComponent;
-  let fixture: ComponentFixture<ItemListingListComponent>;
+describe('ItemListingPageComponent', () => {
+  let component: ItemListingPageComponent;
+  let fixture: ComponentFixture<ItemListingPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ItemListingListComponent],
+      imports: [ItemListingPageComponent],
+      providers: [provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ItemListingListComponent);
+    fixture = TestBed.createComponent(ItemListingPageComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
