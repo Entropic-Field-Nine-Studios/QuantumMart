@@ -24,6 +24,14 @@ export class UserCardComponent {
     this.messageService.info('You have been logged out.');
   }
 
+  navigatePurchases() {
+    this.router.navigate(['/purchases']);
+  }
+
+  navigateDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
+
   navigateProfile() {
     this.router.navigate([`/profile/${this.user.id}`]);
   }

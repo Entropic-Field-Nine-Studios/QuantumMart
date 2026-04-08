@@ -19,6 +19,14 @@
         <mat-icon>person</mat-icon>
         <span>My Profile</span>
       </button>
+      <button mat-menu-item (click)="navigatePurchases()">
+        <mat-icon>payments</mat-icon>
+        <span>Purchases</span>
+      </button>
+      <button mat-menu-item (click)="navigateDashboard()">
+        <mat-icon>list_alt</mat-icon>
+        <span>Seller Dashboard</span>
+      </button>
       <button mat-menu-item (click)="navigateSettings()">
         <mat-icon>settings</mat-icon>
         <span>Account Settings</span>
