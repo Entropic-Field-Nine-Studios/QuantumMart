@@ -7,10 +7,19 @@ import { CurrencyPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-user-card',
-  imports: [CurrencyPipe, MatButtonModule, MatIcon, MatMenu, MatMenuItem, MatMenuTrigger],
+  imports: [
+    CurrencyPipe,
+    MatButtonModule,
+    MatIcon,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger,
+    MatTooltip,
+  ],
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.scss',
 })
@@ -24,20 +33,12 @@ export class UserCardComponent {
     this.messageService.info('You have been logged out.');
   }
 
-  navigatePurchases() {
-    this.router.navigate(['/purchases']);
-  }
-
-  navigateDashboard() {
-    this.router.navigate(['/dashboard']);
+  navigateTo(route: string) {
+    this.router.navigate([`/${route}`]);
   }
 
   navigateProfile() {
     this.router.navigate([`/profile/${this.user.id}`]);
-  }
-
-  navigateSettings() {
-    this.router.navigate(['/account-settings']);
   }
 
   get user(): User {

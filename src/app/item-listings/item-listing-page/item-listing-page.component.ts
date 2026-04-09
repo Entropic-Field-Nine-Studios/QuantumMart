@@ -71,10 +71,6 @@ export class ItemListingPageComponent implements OnInit {
     });
   }
 
-  openCartDialog(): void {
-    this.router.navigate(['/cart']);
-  }
-
   navigateToUser() {
     this.router.navigate([`/profile/${this.listing()!.sellerId}`]);
   }

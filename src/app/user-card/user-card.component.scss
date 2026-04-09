@@ -3,7 +3,7 @@
   flex-direction: row;
   gap: 8px;
   padding: 15px;
-  width: 300px;
+  width: 350px;
   height: 70px;
 
   border-radius: 12px;
@@ -47,4 +47,5 @@
 .sub-menu {
   display: flex;
   margin-left: auto;
+  gap: 10px;
 }

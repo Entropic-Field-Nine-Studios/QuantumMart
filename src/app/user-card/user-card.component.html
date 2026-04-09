@@ -11,6 +11,9 @@
   </div>
 
   <div class="sub-menu">
+    <button matIconButton matTooltip="View cart" (click)="navigateTo('cart')">
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
     <button matIconButton [matMenuTriggerFor]="matMenu">
       <mat-icon>more_vert</mat-icon>
     </button>
@@ -19,15 +22,15 @@
         <mat-icon>person</mat-icon>
         <span>My Profile</span>
       </button>
-      <button mat-menu-item (click)="navigatePurchases()">
+      <button mat-menu-item (click)="navigateTo('purchases')">
         <mat-icon>payments</mat-icon>
         <span>Purchases</span>
       </button>
-      <button mat-menu-item (click)="navigateDashboard()">
+      <button mat-menu-item (click)="navigateTo('dashboard')">
         <mat-icon>list_alt</mat-icon>
         <span>Seller Dashboard</span>
       </button>
-      <button mat-menu-item (click)="navigateSettings()">
+      <button mat-menu-item (click)="navigateTo('account-settings')">
         <mat-icon>settings</mat-icon>
         <span>Account Settings</span>
       </button>

@@ -69,10 +69,6 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/create-listing']);
   }
 
-  openCartDialog(): void {
-    this.router.navigate(['/cart']);
-  }
-
   showUserListingsToggled() {
     if (this.showUserListings) {
       this.paginatorListings.setItems(this.allListings() ?? []);
