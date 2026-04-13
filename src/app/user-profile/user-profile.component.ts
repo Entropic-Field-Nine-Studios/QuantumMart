@@ -6,7 +6,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { DateService } from '../date/date.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
@@ -29,7 +28,6 @@ import { ItemListingListComponent } from '../item-listings/item-listing-list/ite
 export class UserProfileComponent implements OnInit {
   private userService = inject(UserService);
   private itemListingService = inject(ItemListingService);
-  private dateService = inject(DateService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private messageService = inject(MessageService);
@@ -42,7 +40,7 @@ export class UserProfileComponent implements OnInit {
     this.userService.getUserById(this.activatedRoute.snapshot.params['userid']).subscribe({
       next: (user) => {
         this.user.set(user);
-        this.sDateCreated = this.dateService.formatDate(new Date(user.createdAt));
+        this.sDateCreated = this.formatDate(new Date(user.createdAt));
         this.itemListingService.getAllListingsByUsername(user.username ?? '').subscribe({
           next: (data) => this.listings.set(data),
           error: () => this.listings.set([]),
@@ -59,5 +57,9 @@ export class UserProfileComponent implements OnInit {
         }
       },
     });
+  }
+
+  private formatDate(date: Date): string {
+    return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
   }
 }
