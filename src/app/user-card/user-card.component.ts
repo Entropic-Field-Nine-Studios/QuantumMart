@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { User } from '../users/user.model';
 import { UserStore } from '../core/stores/user.store';
 import { MessageService } from '../shared/message/message.service';
@@ -8,6 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { MatTooltip } from '@angular/material/tooltip';
+import { MatBadgeModule } from '@angular/material/badge';
+import { NotificationService } from '../notifications/notification.service';
+import { Notification } from '../notifications/notification.model';
+import { NotificationItemComponent } from '../notifications/notification-item/notification-item.component';
 
 @Component({
   selector: 'app-user-card',
@@ -19,6 +23,8 @@ import { MatTooltip } from '@angular/material/tooltip';
     MatMenuItem,
     MatMenuTrigger,
     MatTooltip,
+    MatBadgeModule,
+    NotificationItemComponent,
   ],
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.scss',
@@ -27,6 +33,24 @@ export class UserCardComponent {
   private readonly userStore = inject(UserStore);
   private readonly messageService = inject(MessageService);
   private readonly router = inject(Router);
+  private readonly notifService = inject(NotificationService);
+
+  readonly notifications = signal<Notification[] | null>(null);
+  readonly notificationTotal = computed(
+    () => this.notifications()?.filter((n) => n.readAt === null).length ?? 0,
+  );
+
+  constructor() {
+    effect(() => {
+      const user = this.userStore.user();
+      if (!user) return;
+
+      this.notifService.getNotifications(user.id).subscribe({
+        next: (n) => this.notifications.set(n),
+        error: () => this.notifications.set([]),
+      });
+    });
+  }
 
   logout() {
     this.userStore.clear({ navigateLogin: true });

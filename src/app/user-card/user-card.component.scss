@@ -24,6 +24,21 @@
   }
 }
 
+::ng-deep .notif-menu-panel {
+  max-height: 400px; // set your height
+  max-width: none !important;
+  padding: 5px; // optional: remove default padding
+}
+
+::ng-deep .notif-menu-panel.mat-mdc-menu-panel {
+  width: fit-content;
+}
+
+.notif-container {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
 .username {
   font-size: 1.2rem;
   font-weight: 600;

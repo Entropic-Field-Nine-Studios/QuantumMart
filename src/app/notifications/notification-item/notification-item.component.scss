@@ -1,0 +1,24 @@
+.notification-container {
+  width: 500px;
+  padding: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.notif-message {
+  font-size: 14px;
+  font-weight: 400;
+
+  &.unread {
+    color: var(--qm-text-primary);
+    font-weight: bold;
+  }
+}
+
+.notif-time {
+  font-size: 12px;
+  color: var(--mdc-theme-on-surface-variant);
+}
