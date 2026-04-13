@@ -34,9 +34,10 @@
   width: fit-content;
 }
 
-.notif-container {
+.notification-container {
   max-height: 400px;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .username {

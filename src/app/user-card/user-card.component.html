@@ -22,12 +22,14 @@
           <p>All caught up.</p>
         </div>
       } @else {
-        @for (notif of notifications(); track $index) {
-          <app-notification-item
-            [notification]="notif"
-            (markedAsRead)="lowerNotifBadgeCount($event)"
-          ></app-notification-item>
-        }
+        <div class="notification-container">
+          @for (notif of notifications(); track $index) {
+            <app-notification-item
+              [notification]="notif"
+              (markedAsRead)="lowerNotifBadgeCount($event)"
+            ></app-notification-item>
+          }
+        </div>
       }
     </mat-menu>
 

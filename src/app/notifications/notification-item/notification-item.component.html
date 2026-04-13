@@ -1,4 +1,4 @@
-<div class="notification-container" (click)="open()">
+<button class="notification-container" (click)="open()">
   <div class="notif-message" [class.unread]="notification.readAt === null">
     {{ notification.message }}
   </div>
@@ -6,4 +6,4 @@
   <div class="notif-time">
     {{ creationDate }}
   </div>
-</div>
+</button>
