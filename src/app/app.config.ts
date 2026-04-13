@@ -10,7 +10,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './auth/auth.interceptor';
 import { UserStore } from './core/stores/user.store';
-import { CustomTitleStrategy } from './title/customTitleStrategy';
+import { CustomTitleStrategy } from './title/customTitleStrategy.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +20,6 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       inject(UserStore).init();
     }),
-    {provide: TitleStrategy, useClass: CustomTitleStrategy},
+    { provide: TitleStrategy, useClass: CustomTitleStrategy },
   ],
 };

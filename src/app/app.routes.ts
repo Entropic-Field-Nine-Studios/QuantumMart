@@ -27,40 +27,55 @@ export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'about-us', component: AboutUsComponent, title: 'About Us' },
   { path: 'login', component: LoginComponent, canActivate: [userRedirectGuard], title: 'Login' },
-  { path: 'register', component: RegistrationComponent, canActivate: [userRedirectGuard], title: 'Regesiter' },
+  {
+    path: 'register',
+    component: RegistrationComponent,
+    canActivate: [userRedirectGuard],
+    title: 'Regesiter',
+  },
   { path: 'profile/:userid', component: UserProfileComponent, title: 'Profile' },
-  { path: 'listing/:listid', component: ItemListingPageComponent, title: 'Listing'  },
+  { path: 'listing/:listid', component: ItemListingPageComponent, title: 'Listing' },
   {
     path: 'listing/:listid/edit',
     component: EditItemListingComponent,
     canActivate: [editItemListingGuard],
   },
-  { path: 'checkout', component: CheckoutComponent, canActivate: [checkoutGuard], title: 'Checkout'  },
-  { path: 'dashboard', component: SellerDashboardComponent, canActivate: [authGuard], title: 'Dashboard'  },
+  {
+    path: 'checkout',
+    component: CheckoutComponent,
+    canActivate: [checkoutGuard],
+    title: 'Checkout',
+  },
+  {
+    path: 'dashboard',
+    component: SellerDashboardComponent,
+    canActivate: [authGuard],
+    title: 'Dashboard',
+  },
   {
     path: 'create-listing',
     component: CreateItemListingComponent,
     canActivate: [authGuard],
     canDeactivate: [createItemListingGuard],
-    title: 'Create Listing' 
+    title: 'Create Listing',
   },
   {
     path: 'cart',
     component: CartComponent,
     canActivate: [authGuard],
-    title: 'Cart' 
+    title: 'Cart',
   },
   {
     path: 'purchases',
     component: PurchasesComponent,
     canActivate: [authGuard],
-    title: 'Purchases' 
+    title: 'Purchases',
   },
   {
     path: 'account-settings',
     component: UserSettingsComponent,
     canActivate: [authGuard],
-    title: 'Account Settings', 
+    title: 'Account Settings',
     children: [
       {
         path: '',

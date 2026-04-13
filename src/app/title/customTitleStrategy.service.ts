@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { RouterStateSnapshot, TitleStrategy } from '@angular/router';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
-export class CustomTitleStrategy extends TitleStrategy  {
-  constructor(private readonly title: Title) {
+export class CustomTitleStrategy extends TitleStrategy {
+  private readonly title = inject(Title);
+
+  constructor() {
     super();
   }
 
