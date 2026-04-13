@@ -5,7 +5,7 @@ import { RouterStateSnapshot, TitleStrategy } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
-export class CustomTitleStrategy extends TitleStrategy {
+export class CustomTitleStrategyService extends TitleStrategy {
   private readonly title = inject(Title);
 
   constructor() {
