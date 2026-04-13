@@ -52,6 +52,24 @@ export class UserCardComponent {
     });
   }
 
+  /**
+   * Marks the emitted notification ID as read.
+   *
+   * @param id Notification ID
+   */
+  lowerNotifBadgeCount(id: string) {
+    this.notifications.update(
+      (notifs) =>
+        notifs?.map((item) => {
+          if (item.id === id) {
+            item.readAt = ''; // Local update
+          }
+
+          return item;
+        }) ?? [],
+    );
+  }
+
   logout() {
     this.userStore.clear({ navigateLogin: true });
     this.messageService.info('You have been logged out.');

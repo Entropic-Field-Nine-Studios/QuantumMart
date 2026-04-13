@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Notification } from '../notification.model';
 import { NotificationService } from '../notification.service';
 import { Router } from '@angular/router';
@@ -13,13 +13,22 @@ import { DateUtil } from '../../shared/utils/date-util';
 export class NotificationItemComponent {
   @Input({ required: true }) notification!: Notification;
 
+  /**
+   * Emits when the user marks a notification as read.
+   */
+  @Output() markedAsRead = new EventEmitter<string>();
+
   private readonly notifService = inject(NotificationService);
   private readonly router = inject(Router);
 
   open() {
     this.notifService.readNotification(this.notification.id!).subscribe({
-      next: () => (this.notification.readAt = ''), // Update local state
+      next: () => {
+        this.notification.readAt = ''; // Update local state
+        this.markedAsRead.emit(this.notification.id);
+      },
     });
+
     this.router.navigate([this.notification.route]);
   }
 

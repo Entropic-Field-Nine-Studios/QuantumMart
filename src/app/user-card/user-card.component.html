@@ -23,7 +23,10 @@
         </div>
       } @else {
         @for (notif of notifications(); track $index) {
-          <app-notification-item [notification]="notif"></app-notification-item>
+          <app-notification-item
+            [notification]="notif"
+            (markedAsRead)="lowerNotifBadgeCount($event)"
+          ></app-notification-item>
         }
       }
     </mat-menu>
