@@ -10,8 +10,6 @@ import { routes } from './app.routes';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './auth/auth.interceptor';
 import { UserStore } from './core/stores/user.store';
-import { CustomTitleStrategyService } from './title/customTitleStrategy.service';
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
@@ -20,6 +18,5 @@ export const appConfig: ApplicationConfig = {
     provideAppInitializer(() => {
       inject(UserStore).init();
     }),
-    { provide: TitleStrategy, useClass: CustomTitleStrategyService },
   ],
 };
