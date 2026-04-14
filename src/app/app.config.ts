@@ -4,7 +4,7 @@ import {
   provideAppInitializer,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter, TitleStrategy } from '@angular/router';
+import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
