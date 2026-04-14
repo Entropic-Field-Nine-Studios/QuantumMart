@@ -5,7 +5,7 @@ describe('DateUtil', () => {
   let clock: Sinon.SinonFakeTimers;
 
   beforeEach(() => {
-    clock = Sinon.useFakeTimers(new Date('2026-01-01T12:00:00Z').getTime());
+    clock = Sinon.useFakeTimers(new Date(2026, 0, 1, 6, 0, 0).getTime());
   });
 
   afterEach(() => {
