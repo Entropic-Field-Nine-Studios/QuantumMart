@@ -20,12 +20,12 @@
     <mat-icon>more_vert</mat-icon>
   </button>
   <mat-menu #notifActions="matMenu" hasBackdrop="false">
-    <button mat-menu-item (click)="$event.stopPropagation(); markAsRead()">
+    <button mat-menu-item (click)="markAsRead()">
       <mat-icon>done</mat-icon>
       <span>Mark as read</span>
     </button>
 
-    <button mat-menu-item (click)="$event.stopPropagation(); hide()">
+    <button mat-menu-item (click)="hide()">
       <mat-icon>delete</mat-icon>
       <span>Remove</span>
     </button>
