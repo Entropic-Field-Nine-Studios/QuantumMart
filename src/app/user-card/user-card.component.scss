@@ -32,12 +32,21 @@
 
 ::ng-deep .notif-menu-panel.mat-mdc-menu-panel {
   width: fit-content;
+  min-width: 200px;
 }
 
 .notification-container {
   max-height: 400px;
   display: flex;
   flex-direction: column;
+}
+
+// Displayed text for no notifications
+.notification-none-msg {
+  font-weight: normal;
+  text-align: center;
+  cursor: default;
+  user-select: none;
 }
 
 .username {

@@ -18,8 +18,8 @@
     </button>
     <mat-menu class="notif-menu-panel" xPosition="before" yPosition="below" #notificationMenu>
       @if (notifications()?.length === 0) {
-        <div>
-          <p>All caught up.</p>
+        <div class="notification-none-msg">
+          <p>All caught up!</p>
         </div>
       } @else {
         <div class="notification-container">
