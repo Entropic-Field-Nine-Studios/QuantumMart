@@ -24,6 +24,31 @@
   }
 }
 
+::ng-deep .notif-menu-panel {
+  max-height: 400px;
+  max-width: none !important;
+  padding: 5px;
+}
+
+::ng-deep .notif-menu-panel.mat-mdc-menu-panel {
+  width: fit-content;
+  min-width: 200px;
+}
+
+.notification-container {
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+// Displayed text for no notifications
+.notification-none-msg {
+  font-weight: normal;
+  text-align: center;
+  cursor: default;
+  user-select: none;
+}
+
 .username {
   font-size: 1.2rem;
   font-weight: 600;

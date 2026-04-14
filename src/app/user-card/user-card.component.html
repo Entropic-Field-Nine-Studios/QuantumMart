@@ -11,13 +11,37 @@
   </div>
 
   <div class="sub-menu">
+    <button matIconButton [matMenuTriggerFor]="notificationMenu" matTooltip="Notifications">
+      <mat-icon [matBadge]="notificationTotal()" [matBadgeHidden]="notificationTotal() === 0">
+        notifications
+      </mat-icon>
+    </button>
+    <mat-menu class="notif-menu-panel" xPosition="before" yPosition="below" #notificationMenu>
+      @if (notifications()?.length === 0) {
+        <div class="notification-none-msg">
+          <p>All caught up!</p>
+        </div>
+      } @else {
+        <div class="notification-container">
+          @for (notif of notifications(); track $index) {
+            <app-notification-item
+              [notification]="notif"
+              (markedAsRead)="lowerNotifBadgeCount($event)"
+              (markedHidden)="hideNotif($event)"
+            ></app-notification-item>
+          }
+        </div>
+      }
+    </mat-menu>
+
     <button matIconButton matTooltip="View cart" (click)="navigateTo('cart')">
       <mat-icon>shopping_cart</mat-icon>
     </button>
-    <button matIconButton [matMenuTriggerFor]="matMenu">
+
+    <button matIconButton [matMenuTriggerFor]="userOptions">
       <mat-icon>more_vert</mat-icon>
     </button>
-    <mat-menu #matMenu>
+    <mat-menu #userOptions>
       <button mat-menu-item (click)="navigateProfile()">
         <mat-icon>person</mat-icon>
         <span>My Profile</span>
