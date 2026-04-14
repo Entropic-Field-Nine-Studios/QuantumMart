@@ -1,19 +1,31 @@
 .notification-container {
   width: 500px;
   padding: 4px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  text-align: left;
+  display: flex;
+  justify-content: space-between;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.04);
   }
 }
 
+.notification-msg-btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  flex: 1;
+}
+
+.notif-left {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .notif-message {
   font-size: 15px;
   font-weight: 400;
+  text-align: left;
 
   &.unread {
     color: var(--qm-text-primary);
@@ -23,5 +35,11 @@
 
 .notif-time {
   font-size: 12px;
+  align-self: flex-start;
   color: var(--mdc-theme-on-surface-variant);
+}
+
+.options-btn {
+  display: block;
+  margin-left: 8px;
 }

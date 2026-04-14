@@ -70,6 +70,10 @@ export class UserCardComponent {
     );
   }
 
+  hideNotif(id: string) {
+    this.notifications.update((notifs) => notifs?.filter((item) => item.id != id) ?? []);
+  }
+
   logout() {
     this.userStore.clear({ navigateLogin: true });
     this.messageService.info('You have been logged out.');

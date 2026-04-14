@@ -1,9 +1,33 @@
-<button class="notification-container" (click)="open()">
-  <div class="notif-message" [class.unread]="notification.readAt === null">
-    {{ notification.message }}
-  </div>
+<div class="notification-container">
+  <button class="notification-msg-btn" (click)="open()">
+    <div class="notif-left">
+      <div class="notif-message" [class.unread]="notification.readAt === null">
+        {{ notification.message }}
+      </div>
 
-  <div class="notif-time">
-    {{ creationDate }}
-  </div>
-</button>
+      <div class="notif-time">
+        {{ creationDate }}
+      </div>
+    </div>
+  </button>
+
+  <button
+    class="options-btn"
+    mat-icon-button
+    (click)="$event.stopPropagation()"
+    [matMenuTriggerFor]="notifActions"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #notifActions="matMenu" hasBackdrop="false">
+    <button mat-menu-item (click)="$event.stopPropagation(); markAsRead()">
+      <mat-icon>done</mat-icon>
+      <span>Mark as read</span>
+    </button>
+
+    <button mat-menu-item (click)="$event.stopPropagation(); hide()">
+      <mat-icon>delete</mat-icon>
+      <span>Remove</span>
+    </button>
+  </mat-menu>
+</div>

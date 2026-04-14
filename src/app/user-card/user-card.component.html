@@ -27,6 +27,7 @@
             <app-notification-item
               [notification]="notif"
               (markedAsRead)="lowerNotifBadgeCount($event)"
+              (markedHidden)="hideNotif($event)"
             ></app-notification-item>
           }
         </div>
