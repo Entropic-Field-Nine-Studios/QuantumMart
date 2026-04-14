@@ -44,7 +44,7 @@ export class UserProfileComponent implements OnInit {
       next: (user) => {
         this.user.set(user);
         this.title.setTitle(qmTitle(user.username + "'s profile"));
-        this.sDateCreated = this.dateService.formatDate(new Date(user.createdAt));
+        this.sDateCreated = this.formatDate(new Date(user.createdAt));
         this.itemListingService.getAllListingsByUsername(user.username ?? '').subscribe({
           next: (data) => this.listings.set(data),
           error: () => this.listings.set([]),
