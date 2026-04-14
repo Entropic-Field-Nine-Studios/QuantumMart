@@ -34,11 +34,18 @@ describe('DateUtil', () => {
     expect(result).toBe('4 hours ago');
   });
 
-  it('returns "Yesterday at h:mm AM" for timestamps 1 day old', () => {
-    const oneDay = new Date(Date.now() - 1 * DateUtil.MS_PER_DAY);
-    const result = DateUtil.formatDistanceToNow(oneDay);
+  it('returns "Today at 12:00 AM" for timestamp on the same day', () => {
+    const today = new Date(Date.now() - 6 * DateUtil.MS_PER_HOUR);
+    const result = DateUtil.formatDistanceToNow(today);
 
-    expect(result).toBe('Yesterday at 6:00 AM');
+    expect(result).toBe('Today at 12:00 AM');
+  });
+
+  it('returns "Yesterday at 6:00 PM" for timestamp on the previous day', () => {
+    const prevDay = new Date(Date.now() - 12 * DateUtil.MS_PER_HOUR);
+    const result = DateUtil.formatDistanceToNow(prevDay);
+
+    expect(result).toBe('Yesterday at 6:00 PM');
   });
 
   it('returns exact time when timestamp is longer than a week', () => {

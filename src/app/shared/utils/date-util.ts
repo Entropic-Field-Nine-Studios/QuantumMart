@@ -61,12 +61,12 @@ export class DateUtil {
     }
 
     // Today
-    if (diffDays === 0) {
+    if (this.isSameDay(d)) {
       return `Today at ${this.formatTime(d)}`;
     }
 
     // Yesterday
-    if (diffDays === 1) {
+    if (this.isYesterday(d, now)) {
       return `Yesterday at ${this.formatTime(d)}`;
     }
 
@@ -77,6 +77,21 @@ export class DateUtil {
 
     // Final fallback
     return `${d.toLocaleDateString()} at ${this.formatTime(d)}`;
+  }
+
+  private static isSameDay(date: Date, now = new Date()): boolean {
+    return (
+      date.getFullYear() === now.getFullYear() &&
+      date.getMonth() === now.getMonth() &&
+      date.getDate() === now.getDate()
+    );
+  }
+
+  private static isYesterday(date: Date, now: Date): boolean {
+    const yesterday = new Date(now);
+    yesterday.setDate(now.getDate() - 1);
+
+    return this.isSameDay(date, yesterday);
   }
 
   private static relevanceInFuture(diffMs: number): string {
