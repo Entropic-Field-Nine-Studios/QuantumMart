@@ -12,6 +12,8 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { MessageService } from '../shared/message/message.service';
 import { ItemListingListComponent } from '../item-listings/item-listing-list/item-listing-list.component';
+import { Title } from '@angular/platform-browser';
+import { qmTitle } from '../title/qm-title';
 
 @Component({
   imports: [
@@ -33,6 +35,7 @@ export class UserProfileComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
   private messageService = inject(MessageService);
+  private title = inject(Title);
 
   user = signal<User | null>(null);
   sDateCreated!: string;
@@ -42,6 +45,7 @@ export class UserProfileComponent implements OnInit {
     this.userService.getUserById(this.activatedRoute.snapshot.params['userid']).subscribe({
       next: (user) => {
         this.user.set(user);
+        this.title.setTitle(qmTitle(user.username + "'s profile"));
         this.sDateCreated = this.dateService.formatDate(new Date(user.createdAt));
         this.itemListingService.getAllListingsByUsername(user.username ?? '').subscribe({
           next: (data) => this.listings.set(data),
