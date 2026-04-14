@@ -1,5 +1,5 @@
 /**
- * Utility class for manipulating dates. This is a `static` class and should not be initialized.
+ * Utility class for manipulating dates.
  */
 export class DateUtil {
   /** Milliseconds in a second. */
