@@ -41,6 +41,7 @@ describe('CartItemService', () => {
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         ...provideHttpClientTesting(),
+        { provide: CartItemService, useClass: CartItemService },
       ],
     });
 
