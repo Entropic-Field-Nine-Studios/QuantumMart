@@ -54,17 +54,17 @@
   <section class="summary-box">
     <h2>Summary</h2>
     <hr />
-    <h3>Subtotal: {{ subTotal() | currency }}</h3>
+    <h3>Subtotal: {{ subtotal | currency }}</h3>
     <h3>Shipping: FREE</h3>
-    <h3>Fees: {{ (subTotal() ?? 0) * taxAmount | currency }}</h3>
+    <h3>Fees: {{ subtotal * taxAmount | currency }}</h3>
     <h3>Total: {{ getTotal() | currency }}</h3>
   </section>
 
   <section class="cart-contents-box">
-    @if (cartItems() !== null) {
+    @if (cartItems !== null) {
       <h2>In your cart</h2>
       <hr />
-      <app-cart-item-card-list [cartItems]="cartItems()!" [showDelete]="false" />
+      <app-cart-item-card-list [cartItems]="cartItems" [showDelete]="false" />
     }
   </section>
 </div>

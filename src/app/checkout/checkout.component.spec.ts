@@ -33,8 +33,6 @@ describe('Checkout', () => {
   });
 
   it('should create', () => {
-    httpMock.expectOne('http://localhost:8080/api/cart-items/user/stub').flush([]);
-
     httpMock.expectOne('http://localhost:8080/api/address/primary/stub').flush({});
 
     expect(component).toBeTruthy();

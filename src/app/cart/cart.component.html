@@ -1,13 +1,11 @@
 <div class="page-boundaries">
   <h1>Viewing your cart</h1>
-  @if (cartItems() === null) {
-    <mat-spinner></mat-spinner>
-  } @else if (cartItems()!.length === 0) {
+  @if (cartItems.length === 0) {
     <p>Your cart is empty. Why don't you do some shopping?</p>
   } @else {
     <button matButton (click)="clearCart()">Clear Cart</button>
     <app-cart-item-card-list
-      [cartItems]="cartItems()"
+      [cartItems]="cartItems"
       [showDelete]="true"
       (removeItem)="removeCartItem($event)"
     ></app-cart-item-card-list>

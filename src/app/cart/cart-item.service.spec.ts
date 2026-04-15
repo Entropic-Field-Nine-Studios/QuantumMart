@@ -42,20 +42,6 @@ describe('CartItemService', () => {
     httpMock.verify();
   });
 
-  it("should GET user's cart items", () => {
-    const userId = '5';
-    const mockResponse = [cartItem1];
-
-    service.getCartItemsByUserId(userId).subscribe((res) => {
-      expect(res).to.deep.equal(mockResponse);
-    });
-
-    const req = httpMock.expectOne(`${service.baseUrl}/user/${userId}`);
-    expect(req.request.method).to.equal('GET');
-
-    req.flush(mockResponse);
-  });
-
   it('should POST to cart item service', () => {
     const userId = '5';
 

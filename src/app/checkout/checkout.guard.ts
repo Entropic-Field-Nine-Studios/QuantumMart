@@ -2,7 +2,6 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 import { CartItemService } from '../cart/cart-item.service';
-import { catchError, map, of } from 'rxjs';
 
 /**
  * Route activation guard which ensures the following:
@@ -22,16 +21,9 @@ export const checkoutGuard: CanActivateFn = () => {
     return router.createUrlTree(['/login']);
   }
 
-  return cartService.getCartItemsByUserId(authService.userId!).pipe(
-    map((cartItems) => {
-      if (cartItems.length === 0) {
-        return router.createUrlTree(['/home']);
-      }
+  if (cartService.cartCount() === 0) {
+    return router.createUrlTree(['/home']);
+  }
 
-      return true;
-    }),
-    catchError(() => {
-      return of(router.createUrlTree(['/home']));
-    }),
-  );
+  return true;
 };
