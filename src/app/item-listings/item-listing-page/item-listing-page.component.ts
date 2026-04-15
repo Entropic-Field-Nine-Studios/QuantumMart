@@ -13,6 +13,8 @@ import { CartItemService } from '../../cart/cart-item.service';
 import { MatIcon } from '@angular/material/icon';
 import { MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
+import { Title } from '@angular/platform-browser';
+import { qmTitle } from '../../title/qm-title';
 
 @Component({
   imports: [
@@ -35,6 +37,7 @@ export class ItemListingPageComponent implements OnInit {
   private readonly messageService = inject(MessageService);
   private readonly authService = inject(AuthService);
   private readonly cartService = inject(CartItemService);
+  private title = inject(Title);
 
   readonly listing = signal<ItemListing | null>(null);
 
@@ -47,6 +50,7 @@ export class ItemListingPageComponent implements OnInit {
       .subscribe({
         next: (listing1) => {
           this.listing.set(listing1);
+          this.title.setTitle(qmTitle(listing1.title));
           this.isListingCurrentUser = this.authService.userId === listing1.sellerId;
           this.loggedIn = this.authService.isLoggedIn;
         },
