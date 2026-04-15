@@ -37,7 +37,7 @@ export const routes: Routes = [
     path: 'register',
     component: RegistrationComponent,
     canActivate: [userRedirectGuard],
-    title: 'Regisiter',
+    title: qmTitle('Register'),
   },
   { path: 'profile/:userid', component: UserProfileComponent },
   { path: 'listing/:listid', component: ItemListingPageComponent },
