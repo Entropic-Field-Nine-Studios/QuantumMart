@@ -6,11 +6,7 @@ import { expect } from 'chai';
 import { CartItem } from './cart-item.model';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { AuthService } from '../auth/auth.service';
-
-class MockAuthService {
-  isLoggedIn = false;
-  userId = null;
-}
+import { MockAuthService } from 'src/testing/mock-auth.service';
 
 describe('CartItemService', () => {
   let service: CartItemService;
@@ -41,7 +37,6 @@ describe('CartItemService', () => {
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         ...provideHttpClientTesting(),
-        { provide: CartItemService, useClass: CartItemService },
       ],
     });
 

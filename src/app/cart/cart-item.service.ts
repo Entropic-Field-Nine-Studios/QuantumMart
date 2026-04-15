@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { CartItem } from './cart-item.model';
 import { ItemListing } from '../item-listings/item-listing.model';
@@ -30,9 +30,19 @@ export class CartItemService {
   );
 
   constructor() {
-    if (!this.auth.isLoggedIn) return;
+    effect(() => {
+      // Trigger this effect
+      this.auth.authChanged();
 
-    this.getCartItemsByUserId(this.auth.userId!).subscribe((items) => this._cartItems.set(items));
+      const userId = this.auth.userId;
+
+      if (!userId) {
+        this._cartItems.set([]);
+        return;
+      }
+
+      this.getCartItemsByUserId(userId).subscribe((items) => this._cartItems.set(items));
+    });
   }
 
   /**
