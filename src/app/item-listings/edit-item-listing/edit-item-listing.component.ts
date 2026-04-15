@@ -62,7 +62,7 @@ export class EditItemListingComponent implements OnInit {
     this.itemListingService.getListingById(listingId).subscribe({
       next: (listing) => {
         this.listing.set(listing);
-        this.title.setTitle(qmTitle('Editing (' + listing.title + ')'));
+        this.title.setTitle(qmTitle('Editing ' + listing.title));
         this.editListingForm.patchValue({
           title: listing.title,
           description: listing.description,
