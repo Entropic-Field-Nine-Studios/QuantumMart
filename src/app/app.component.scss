@@ -1,4 +1,8 @@
 .page-padding {
   padding: 24px;
-  padding-bottom: 100px;
+}
+.screen-layout {
+  min-height: 100dvh;
+  display: grid;
+  grid-auto-rows: auto 1fr auto;
 }
