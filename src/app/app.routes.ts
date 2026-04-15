@@ -21,13 +21,24 @@ import { CreateAddressComponent } from './user-settings/saved-addresses/create-a
 import { ItemListingPageComponent } from './item-listings/item-listing-page/item-listing-page.component';
 import { EditItemListingComponent } from './item-listings/edit-item-listing/edit-item-listing.component';
 import { editItemListingGuard } from './item-listings/edit-item-listing.guard';
+import { qmTitle } from './title/qm-title';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'about-us', component: AboutUsComponent },
-  { path: 'login', component: LoginComponent, canActivate: [userRedirectGuard] },
-  { path: 'register', component: RegistrationComponent, canActivate: [userRedirectGuard] },
+  { path: 'home', component: HomeComponent, title: 'Quantum Mart' },
+  { path: 'about-us', component: AboutUsComponent, title: qmTitle('About Us') },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [userRedirectGuard],
+    title: qmTitle('Login'),
+  },
+  {
+    path: 'register',
+    component: RegistrationComponent,
+    canActivate: [userRedirectGuard],
+    title: qmTitle('Register'),
+  },
   { path: 'profile/:userid', component: UserProfileComponent },
   { path: 'listing/:listid', component: ItemListingPageComponent },
   {
@@ -35,28 +46,42 @@ export const routes: Routes = [
     component: EditItemListingComponent,
     canActivate: [editItemListingGuard],
   },
-  { path: 'checkout', component: CheckoutComponent, canActivate: [checkoutGuard] },
-  { path: 'dashboard', component: SellerDashboardComponent, canActivate: [authGuard] },
+  {
+    path: 'checkout',
+    component: CheckoutComponent,
+    canActivate: [checkoutGuard],
+    title: qmTitle('Checkout'),
+  },
+  {
+    path: 'dashboard',
+    component: SellerDashboardComponent,
+    canActivate: [authGuard],
+    title: qmTitle('Dashboard'),
+  },
   {
     path: 'create-listing',
     component: CreateItemListingComponent,
     canActivate: [authGuard],
     canDeactivate: [createItemListingGuard],
+    title: qmTitle('Create Listing'),
   },
   {
     path: 'cart',
     component: CartComponent,
     canActivate: [authGuard],
+    title: qmTitle('Cart'),
   },
   {
     path: 'purchases',
     component: PurchasesComponent,
     canActivate: [authGuard],
+    title: qmTitle('Purchases'),
   },
   {
     path: 'account-settings',
     component: UserSettingsComponent,
     canActivate: [authGuard],
+    title: qmTitle('Account Settings'),
     children: [
       {
         path: '',
