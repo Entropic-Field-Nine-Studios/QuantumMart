@@ -91,14 +91,10 @@ describe('CreateItemListingComponent', () => {
     const payload = createListingStub.firstCall.args[0];
 
     expect(payload).to.deep.equal({
-      sellerId: 'seller123',
       title: 'Test Title',
       description: 'Desc',
       imageUrl: 'img.jpg',
       price: 1234,
-      sellerUsername: 'testuser',
-      isActive: true,
-      quantitySold: 0,
     });
   });
 });

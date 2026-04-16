@@ -10,4 +10,6 @@ export interface ItemListing {
   sellerUsername?: string;
   isActive: boolean;
   quantitySold: number;
+  reviewCount: number;
+  averageScore: number;
 }

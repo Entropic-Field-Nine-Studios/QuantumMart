@@ -20,6 +20,8 @@ describe('CartItemCardComponent', () => {
       imageUrl: '',
       isActive: true,
       quantitySold: 0,
+      reviewCount: 0,
+      averageScore: 0,
     },
   };
 
