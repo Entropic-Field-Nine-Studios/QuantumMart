@@ -14,6 +14,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from '../../shared/message/message.service';
 import { UpdateItemListing } from '../update-listing.model';
 import { ConfirmDialogService } from '../../shared/dialogs/confirm-dialog.service';
+import { Title } from '@angular/platform-browser';
+import { qmTitle } from '../../title/qm-title';
 
 @Component({
   selector: 'app-edit-item-listing',
@@ -46,6 +48,7 @@ export class EditItemListingComponent implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly messageService = inject(MessageService);
   private readonly confirmDialog = inject(ConfirmDialogService);
+  private title = inject(Title);
 
   ngOnInit(): void {
     const listingId = this.activeRoute.snapshot.paramMap.get('listid');
@@ -59,7 +62,7 @@ export class EditItemListingComponent implements OnInit {
     this.itemListingService.getListingById(listingId).subscribe({
       next: (listing) => {
         this.listing.set(listing);
-
+        this.title.setTitle(qmTitle('Editing ' + listing.title));
         this.editListingForm.patchValue({
           title: listing.title,
           description: listing.description,
