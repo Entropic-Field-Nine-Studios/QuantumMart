@@ -5,6 +5,8 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { expect } from 'chai';
 import { CartItem } from './cart-item.model';
 import { ItemListing } from '../item-listings/item-listing.model';
+import { AuthService } from '../auth/auth.service';
+import { MockAuthService } from 'src/testing/mock-auth.service';
 
 describe('CartItemService', () => {
   let service: CartItemService;
@@ -32,28 +34,18 @@ describe('CartItemService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: provideHttpClientTesting(),
+      providers: [
+        { provide: AuthService, useClass: MockAuthService },
+        ...provideHttpClientTesting(),
+      ],
     });
+
     service = TestBed.inject(CartItemService);
     httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {
     httpMock.verify();
-  });
-
-  it("should GET user's cart items", () => {
-    const userId = '5';
-    const mockResponse = [cartItem1];
-
-    service.getCartItemsByUserId(userId).subscribe((res) => {
-      expect(res).to.deep.equal(mockResponse);
-    });
-
-    const req = httpMock.expectOne(`${service.baseUrl}/user/${userId}`);
-    expect(req.request.method).to.equal('GET');
-
-    req.flush(mockResponse);
   });
 
   it('should POST to cart item service', () => {

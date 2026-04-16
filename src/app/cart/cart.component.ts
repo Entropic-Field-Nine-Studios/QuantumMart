@@ -1,9 +1,6 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CartItemService } from './cart-item.service';
 import { CartItem } from './cart-item.model';
-import { UserStore } from '../core/stores/user.store';
-import { User } from '../users/user.model';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { CartItemCardListComponent } from './cart-item-card-list/cart-item-card-list.component';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -11,39 +8,29 @@ import { Router } from '@angular/router';
 import { MatAnchor } from '@angular/material/button';
 import { ConfirmDialogService } from '../shared/dialogs/confirm-dialog.service';
 import { MessageService } from '../shared/message/message.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-cart',
-  imports: [MatProgressSpinner, CartItemCardListComponent, MatAnchor],
+  imports: [CartItemCardListComponent, MatAnchor],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss',
 })
 export class CartComponent {
-  readonly cartItems = signal<CartItem[] | null>(null);
-
   private readonly cartItemService = inject(CartItemService);
-  private readonly userStore = inject(UserStore);
+  private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly confirmService = inject(ConfirmDialogService);
   private readonly messageService = inject(MessageService);
-
-  constructor() {
-    effect(() => {
-      if (!this.user) return;
-
-      this.loadCart();
-    });
-  }
 
   removeCartItem(listing: ItemListing) {
     this.confirmService
       .confirm(`Are you sure you want to remove ${listing.title} from your cart?`)
       .subscribe((confirmed) => {
         if (confirmed) {
-          this.cartItemService.removeItemFromCart(this.user!.id, listing.id!).subscribe({
+          this.cartItemService.removeItemFromCart(this.auth.userId!, listing.id!).subscribe({
             next: () => {
               this.messageService.info(`${listing.title} was removed.`);
-              this.loadCart();
             },
             error: (err: HttpErrorResponse) => this.messageService.error(err.message),
           });
@@ -56,10 +43,9 @@ export class CartComponent {
       .confirm('Are you sure you want to clear your cart?')
       .subscribe((confirmed) => {
         if (confirmed) {
-          this.cartItemService.clearCart(this.user!.id).subscribe({
+          this.cartItemService.clearCart(this.auth.userId!).subscribe({
             next: () => {
               this.messageService.info('Your cart was cleared.');
-              this.loadCart();
             },
             error: (err: HttpErrorResponse) => this.messageService.error(err.message),
           });
@@ -71,14 +57,7 @@ export class CartComponent {
     this.router.navigate(['/checkout']);
   }
 
-  private get user(): User | null {
-    return this.userStore.user();
-  }
-
-  private loadCart() {
-    this.cartItemService.getCartItemsByUserId(this.user!.id).subscribe({
-      next: (items) => this.cartItems.set(items),
-      error: () => this.cartItems.set([]),
-    });
+  get cartItems(): CartItem[] {
+    return this.cartItemService.cartItems();
   }
 }

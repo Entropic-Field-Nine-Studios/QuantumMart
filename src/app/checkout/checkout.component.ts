@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CartItemService } from '../cart/cart-item.service';
 import { AuthService } from '../auth/auth.service';
 import { CartItem } from '../cart/cart-item.model';
@@ -48,7 +48,6 @@ export class CheckoutComponent implements OnInit {
   private readonly messageService = inject(MessageService);
   private readonly addressService = inject(AddressService);
 
-  readonly cartItems = signal<CartItem[] | null>(null);
   readonly shippingAddress = signal<Address | null>(null);
 
   readonly addressForm = AddressUtil.createAddressForm();
@@ -57,21 +56,11 @@ export class CheckoutComponent implements OnInit {
 
   readonly useSavedAddressControl = new FormControl<boolean>(true);
 
-  readonly subTotal = computed(() =>
-    // Dynamically calculates the cart total as items are retrieved
-    this.cartItems()?.reduce((sum, item) => sum + item.itemListing.price * item.quantity, 0),
-  );
-
   readonly hasAddress = signal(false);
 
   @ViewChild(MatStepper) stepper!: MatStepper;
 
   ngOnInit(): void {
-    this.cartItemService.getCartItemsByUserId(this.authService.userId!).subscribe({
-      next: (items) => this.cartItems.set(items),
-      error: (err: HttpErrorResponse) => this.messageService.error(err.message),
-    });
-
     // Check if the user has any addresses at all
     this.addressService.getUserPrimaryAddress(this.authService.userId!).subscribe({
       next: () => this.hasAddress.set(true),
@@ -79,9 +68,9 @@ export class CheckoutComponent implements OnInit {
   }
 
   getTotal(): number {
-    const tax = (this.subTotal() ?? 0) * this.taxAmount;
+    const tax = this.subtotal * this.taxAmount;
 
-    return (this.subTotal() ?? 0) + tax;
+    return this.subtotal + tax;
   }
 
   getFullName(): string {
@@ -122,9 +111,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   placeOrder() {
-    const currentItems = this.cartItems();
-
-    if (currentItems == null || currentItems.length == 0) {
+    if (this.cartItems.length == 0) {
       this.messageService.error('Cannot place order (cart is empty).');
       return;
     }
@@ -158,6 +145,14 @@ export class CheckoutComponent implements OnInit {
         },
       });
     }
+  }
+
+  get cartItems(): CartItem[] {
+    return this.cartItemService.cartItems();
+  }
+
+  get subtotal(): number {
+    return this.cartItemService.subtotal();
   }
 
   private getOrderInfo(): Order {

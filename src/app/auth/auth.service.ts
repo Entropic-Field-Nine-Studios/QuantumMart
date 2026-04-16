@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginResponse } from './login-response.model';
 import { jwtDecode } from 'jwt-decode';
@@ -13,8 +13,13 @@ import { environment } from '../../environments/environment';
 export class AuthService {
   private readonly baseUrl = `${environment.apiUrl}/auth`;
 
-  private http = inject(HttpClient);
-  private router = inject(Router);
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
+
+  private readonly _authChanged = signal(0);
+
+  /** Fires whenever authentication changes. Useful for signal events needing to listen for login information. */
+  readonly authChanged = this._authChanged.asReadonly();
 
   /**
    * Attempts to validate the provided credentials against an existing user in the database.
@@ -37,6 +42,7 @@ export class AuthService {
    */
   logout(navigateLogin = true): void {
     this.storage?.removeItem('token');
+    this._authChanged.update((n) => n + 1);
 
     if (navigateLogin) {
       this.router.navigate(['/login']);
@@ -50,6 +56,7 @@ export class AuthService {
    */
   setToken(token: string) {
     this.storage?.setItem('token', token);
+    this._authChanged.update((n) => n + 1);
   }
 
   private get storage() {

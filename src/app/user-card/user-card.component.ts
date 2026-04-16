@@ -12,6 +12,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { NotificationService } from '../notifications/notification.service';
 import { Notification } from '../notifications/notification.model';
 import { NotificationItemComponent } from '../notifications/notification-item/notification-item.component';
+import { CartItemService } from '../cart/cart-item.service';
 
 @Component({
   selector: 'app-user-card',
@@ -34,6 +35,7 @@ export class UserCardComponent {
   private readonly messageService = inject(MessageService);
   private readonly router = inject(Router);
   private readonly notifService = inject(NotificationService);
+  private readonly cartService = inject(CartItemService);
 
   readonly notifications = signal<Notification[] | null>(null);
   readonly notificationTotal = computed(
@@ -85,6 +87,10 @@ export class UserCardComponent {
 
   navigateProfile() {
     this.router.navigate([`/profile/${this.user.id}`]);
+  }
+
+  get totalCartItems(): number {
+    return this.cartService.cartCount();
   }
 
   get user(): User {
