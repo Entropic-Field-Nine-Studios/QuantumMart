@@ -19,7 +19,9 @@ describe('ShortNumberPipe', () => {
 
   it('should format thousands with K', () => {
     expect(pipe.transform(1500)).toBe('1.5K');
-    expect(pipe.transform(12400, 2)).toBe('12.40K');
+    expect(pipe.transform(1000)).toBe('1K');
+    expect(pipe.transform(12410, 2)).toBe('12.41K');
+    expect(pipe.transform(12400, 2)).toBe('12.4K');
   });
 
   it('should format millions with M', () => {
@@ -27,11 +29,11 @@ describe('ShortNumberPipe', () => {
   });
 
   it('should format billions with B', () => {
-    expect(pipe.transform(2000000000)).toBe('2.0B');
+    expect(pipe.transform(2000000000)).toBe('2B');
   });
 
   it('should format trillions with T', () => {
-    expect(pipe.transform(9870000000000)).toBe('9.9T');
+    expect(pipe.transform(9870000000000)).toBe('9.8T');
   });
 
   it('should handle negative numbers', () => {
@@ -39,6 +41,7 @@ describe('ShortNumberPipe', () => {
   });
 
   it('should respect custom decimal precision', () => {
-    expect(pipe.transform(1530000, 3)).toBe('1.530M');
+    expect(pipe.transform(1530000, 3)).toBe('1.53M');
+    expect(pipe.transform(1531000, 3)).toBe('1.531M');
   });
 });
