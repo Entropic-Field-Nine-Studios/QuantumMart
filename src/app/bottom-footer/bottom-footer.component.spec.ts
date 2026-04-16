@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BotFooterComponent } from './bot-footer.component';
+import { BottomFooterComponent } from './bottom-footer.component';
 import { provideRouter } from '@angular/router';
 
-describe('BotFooterComponent', () => {
-  let component: BotFooterComponent;
-  let fixture: ComponentFixture<BotFooterComponent>;
+describe('BottomFooterComponent', () => {
+  let component: BottomFooterComponent;
+  let fixture: ComponentFixture<BottomFooterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BotFooterComponent],
+      imports: [BottomFooterComponent],
       providers: [provideRouter([])],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(BotFooterComponent);
+    fixture = TestBed.createComponent(BottomFooterComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

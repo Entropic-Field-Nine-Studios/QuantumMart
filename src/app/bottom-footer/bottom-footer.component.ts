@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { NotFoundComponent } from '../not-found/not-found.component';
 
 @Component({
-  selector: 'app-bot-footer',
-  templateUrl: './bot-footer.component.html',
-  styleUrl: './bot-footer.component.scss',
+  selector: 'app-bottom-footer',
+  templateUrl: './bottom-footer.component.html',
+  styleUrl: './bottom-footer.component.scss',
 })
-export class BotFooterComponent {
+export class BottomFooterComponent {
   private readonly router = inject(Router);
 
   isAt404(): boolean {

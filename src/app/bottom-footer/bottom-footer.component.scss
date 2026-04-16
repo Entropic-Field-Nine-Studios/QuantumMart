@@ -1,8 +1,4 @@
-:host {
-  bottom: 100px;
-}
-
-.bot-footer {
+.bottom-footer {
   height: 200px;
   background: rgb(192, 192, 192);
   display: flex;
@@ -10,18 +6,4 @@
   align-items: left;
   padding: 40px 80px 80px;
   gap: 20px;
-}
-
-.left,
-.right {
-  flex: 1;
-}
-
-.right {
-  display: flex;
-  justify-content: right;
-}
-
-.center {
-  flex: 0;
 }
