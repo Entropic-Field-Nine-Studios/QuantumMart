@@ -35,11 +35,40 @@ jobs:
         run: |
           cd dist/QuantumMart/browser
           zip -r ../../../QuantumMart-v${{ steps.newTag.outputs.version }}.zip .
+      - name: Download latest backend release asset
+        id: backend
+        run: |
+          # Fetch latest backend release metadata
+          latest_backend_tag=$(gh release list \
+            --repo MattCumbo99/quantum-mart-services \
+            --limit 1 \
+            --json tagName \
+            --jq '.[0].tagName')
+
+          echo "Latest backend tag: $latest_backend_tag"
+
+          # Fetch asset name
+          asset_name=$(gh release view "$latest_backend_tag" \
+            --repo MattCumbo99/quantum-mart-services \
+            --json assets \
+            --jq '.assets[0].name')
+
+          echo "Backend asset: $asset_name"
+
+          # Download the asset
+          gh release download "$latest_backend_tag" \
+            --repo MattCumbo99/quantum-mart-services \
+            --pattern "$asset_name"
+
+          echo "asset_name=$asset_name" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload new release
         run: |
           gh release create v${{ steps.newTag.outputs.version }} \
             --generate-notes \
-            QuantumMart-v${{ steps.newTag.outputs.version }}.zip
+            QuantumMart-v${{ steps.newTag.outputs.version }}.zip \
+            "${{ steps.backend.outputs.asset_name }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
