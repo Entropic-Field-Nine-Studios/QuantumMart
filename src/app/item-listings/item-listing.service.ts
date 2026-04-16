@@ -4,6 +4,7 @@ import { ItemListing } from './item-listing.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { UpdateItemListing } from './update-listing.model';
+import { CreateItemListingRequest } from './create-item-listing-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { UpdateItemListing } from './update-listing.model';
 export class ItemListingService {
   readonly baseUrl = `${environment.apiUrl}/item-listings`;
 
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
   /**
    * Retrieves every single item listing from the database.
@@ -51,11 +52,11 @@ export class ItemListingService {
   /**
    * Saves a new item listing entry to the database.
    *
-   * @param listing The item listing information.
+   * @param req The item listing information.
    * @returns The saved item listing.
    */
-  createListing(listing: ItemListing): Observable<ItemListing> {
-    return this.http.post<ItemListing>(`${this.baseUrl}`, listing);
+  createListing(req: CreateItemListingRequest): Observable<ItemListing> {
+    return this.http.post<ItemListing>(`${this.baseUrl}`, req);
   }
 
   /**

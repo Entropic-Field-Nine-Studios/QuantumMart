@@ -12,12 +12,12 @@ import {
 } from '@angular/forms';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { AuthService } from '../auth/auth.service';
-import { ItemListing } from '../item-listings/item-listing.model';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TitleDirective } from '../shared/directives/title.directive';
 import { DescriptionDirective } from '../shared/directives/description.directive';
 import { MessageService } from '../shared/message/message.service';
+import { CreateItemListingRequest } from '../item-listings/create-item-listing-request.model';
 
 @Component({
   selector: 'app-create-item-listing',
@@ -43,10 +43,10 @@ export class CreateItemListingComponent {
     price: new FormControl(''),
   });
 
-  private itemListingService = inject(ItemListingService);
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  private messageService = inject(MessageService);
+  private readonly itemListingService = inject(ItemListingService);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly messageService = inject(MessageService);
 
   private canLeave = false;
 
@@ -59,18 +59,14 @@ export class CreateItemListingComponent {
       const values = this.createListingForm.value!;
       const price = Number(values.price!.replace(',', ''));
 
-      const listing: ItemListing = {
-        sellerId: this.authService.userId!,
+      const req: CreateItemListingRequest = {
         title: values.title!,
         description: values.description ?? null,
         imageUrl: values.imageUrl ?? null,
         price: price,
-        sellerUsername: this.authService.username!,
-        isActive: true,
-        quantitySold: 0,
       };
 
-      this.itemListingService.createListing(listing).subscribe({
+      this.itemListingService.createListing(req).subscribe({
         next: () => {
           this.messageService.success('Your listing was created.');
           this.canLeave = true;
