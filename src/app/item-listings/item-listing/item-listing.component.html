@@ -13,6 +13,7 @@
     @if (showUsername) {
       <button class="user-link" (click)="navigateToUser()">{{ listing.sellerUsername }}</button>
     }
+    <p>{{ listing.quantitySold | appShortNumber }} sold</p>
   </div>
 
   @if (loggedIn && !isListingCurrentUser) {

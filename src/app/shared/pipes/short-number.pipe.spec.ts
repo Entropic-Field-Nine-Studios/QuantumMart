@@ -8,8 +8,8 @@ describe('ShortNumberPipe', () => {
   });
 
   it('should return empty string for null or undefined', () => {
-    expect(pipe.transform(null as any)).toBe('');
-    expect(pipe.transform(undefined as any)).toBe('');
+    expect(pipe.transform(null)).toBe('');
+    expect(pipe.transform(undefined)).toBe('');
   });
 
   it('should return the number as-is when below 1000', () => {

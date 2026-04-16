@@ -15,6 +15,7 @@ import { MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Title } from '@angular/platform-browser';
 import { qmTitle } from '../../title/qm-title';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   imports: [
@@ -26,6 +27,7 @@ import { qmTitle } from '../../title/qm-title';
     MatFabButton,
     MatIconButton,
     MatTooltip,
+    DecimalPipe,
   ],
   templateUrl: './item-listing-page.component.html',
   styleUrl: './item-listing-page.component.scss',

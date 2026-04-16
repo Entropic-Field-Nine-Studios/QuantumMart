@@ -21,6 +21,9 @@
         <h3>{{ fullListing!.price | currency }}</h3>
       </div>
       <div>
+        <p>{{ fullListing.quantitySold | number }} sold</p>
+      </div>
+      <div>
         <button class="user-link" (click)="navigateToUser()">
           {{ fullListing!.sellerUsername }}
         </button>
