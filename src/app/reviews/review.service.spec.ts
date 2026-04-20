@@ -4,7 +4,7 @@ import { ReviewService } from './review.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Review } from './review.model';
 import { EditReviewRequest } from './edit-review-request.model';
-import { CreateReviewRequest } from './create-review-request.model';
+import { CreateReviewRequest } from './create-review/create-review-request.model';
 
 describe('ReviewService', () => {
   let service: ReviewService;

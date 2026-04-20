@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Review } from './review.model';
-import { CreateReviewRequest } from './create-review-request.model';
+import { CreateReviewRequest } from './create-review/create-review-request.model';
 import { EditReviewRequest } from './edit-review-request.model';
 
 @Injectable({
