@@ -1,0 +1,27 @@
+<div class="rating-display">
+  <!-- Full stars -->
+  @if (fullStars() !== 0) {
+    @for (_ of [].constructor(fullStars()); track $index) {
+      <mat-icon>star</mat-icon>
+    }
+  }
+
+  <!-- Half star -->
+  @if (hasHalf()) {
+    <mat-icon>star_half</mat-icon>
+  }
+
+  <!-- Empty stars -->
+  @if (emptyStars() !== 0) {
+    @for (_ of [].constructor(emptyStars()); track $index) {
+      <mat-icon>star_border</mat-icon>
+    }
+  }
+
+  <!-- Numeric score -->
+  <span class="score">{{ rating.toFixed(1) }}</span>
+
+  @if (count !== undefined) {
+    <span class="count">({{ count | appShortNumber }})</span>
+  }
+</div>

@@ -1,0 +1,59 @@
+.review {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--qm-border-color);
+
+  .header {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--qm-avatar-bg);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .username {
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .timestamp {
+      font-size: 0.8rem;
+      color: var(--qm-text-secondary);
+    }
+  }
+
+  .body {
+    margin-top: 0.5rem;
+    line-height: 1.45;
+  }
+
+  .actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 1rem;
+
+    button {
+      font-size: 0.8rem;
+      color: var(--qm-text-secondary);
+    }
+  }
+}

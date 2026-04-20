@@ -1,1 +1,23 @@
-<p>create-review works!</p>
+<div class="review-form">
+  <h2>Write a review for {{ listing.title }}</h2>
+
+  <form [formGroup]="createReviewForm">
+    <app-rating-input formControlName="score"></app-rating-input>
+
+    <br />
+
+    <mat-form-field appearance="outline">
+      <mat-label>Review Description</mat-label>
+      <textarea
+        matInput
+        rows="6"
+        cols="64"
+        appDescription
+        maxlength="2000"
+        formControlName="body"
+      ></textarea>
+    </mat-form-field>
+  </form>
+
+  <button matButton="filled" [disabled]="!formValid()" (click)="submitForm()">Submit</button>
+</div>

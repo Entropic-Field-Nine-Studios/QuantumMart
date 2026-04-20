@@ -11,10 +11,19 @@ import { Router } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ShortNumberPipe } from 'src/app/shared/pipes/short-number.pipe';
+import { RatingDisplayComponent } from 'src/app/shared/display/rating-display/rating-display.component';
 
 @Component({
   selector: 'app-item-listing',
-  imports: [MatCardModule, CurrencyPipe, MatIcon, MatTooltip, MatFabButton, ShortNumberPipe],
+  imports: [
+    MatCardModule,
+    CurrencyPipe,
+    MatIcon,
+    MatTooltip,
+    MatFabButton,
+    ShortNumberPipe,
+    RatingDisplayComponent,
+  ],
   templateUrl: './item-listing.component.html',
   styleUrl: './item-listing.component.scss',
 })

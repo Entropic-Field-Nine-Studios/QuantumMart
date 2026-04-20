@@ -20,6 +20,11 @@
       <div>
         <h3>{{ fullListing!.price | currency }}</h3>
       </div>
+      @if (loggedIn && !isListingCurrentUser) {
+        <button class="cart-button" matTooltip="Add to Cart" mat-fab (click)="addToCart()">
+          <mat-icon>add_shopping_cart</mat-icon>
+        </button>
+      }
       <div>
         <p>{{ fullListing.quantitySold | number }} sold</p>
       </div>
@@ -28,11 +33,28 @@
           {{ fullListing!.sellerUsername }}
         </button>
       </div>
-      @if (loggedIn && !isListingCurrentUser) {
-        <button class="cart-button" matTooltip="Add to Cart" mat-fab (click)="addToCart()">
-          <mat-icon>add_shopping_cart</mat-icon>
-        </button>
+    </div>
+
+    <br />
+
+    <div>
+      <h1>Reviews</h1>
+      @if (loggedIn && !isListingCurrentUser && !userHasReview()) {
+        <app-create-review
+          [listing]="listing()!"
+          (reviewCreated)="loadReviews()"
+        ></app-create-review>
       }
+
+      <div>
+        @if (reviews().length === 0) {
+          <p>No reviews yet.</p>
+        } @else {
+          @for (review of reviews(); track $index) {
+            <app-review [review]="review"></app-review>
+          }
+        }
+      </div>
     </div>
   </div>
 }

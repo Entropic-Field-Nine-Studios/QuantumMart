@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ItemListing } from '../item-listing.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../../shared/message/message.service';
@@ -16,6 +16,10 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { Title } from '@angular/platform-browser';
 import { qmTitle } from '../../title/qm-title';
 import { DecimalPipe } from '@angular/common';
+import { CreateReviewComponent } from 'src/app/reviews/create-review/create-review.component';
+import { ReviewService } from 'src/app/reviews/review.service';
+import { Review } from 'src/app/reviews/review.model';
+import { ReviewComponent } from 'src/app/reviews/review/review.component';
 
 @Component({
   imports: [
@@ -28,6 +32,8 @@ import { DecimalPipe } from '@angular/common';
     MatIconButton,
     MatTooltip,
     DecimalPipe,
+    CreateReviewComponent,
+    ReviewComponent,
   ],
   templateUrl: './item-listing-page.component.html',
   styleUrl: './item-listing-page.component.scss',
@@ -39,9 +45,16 @@ export class ItemListingPageComponent implements OnInit {
   private readonly messageService = inject(MessageService);
   private readonly authService = inject(AuthService);
   private readonly cartService = inject(CartItemService);
+  private readonly reviewService = inject(ReviewService);
   private title = inject(Title);
 
   readonly listing = signal<ItemListing | null>(null);
+
+  readonly reviews = signal<Review[]>([]);
+
+  readonly userHasReview = computed(
+    () => this.reviews().filter((review) => review.userId === this.authService.userId).length >= 1,
+  );
 
   isListingCurrentUser = false;
   loggedIn = false;
@@ -55,6 +68,8 @@ export class ItemListingPageComponent implements OnInit {
           this.title.setTitle(qmTitle(listing1.title));
           this.isListingCurrentUser = this.authService.userId === listing1.sellerId;
           this.loggedIn = this.authService.isLoggedIn;
+
+          this.loadReviews();
         },
         error: (err: HttpErrorResponse) => {
           switch (err.status) {
@@ -67,6 +82,12 @@ export class ItemListingPageComponent implements OnInit {
           }
         },
       });
+  }
+
+  loadReviews() {
+    this.reviewService.getListingReviews(this.listing()!.id!).subscribe({
+      next: (reviews) => this.reviews.set(reviews),
+    });
   }
 
   addToCart(): void {

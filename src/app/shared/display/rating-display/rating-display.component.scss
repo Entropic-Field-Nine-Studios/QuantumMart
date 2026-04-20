@@ -1,0 +1,23 @@
+.rating-display {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  mat-icon {
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+    color: #f5b400;
+  }
+
+  .score {
+    margin-left: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .count {
+    font-size: 0.8rem;
+    margin-left: 2px;
+  }
+}

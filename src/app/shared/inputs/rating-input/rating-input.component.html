@@ -1,0 +1,16 @@
+<div>
+  @for (star of stars; track $index) {
+    <button
+      mat-icon-button
+      (mouseenter)="mouseHover(star)"
+      (mouseleave)="hover.set(score())"
+      (click)="setScore(star)"
+    >
+      <mat-icon class="rating-star">{{
+        (hover() || score()) >= star ? 'star' : 'star_border'
+      }}</mat-icon>
+    </button>
+  }
+
+  <span class="rating-text">{{ scoreText }}</span>
+</div>

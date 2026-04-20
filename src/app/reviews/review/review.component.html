@@ -1,0 +1,18 @@
+<div class="review">
+  <div class="header">
+    <div class="avatar">
+      <img src="assets/pfp/msn-avatar.png" />
+    </div>
+    <div class="user-info">
+      <div class="username">{{ review.username }}</div>
+      <div class="meta">
+        <app-rating-display [rating]="review.score"></app-rating-display>
+        <span class="timestamp">{{ timestampDisplay() }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+    {{ review.body }}
+  </div>
+</div>
