@@ -3,16 +3,23 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { UserService } from '../users/user.service';
 import { User } from '../users/user.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { NotFoundComponent } from '../not-found/not-found.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { DatePipe, UpperCasePipe } from '@angular/common';
 import { MessageService } from '../shared/message/message.service';
+import { ItemListingListComponent } from '../item-listings/item-listing-list/item-listing-list.component';
 
 @Component({
-  imports: [MatGridListModule, NotFoundComponent, MatProgressSpinner, UpperCasePipe, DatePipe],
+  imports: [
+    MatGridListModule,
+    NotFoundComponent,
+    MatProgressSpinner,
+    UpperCasePipe,
+    DatePipe,
+    ItemListingListComponent,
+  ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })
@@ -29,20 +36,7 @@ export class UserProfileComponent implements OnInit {
   readonly notFound = signal(false);
 
   ngOnInit(): void {
-    const profileId = this.activatedRoute.snapshot.paramMap.get('userid');
-
-    if (!profileId) {
-      this.navigate404();
-      return;
-    }
-
-    this.userService.getUserById(profileId).subscribe({
-      next: (user) => {
-        this._userData.set(user);
-        this.loadListings(user.id);
-      },
-      error: () => this.notFound.set(true),
-    });
+    this.listenForRouteParams();
   }
 
   copyId(id: string) {
@@ -73,5 +67,25 @@ export class UserProfileComponent implements OnInit {
     this.itemListingService
       .getListingsByUserId(userId)
       .subscribe((listings) => this._userListings.set(listings));
+  }
+
+  private loadUser(id: string) {
+    this.userService.getUserById(id).subscribe({
+      next: (user) => {
+        this._userData.set(user);
+        this.loadListings(user.id);
+      },
+      error: () => this.notFound.set(true),
+    });
+  }
+
+  private listenForRouteParams() {
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const id = params.get('userid');
+
+      if (id) {
+        this.loadUser(id);
+      }
+    });
   }
 }

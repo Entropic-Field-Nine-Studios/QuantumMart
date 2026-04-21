@@ -35,14 +35,14 @@ describe('ItemListingService', () => {
   });
 
   it('should GET /seller/:username to retrieve seller listings', () => {
-    const sellerUsername = 'seller';
+    const sellerId = '123';
     const mockResponse = [mockListing];
 
-    service.getAllListingsByUsername(sellerUsername).subscribe((res) => {
+    service.getListingsByUserId(sellerId).subscribe((res) => {
       expect(res).to.deep.equal(mockResponse);
     });
 
-    const req = httpMock.expectOne(`${service.baseUrl}/seller/${sellerUsername}`);
+    const req = httpMock.expectOne(`${service.baseUrl}/seller/${sellerId}`);
     expect(req.request.method).to.equal('GET');
 
     req.flush(mockResponse);

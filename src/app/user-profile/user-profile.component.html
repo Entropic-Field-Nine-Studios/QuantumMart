@@ -43,5 +43,17 @@
         </div>
       </div>
     </div>
+
+    @if (userListings.length > 0) {
+      <div class="listings-section">
+        <h2 class="section-title">Listings by {{ userInfo.username }}</h2>
+
+        <app-item-listing-list [listings]="userListings"></app-item-listing-list>
+      </div>
+    } @else {
+      <div class="no-listings">
+        <p>This user has no active listings.</p>
+      </div>
+    }
   </div>
 }
