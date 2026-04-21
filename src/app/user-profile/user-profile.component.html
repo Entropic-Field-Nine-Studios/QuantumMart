@@ -1,28 +1,32 @@
-@if (user() === null) {
-  <mat-spinner></mat-spinner>
-} @else {
-  <h2>{{ user()!.username }}'s Profile</h2>
+<div>
+  @if (user() === null) {
+    <mat-spinner></mat-spinner>
+  } @else {
+    <h2>{{ user()!.username }}'s Profile</h2>
 
-  <mat-card class="user-card">
-    <mat-card-header>
-      <div mat-card-avatar class="avatar-img"></div>
-      <mat-card-title>Username: {{ user()!.username }}</mat-card-title>
-      <mat-card-title>User Role: {{ user()!.role }}</mat-card-title>
-      <mat-card-title>Created: {{ sDateCreated }}</mat-card-title>
-    </mat-card-header>
-  </mat-card>
+    <mat-card class="user-card">
+      <mat-card-header>
+        <div mat-card-avatar class="avatar-img"></div>
+        <mat-card-title>Username: {{ user()!.username }}</mat-card-title>
+        <mat-card-title>User Role: {{ user()!.role }}</mat-card-title>
+        <mat-card-title>Created: {{ sDateCreated }}</mat-card-title>
+      </mat-card-header>
+    </mat-card>
 
-  <div>
-    <h2>{{ user()!.username }}'s Listings</h2>
-    @if (listings() === null) {
-      <mat-spinner></mat-spinner>
-    } @else if (listings()!.length === 0) {
-      <p class="center-align">This user has no available listings.</p>
-    } @else {
-      <app-item-listing-list
-        [listings]="listings()!"
-        [showUsernames]="false"
-      ></app-item-listing-list>
-    }
-  </div>
-}
+    <br />
+
+    <div>
+      <h2>{{ user()!.username }}'s Listings</h2>
+      @if (listings() === null) {
+        <mat-spinner></mat-spinner>
+      } @else if (listings()!.length === 0) {
+        <p class="center-align">This user has no available listings.</p>
+      } @else {
+        <app-item-listing-list
+          [listings]="listings()!"
+          [showUsernames]="false"
+        ></app-item-listing-list>
+      }
+    </div>
+  }
+</div>

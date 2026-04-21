@@ -1,8 +1,9 @@
 .user-card {
   display: flex;
   justify-content: left;
-  width: 30%;
-  height: 15%;
+  min-width: 350px;
+  width: fit-content;
+  height: fit-content;
 }
 
 .avatar-img {

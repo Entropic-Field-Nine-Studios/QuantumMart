@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemListingComponent } from './item-listing.component';
+import { mockListing } from 'src/testing/mock-item-listing';
 
 describe('ItemListing', () => {
   let component: ItemListingComponent;
@@ -14,17 +15,7 @@ describe('ItemListing', () => {
     fixture = TestBed.createComponent(ItemListingComponent);
     component = fixture.componentInstance;
 
-    component.listing = {
-      sellerId: '1',
-      description: 'test desc',
-      title: 'title',
-      price: 2.3,
-      imageUrl: 'testurl',
-      isActive: true,
-      quantitySold: 0,
-      reviewCount: 0,
-      averageScore: 0,
-    };
+    component.listing = mockListing;
 
     await fixture.whenStable();
   });

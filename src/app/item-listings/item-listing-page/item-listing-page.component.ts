@@ -20,6 +20,7 @@ import { CreateReviewComponent } from 'src/app/reviews/create-review/create-revi
 import { ReviewService } from 'src/app/reviews/review.service';
 import { Review } from 'src/app/reviews/review.model';
 import { ReviewComponent } from 'src/app/reviews/review/review.component';
+import { RatingDisplayComponent } from 'src/app/shared/display/rating-display/rating-display.component';
 
 @Component({
   imports: [
@@ -34,6 +35,7 @@ import { ReviewComponent } from 'src/app/reviews/review/review.component';
     DecimalPipe,
     CreateReviewComponent,
     ReviewComponent,
+    RatingDisplayComponent,
   ],
   templateUrl: './item-listing-page.component.html',
   styleUrl: './item-listing-page.component.scss',

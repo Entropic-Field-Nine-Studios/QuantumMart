@@ -4,34 +4,18 @@ import { CartItemService } from './cart-item.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { expect } from 'chai';
 import { CartItem } from './cart-item.model';
-import { ItemListing } from '../item-listings/item-listing.model';
 import { AuthService } from '../auth/auth.service';
 import { MockAuthService } from 'src/testing/mock-auth.service';
+import { mockListing } from 'src/testing/mock-item-listing';
 
 describe('CartItemService', () => {
   let service: CartItemService;
   let httpMock: HttpTestingController;
 
-  const itemListing: ItemListing = {
-    sellerId: '10',
-    title: 'test',
-    description: 'test listing',
-    price: 10.0,
-    imageUrl: '',
-    createdAt: '2026-01-01 00:00:00.000000',
-    updatedAt: '2026-01-01 00:00:00.000000',
-    id: '123',
-    sellerUsername: 'testuser',
-    isActive: true,
-    quantitySold: 0,
-    reviewCount: 0,
-    averageScore: 0,
-  };
-
   const cartItem1: CartItem = {
     id: '1',
     quantity: 1,
-    itemListing: itemListing,
+    itemListing: mockListing,
   };
 
   beforeEach(() => {
@@ -53,13 +37,13 @@ describe('CartItemService', () => {
   it('should POST to cart item service', () => {
     const userId = '5';
 
-    service.addItemToCart(userId, itemListing).subscribe((res) => {
+    service.addItemToCart(userId, mockListing).subscribe((res) => {
       expect(res).to.deep.equal(cartItem1);
     });
 
     const req = httpMock.expectOne(`${service.baseUrl}/user/${userId}`);
     expect(req.request.method).to.equal('POST');
-    expect(req.request.body).to.equal(itemListing);
+    expect(req.request.body).to.equal(mockListing);
 
     req.flush(cartItem1);
   });

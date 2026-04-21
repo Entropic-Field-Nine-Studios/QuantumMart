@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CartItemCardComponent } from './cart-item-card.component';
 import { SinonSpy, spy } from 'sinon';
 import { CartItem } from '../cart-item.model';
+import { mockListing } from 'src/testing/mock-item-listing';
 
 describe('CartItemCardComponent', () => {
   let component: CartItemCardComponent;
@@ -12,17 +13,7 @@ describe('CartItemCardComponent', () => {
   const mockItem: CartItem = {
     id: '1',
     quantity: 1,
-    itemListing: {
-      sellerId: '1',
-      title: 'test',
-      description: '',
-      price: 1.0,
-      imageUrl: '',
-      isActive: true,
-      quantitySold: 0,
-      reviewCount: 0,
-      averageScore: 0,
-    },
+    itemListing: mockListing,
   };
 
   beforeEach(async () => {

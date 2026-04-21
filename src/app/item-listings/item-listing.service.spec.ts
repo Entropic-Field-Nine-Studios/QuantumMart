@@ -2,28 +2,12 @@ import { TestBed } from '@angular/core/testing';
 
 import { ItemListingService } from './item-listing.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { ItemListing } from './item-listing.model';
 import { UpdateItemListing } from './update-listing.model';
+import { mockListing } from 'src/testing/mock-item-listing';
 
 describe('ItemListingService', () => {
   let service: ItemListingService;
   let httpMock: HttpTestingController;
-
-  const listing1: ItemListing = {
-    sellerId: '10',
-    title: 'test',
-    description: 'test listing',
-    price: 10.0,
-    imageUrl: '',
-    createdAt: '2026-01-01 00:00:00.000000',
-    updatedAt: '2026-01-01 00:00:00.000000',
-    id: '123',
-    sellerUsername: 'testuser',
-    isActive: true,
-    quantitySold: 0,
-    reviewCount: 0,
-    averageScore: 0,
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -38,7 +22,7 @@ describe('ItemListingService', () => {
   });
 
   it('should GET all item listings', () => {
-    const mockResponse = [listing1];
+    const mockResponse = [mockListing];
 
     service.getAllListings().subscribe((res) => {
       expect(res).to.deep.equal(mockResponse);
@@ -52,7 +36,7 @@ describe('ItemListingService', () => {
 
   it('should GET /seller/:username to retrieve seller listings', () => {
     const sellerUsername = 'seller';
-    const mockResponse = [listing1];
+    const mockResponse = [mockListing];
 
     service.getAllListingsByUsername(sellerUsername).subscribe((res) => {
       expect(res).to.deep.equal(mockResponse);
@@ -68,25 +52,25 @@ describe('ItemListingService', () => {
     const listingId = '123';
 
     service.getListingById(listingId).subscribe((res) => {
-      expect(res).to.deep.equal(listing1);
+      expect(res).to.deep.equal(mockListing);
     });
 
     const req = httpMock.expectOne(`${service.baseUrl}/${listingId}`);
     expect(req.request.method).to.equal('GET');
 
-    req.flush(listing1);
+    req.flush(mockListing);
   });
 
   it('should POST to create an item listing', () => {
-    service.createListing(listing1).subscribe((res) => {
-      expect(res).to.deep.equal(listing1);
+    service.createListing(mockListing).subscribe((res) => {
+      expect(res).to.deep.equal(mockListing);
     });
 
     const req = httpMock.expectOne(`${service.baseUrl}`);
     expect(req.request.method).to.equal('POST');
-    expect(req.request.body).to.equal(listing1);
+    expect(req.request.body).to.equal(mockListing);
 
-    req.flush(listing1);
+    req.flush(mockListing);
   });
 
   it('should PATCH to edit an item listing', () => {
@@ -94,9 +78,9 @@ describe('ItemListingService', () => {
       title: 'new title',
     };
 
-    service.updateListing(listing1.id!, updates).subscribe();
+    service.updateListing(mockListing.id!, updates).subscribe();
 
-    const req = httpMock.expectOne(`${service.baseUrl}/${listing1.id}`);
+    const req = httpMock.expectOne(`${service.baseUrl}/${mockListing.id}`);
     expect(req.request.method).to.equal('PATCH');
     expect(req.request.body).to.equal(updates);
 

@@ -35,7 +35,7 @@ export class UserProfileComponent implements OnInit {
   private messageService = inject(MessageService);
   private title = inject(Title);
 
-  user = signal<User | null>(null);
+  readonly user = signal<User | null>(null);
   sDateCreated!: string;
   listings = signal<ItemListing[] | null>(null);
 
@@ -45,6 +45,7 @@ export class UserProfileComponent implements OnInit {
         this.user.set(user);
         this.title.setTitle(qmTitle(user.username + "'s profile"));
         this.sDateCreated = this.formatDate(new Date(user.createdAt));
+
         this.itemListingService.getAllListingsByUsername(user.username ?? '').subscribe({
           next: (data) => this.listings.set(data),
           error: () => this.listings.set([]),

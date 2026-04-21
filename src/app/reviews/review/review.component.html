@@ -1,10 +1,13 @@
 <div class="review">
   <div class="header">
     <div class="avatar">
-      <img src="assets/pfp/msn-avatar.png" />
+      <a [routerLink]="[`/profile/${review.userId}`]">
+        <!-- TODO replace this url once users get their own pfp -->
+        <img src="assets/pfp/msn-avatar.png" alt="msn-avatar" />
+      </a>
     </div>
     <div class="user-info">
-      <div class="username">{{ review.username }}</div>
+      <a class="username" [routerLink]="[`/profile/${review.userId}`]">{{ review.username }}</a>
       <div class="meta">
         <app-rating-display [rating]="review.score"></app-rating-display>
         <span class="timestamp">{{ timestampDisplay() }}</span>
