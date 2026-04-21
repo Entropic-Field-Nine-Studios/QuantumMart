@@ -37,6 +37,7 @@ describe('UserStore (Angular test runner + Sinon)', () => {
 
   it('clears and logs out when token is invalid', () => {
     authService.isTokenValid.returns(false);
+    sinon.stub(authService, 'rawToken').get(() => 'valid-token');
 
     store.init();
 
@@ -46,6 +47,7 @@ describe('UserStore (Angular test runner + Sinon)', () => {
 
   it('loads user when token is valid', () => {
     authService.isTokenValid.returns(true);
+    sinon.stub(authService, 'rawToken').get(() => 'valid-token');
     userService.getCurrentUser.returns(of(mockUser));
 
     store.init();

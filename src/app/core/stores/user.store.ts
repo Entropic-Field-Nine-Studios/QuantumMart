@@ -17,6 +17,14 @@ export class UserStore {
    * @returns
    */
   init() {
+    const token = this.authService.rawToken;
+
+    // User isn't logged in - prevent redirect and just clear
+    if (!token) {
+      this.clear();
+      return;
+    }
+
     if (!this.authService.isTokenValid()) {
       this.clear({ navigateLogin: true });
       return;
