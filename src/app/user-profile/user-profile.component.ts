@@ -1,70 +1,77 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { MatCard, MatCardTitle, MatCardHeader, MatCardAvatar } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { UserService } from '../users/user.service';
 import { User } from '../users/user.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { ActivatedRoute } from '@angular/router';
+import { NotFoundComponent } from '../not-found/not-found.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
+import { DatePipe, UpperCasePipe } from '@angular/common';
 import { MessageService } from '../shared/message/message.service';
-import { ItemListingListComponent } from '../item-listings/item-listing-list/item-listing-list.component';
-import { Title } from '@angular/platform-browser';
-import { qmTitle } from '../title/qm-title';
 
 @Component({
-  imports: [
-    MatCard,
-    MatCardTitle,
-    MatCardHeader,
-    MatCardAvatar,
-    MatGridListModule,
-    MatProgressSpinner,
-    ItemListingListComponent,
-  ],
+  imports: [MatGridListModule, NotFoundComponent, MatProgressSpinner, UpperCasePipe, DatePipe],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent implements OnInit {
-  private userService = inject(UserService);
-  private itemListingService = inject(ItemListingService);
-  private activatedRoute = inject(ActivatedRoute);
-  private router = inject(Router);
-  private messageService = inject(MessageService);
-  private title = inject(Title);
+  private readonly userService = inject(UserService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly itemListingService = inject(ItemListingService);
+  private readonly router = inject(Router);
+  private readonly messageService = inject(MessageService);
 
-  readonly user = signal<User | null>(null);
-  sDateCreated!: string;
-  listings = signal<ItemListing[] | null>(null);
+  private readonly _userData = signal<User | null>(null);
+  private readonly _userListings = signal<ItemListing[]>([]);
+
+  readonly notFound = signal(false);
 
   ngOnInit(): void {
-    this.userService.getUserById(this.activatedRoute.snapshot.params['userid']).subscribe({
-      next: (user) => {
-        this.user.set(user);
-        this.title.setTitle(qmTitle(user.username + "'s profile"));
-        this.sDateCreated = this.formatDate(new Date(user.createdAt));
+    const profileId = this.activatedRoute.snapshot.paramMap.get('userid');
 
-        this.itemListingService.getAllListingsByUsername(user.username ?? '').subscribe({
-          next: (data) => this.listings.set(data),
-          error: () => this.listings.set([]),
-        });
+    if (!profileId) {
+      this.navigate404();
+      return;
+    }
+
+    this.userService.getUserById(profileId).subscribe({
+      next: (user) => {
+        this._userData.set(user);
+        this.loadListings(user.id);
       },
-      error: (err: HttpErrorResponse) => {
-        switch (err.status) {
-          case 400:
-          case 404:
-            this.router.navigate(['/404']);
-            break;
-          default:
-            this.messageService.error(err.message);
-        }
-      },
+      error: () => this.notFound.set(true),
     });
   }
 
-  private formatDate(date: Date): string {
-    return date.getMonth() + 1 + '/' + date.getDate() + '/' + date.getFullYear();
+  copyId(id: string) {
+    navigator.clipboard
+      .writeText(id)
+      .then(() => this.messageService.info('User ID copied to clipboard.'));
+  }
+
+  isStaff(): boolean {
+    const adminRoles = ['moderator', 'admin', 'superadmin'];
+
+    return adminRoles.includes(this._userData()!.role);
+  }
+
+  get userInfo(): User | null {
+    return this._userData();
+  }
+
+  get userListings(): ItemListing[] {
+    return this._userListings();
+  }
+
+  private navigate404() {
+    this.router.navigate(['/404']);
+  }
+
+  private loadListings(userId: string) {
+    this.itemListingService
+      .getListingsByUserId(userId)
+      .subscribe((listings) => this._userListings.set(listings));
   }
 }

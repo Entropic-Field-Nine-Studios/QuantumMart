@@ -24,16 +24,16 @@ export class ItemListingService {
   }
 
   /**
-   * Retrieves every item listing being sold by a user referencing their username. Casing is ignored.
+   * Retrieves every item listing being sold by a user.
    *
    * ### Error codes
    * - 404 (Not Found) - If the user does not exist.
    *
-   * @param username Username of the seller.
+   * @param userId User ID of the seller.
    * @returns List of item listings being sold by the user.
    */
-  getAllListingsByUsername(username: string): Observable<ItemListing[]> {
-    return this.http.get<ItemListing[]>(`${this.baseUrl}/seller/${username}`);
+  getListingsByUserId(userId: string): Observable<ItemListing[]> {
+    return this.http.get<ItemListing[]>(`${this.baseUrl}/seller/${userId}`);
   }
 
   /**
