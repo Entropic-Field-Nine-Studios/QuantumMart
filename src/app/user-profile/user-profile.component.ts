@@ -11,6 +11,8 @@ import { DatePipe } from '@angular/common';
 import { MessageService } from '../shared/message/message.service';
 import { ItemListingListComponent } from '../item-listings/item-listing-list/item-listing-list.component';
 import { UserAvatarComponent } from '../shared/display/user-avatar/user-avatar.component';
+import { Title } from '@angular/platform-browser';
+import { qmTitle } from '../title/qm-title';
 
 @Component({
   imports: [
@@ -30,6 +32,7 @@ export class UserProfileComponent implements OnInit {
   private readonly itemListingService = inject(ItemListingService);
   private readonly router = inject(Router);
   private readonly messageService = inject(MessageService);
+  private readonly title = inject(Title);
 
   private readonly _userData = signal<User | null>(null);
   private readonly _userListings = signal<ItemListing[]>([]);
@@ -74,6 +77,7 @@ export class UserProfileComponent implements OnInit {
     this.userService.getUserById(id).subscribe({
       next: (user) => {
         this._userData.set(user);
+        this.title.setTitle(qmTitle(`${user.username}'s Profile`));
         this.loadListings(user.id);
       },
       error: () => this.notFound.set(true),
