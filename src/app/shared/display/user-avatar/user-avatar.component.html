@@ -1,0 +1,12 @@
+<div
+  class="avatar-container"
+  [class]="size"
+  [class.clickable]="clickable"
+  [ngStyle]="backgroundStyle"
+>
+  @if (src) {
+    <img [src]="src" [alt]="`${username} avatar`" />
+  } @else {
+    <span>{{ username[0] | uppercase }}</span>
+  }
+</div>

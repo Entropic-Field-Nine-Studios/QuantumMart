@@ -6,9 +6,7 @@
   <div class="profile-container">
     <div class="profile-card">
       <div class="identity">
-        <div class="avatar">
-          {{ userInfo.username[0] | uppercase }}
-        </div>
+        <app-user-avatar [username]="userInfo.username" size="lg"></app-user-avatar>
 
         <div class="username">
           {{ userInfo.username }}

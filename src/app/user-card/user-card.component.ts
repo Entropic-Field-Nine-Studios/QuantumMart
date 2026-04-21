@@ -13,6 +13,7 @@ import { NotificationService } from '../notifications/notification.service';
 import { Notification } from '../notifications/notification.model';
 import { NotificationItemComponent } from '../notifications/notification-item/notification-item.component';
 import { CartItemService } from '../cart/cart-item.service';
+import { UserAvatarComponent } from '../shared/display/user-avatar/user-avatar.component';
 
 @Component({
   selector: 'app-user-card',
@@ -26,6 +27,7 @@ import { CartItemService } from '../cart/cart-item.service';
     MatTooltip,
     MatBadgeModule,
     NotificationItemComponent,
+    UserAvatarComponent,
   ],
   templateUrl: './user-card.component.html',
   styleUrl: './user-card.component.scss',

@@ -7,18 +7,19 @@ import { ItemListingService } from '../item-listings/item-listing.service';
 import { ItemListing } from '../item-listings/item-listing.model';
 import { NotFoundComponent } from '../not-found/not-found.component';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { DatePipe, UpperCasePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MessageService } from '../shared/message/message.service';
 import { ItemListingListComponent } from '../item-listings/item-listing-list/item-listing-list.component';
+import { UserAvatarComponent } from '../shared/display/user-avatar/user-avatar.component';
 
 @Component({
   imports: [
     MatGridListModule,
     NotFoundComponent,
     MatProgressSpinner,
-    UpperCasePipe,
     DatePipe,
     ItemListingListComponent,
+    UserAvatarComponent,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',

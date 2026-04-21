@@ -1,7 +1,7 @@
 <div class="user-card">
   <div>
     <button class="avatar-btn clickable" (click)="navigateProfile()">
-      <img src="assets/pfp/msn-avatar.png" class="avatar-img" alt="My Profile" />
+      <app-user-avatar [username]="user.username" [clickable]="true" size="md"></app-user-avatar>
     </button>
   </div>
 

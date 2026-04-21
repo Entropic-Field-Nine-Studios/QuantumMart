@@ -2,8 +2,11 @@
   <div class="header">
     <div class="avatar">
       <a [routerLink]="[`/profile/${review.userId}`]">
-        <!-- TODO replace this url once users get their own pfp -->
-        <img src="assets/pfp/msn-avatar.png" alt="msn-avatar" />
+        <app-user-avatar
+          [username]="review.username"
+          size="sm"
+          [clickable]="true"
+        ></app-user-avatar>
       </a>
     </div>
     <div class="user-info">

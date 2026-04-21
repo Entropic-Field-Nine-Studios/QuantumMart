@@ -1,0 +1,40 @@
+.avatar-container {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: white;
+  overflow: hidden;
+  user-select: none;
+  cursor: default;
+
+  &.sm {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  &.md {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+  }
+
+  &.lg {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &.clickable {
+    cursor: pointer;
+  }
+}
