@@ -86,6 +86,13 @@ export class CartItemService {
   }
 
   /**
+   * Clears the locally saved cart items.
+   */
+  clearLocalCart() {
+    this._cartItems.set([]);
+  }
+
+  /**
    * Removes an item from a user's cart.
    *
    * @param userId The cart's user ID

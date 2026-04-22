@@ -132,6 +132,7 @@ export class CheckoutComponent implements OnInit {
       this.orderService.createOrder(orderInfo).subscribe({
         next: () => {
           this.messageService.success('You have successfully placed your order!');
+          this.cartItemService.clearLocalCart();
           this.router.navigate(['/home']);
         },
         error: (err: HttpErrorResponse) => {
