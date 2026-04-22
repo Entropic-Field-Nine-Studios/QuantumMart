@@ -1,48 +1,153 @@
-.image-wrapper {
-  width: 400px;
-  height: 400px;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  border-radius: 8px;
-  margin-bottom: 12px;
+.listing-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  padding: 2rem 0;
 
-  img {
-    width: 400px;
-    height: 400px;
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
   }
 }
 
-.add-to-cart {
-  margin-top: 12px;
-  width: 100%;
+.image-col {
+  display: flex;
+  justify-content: center;
+
+  .listing-image {
+    width: 100%;
+    max-width: 480px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
 }
 
-.user-link {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  text-align: left;
-}
-
-.cart-button {
-  position: absolute;
-  margin-top: 12px;
-  left: 350px;
-  background-color: lightgreen;
-  color: black;
-}
-
-.create-listing-btn {
-  background-color: lightcyan;
-}
-
-.page-padding {
-  padding-left: 200px;
-  padding-right: 200px;
-  padding-bottom: 300px;
-}
-
-.info {
+.details-col {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  .title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+    cursor: default;
+  }
+
+  .rating-row {
+    display: flex;
+    align-items: center;
+  }
+
+  .price-row .price {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #111;
+    cursor: default;
+  }
+
+  .seller-row {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+
+    .label {
+      cursor: default;
+      color: #666;
+    }
+
+    .value {
+      font-weight: 600;
+      cursor: pointer;
+    }
+  }
+
+  .add-btn {
+    background: #111;
+    color: white;
+    padding: 0.9rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #222;
+    }
+
+    &:disabled {
+      background: lightgray;
+      cursor: default;
+      color: gray;
+    }
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    color: #666;
+    cursor: default;
+
+    .sold {
+      font-weight: 600;
+      color: #333;
+      cursor: default;
+    }
+  }
+}
+
+.description-section,
+.reviews-section {
+  margin-top: 3rem;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    cursor: default;
+  }
+}
+
+.description-section p {
+  line-height: 1.6;
+  color: #333;
+}
+
+.write-review-btn {
+  background: transparent;
+  border: 1px solid #ccc;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: #888;
+  }
+}
+
+.text-label {
+  cursor: default;
+}
+
+.edit-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  color: #6b6b6b; // softer neutral
+  transition:
+    color 0.2s ease,
+    transform 0.1s ease;
+
+  &:hover {
+    color: #1a1a1a; // crisp dark hover
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
 }

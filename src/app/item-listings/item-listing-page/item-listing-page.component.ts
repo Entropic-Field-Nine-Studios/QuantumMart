@@ -1,114 +1,132 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ItemListing } from '../item-listing.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageService } from '../../shared/message/message.service';
 import { ItemListingService } from '../item-listing.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { MatCardAvatar } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { CurrencyPipe } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
-import { CartItemService } from '../../cart/cart-item.service';
-import { MatIcon } from '@angular/material/icon';
-import { MatFabButton, MatIconButton } from '@angular/material/button';
-import { MatTooltip } from '@angular/material/tooltip';
-import { Title } from '@angular/platform-browser';
-import { qmTitle } from '../../title/qm-title';
-import { DecimalPipe } from '@angular/common';
-import { CreateReviewComponent } from 'src/app/reviews/create-review/create-review.component';
 import { ReviewService } from 'src/app/reviews/review.service';
 import { Review } from 'src/app/reviews/review.model';
-import { ReviewComponent } from 'src/app/reviews/review/review.component';
+import { NotFoundComponent } from 'src/app/not-found/not-found.component';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { RatingDisplayComponent } from 'src/app/shared/display/rating-display/rating-display.component';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { CreateReviewComponent } from 'src/app/reviews/create-review/create-review.component';
+import { ReviewComponent } from 'src/app/reviews/review/review.component';
+import { Title } from '@angular/platform-browser';
+import { qmTitle } from 'src/app/title/qm-title';
+import { CartItemService } from 'src/app/cart/cart-item.service';
+import { MessageService } from 'src/app/shared/message/message.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   imports: [
-    MatCardAvatar,
     MatGridListModule,
+    NotFoundComponent,
     MatProgressSpinner,
-    CurrencyPipe,
-    MatIcon,
-    MatFabButton,
-    MatIconButton,
-    MatTooltip,
+    RatingDisplayComponent,
     DecimalPipe,
+    DatePipe,
     CreateReviewComponent,
     ReviewComponent,
-    RatingDisplayComponent,
+    MatButtonModule,
+    MatIcon,
+    MatTooltip,
   ],
   templateUrl: './item-listing-page.component.html',
   styleUrl: './item-listing-page.component.scss',
 })
 export class ItemListingPageComponent implements OnInit {
-  private readonly itemListingService = inject(ItemListingService);
   private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly messageService = inject(MessageService);
-  private readonly authService = inject(AuthService);
-  private readonly cartService = inject(CartItemService);
+  private readonly itemListingService = inject(ItemListingService);
   private readonly reviewService = inject(ReviewService);
-  private title = inject(Title);
+  private readonly auth = inject(AuthService);
+  private readonly title = inject(Title);
+  private readonly cartService = inject(CartItemService);
+  private readonly messageService = inject(MessageService);
+  private readonly router = inject(Router);
 
-  readonly listing = signal<ItemListing | null>(null);
+  private readonly _listing = signal<ItemListing | null>(null);
+  private readonly _reviews = signal<Review[]>([]);
 
-  readonly reviews = signal<Review[]>([]);
-
-  readonly userHasReview = computed(
-    () => this.reviews().filter((review) => review.userId === this.authService.userId).length >= 1,
-  );
-
-  isListingCurrentUser = false;
-  loggedIn = false;
+  readonly notFound = signal(false);
 
   ngOnInit(): void {
-    this.itemListingService
-      .getListingById(this.activatedRoute.snapshot.params['listid'])
-      .subscribe({
-        next: (listing1) => {
-          this.listing.set(listing1);
-          this.title.setTitle(qmTitle(listing1.title));
-          this.isListingCurrentUser = this.authService.userId === listing1.sellerId;
-          this.loggedIn = this.authService.isLoggedIn;
-
-          this.loadReviews();
-        },
-        error: (err: HttpErrorResponse) => {
-          switch (err.status) {
-            case 400:
-            case 404:
-              this.router.navigate(['/404']);
-              break;
-            default:
-              this.messageService.error(err.message);
-          }
-        },
-      });
+    this.listenForRouteParams();
   }
 
-  loadReviews() {
-    this.reviewService.getListingReviews(this.listing()!.id!).subscribe({
-      next: (reviews) => this.reviews.set(reviews),
-    });
+  get reviews(): Review[] {
+    return this._reviews();
   }
 
-  addToCart(): void {
-    this.cartService.addItemToCart(this.authService.userId!, this.listing()!).subscribe({
-      next: (item) => this.messageService.info(`${item.itemListing.title} was added to your cart.`),
-      error: (err: HttpErrorResponse) =>
-        this.messageService.error(`Couldn't add item: ${err.message}`),
-    });
+  get listing(): ItemListing | null {
+    return this._listing();
   }
 
-  navigateToUser() {
-    this.router.navigate([`/profile/${this.listing()!.sellerId}`]);
-  }
+  private readonly userHasReviewed = computed(() =>
+    this._reviews().some((r) => r.userId === this.auth.userId),
+  );
 
-  navigateEdit() {
+  readonly userOwnsListing = computed(() => this._listing()?.sellerId === this.auth.userId);
+
+  goToEdit() {
     this.router.navigate(['edit'], { relativeTo: this.activatedRoute });
   }
 
-  get fullListing(): ItemListing | null {
-    return this.listing();
+  userCanAddToCart(): boolean {
+    if (!this.auth.isLoggedIn) {
+      return false;
+    }
+
+    return !this.userOwnsListing();
+  }
+
+  addToCart() {
+    if (!this.userCanAddToCart()) return;
+
+    const userId = this.auth.userId!;
+
+    this.cartService.addItemToCart(userId, this.listing!).subscribe({
+      next: () => this.messageService.info(`${this.listing?.title} was added to your cart.`),
+      error: (err: HttpErrorResponse) => this.messageService.error(err.message),
+    });
+  }
+
+  /** Checks if the logged-in user can leave a review on this listing. */
+  userCanWriteReview(): boolean {
+    if (!this.auth.isLoggedIn) {
+      return false;
+    }
+
+    return !this.userHasReviewed() && !this.userOwnsListing();
+  }
+
+  private loadListing(listingId: string) {
+    this.itemListingService.getListingById(listingId).subscribe({
+      next: (listing) => {
+        this._listing.set(listing);
+        this.title.setTitle(qmTitle(listing.title));
+        this.loadReviews(listingId);
+      },
+      error: () => this.notFound.set(true),
+    });
+  }
+
+  private loadReviews(listingId: string) {
+    this.reviewService
+      .getListingReviews(listingId)
+      .subscribe((reviews) => this._reviews.set(reviews));
+  }
+
+  private listenForRouteParams() {
+    this.activatedRoute.paramMap.subscribe((params) => {
+      const id = params.get('listid');
+
+      if (id) {
+        this.loadListing(id);
+      }
+    });
   }
 }

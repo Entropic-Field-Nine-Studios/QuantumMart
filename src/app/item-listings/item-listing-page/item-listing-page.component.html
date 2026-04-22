@@ -1,70 +1,77 @@
-@if (fullListing === null) {
+@if (notFound()) {
+  <app-not-found></app-not-found>
+} @else if (!listing) {
   <mat-spinner></mat-spinner>
 } @else {
-  <div class="page-padding">
-    <div class="info">
-      <div mat-card-avatar class="image-wrapper">
-        <img [src]="fullListing!.imageUrl || 'assets/no_image.jpg'" [alt]="fullListing!.title" />
-      </div>
-      @if (loggedIn && isListingCurrentUser) {
-        <button matIconButton (click)="navigateEdit()" matTooltip="Edit listing">
+  <div class="listing-container">
+    <div class="image-col">
+      <img [src]="listing.imageUrl || 'assets/no_image.jpg'" [alt]="listing.title" />
+    </div>
+
+    <div class="details-col">
+      @if (userOwnsListing()) {
+        <button mat-icon-button class="edit-btn" (click)="goToEdit()" matTooltip="Edit listing">
           <mat-icon>edit</mat-icon>
         </button>
       }
-      <div>
-        <h3>{{ fullListing!.title }}</h3>
-      </div>
 
-      @if (fullListing.reviewCount !== 0) {
-        <app-rating-display
-          [rating]="fullListing.averageScore"
-          [count]="fullListing.reviewCount"
-        ></app-rating-display>
+      <h1 class="title">{{ listing.title }}</h1>
 
-        <br />
-      }
-
-      <div>
-        {{ fullListing!.description }}
-      </div>
-      <div>
-        <h3>{{ fullListing!.price | currency }}</h3>
-      </div>
-      @if (loggedIn && !isListingCurrentUser) {
-        <button class="cart-button" matTooltip="Add to Cart" mat-fab (click)="addToCart()">
-          <mat-icon>add_shopping_cart</mat-icon>
-        </button>
-      }
-      <div>
-        <p>{{ fullListing.quantitySold | number }} sold</p>
-      </div>
-      <div>
-        <button class="user-link" (click)="navigateToUser()">
-          {{ fullListing!.sellerUsername }}
-        </button>
-      </div>
-    </div>
-
-    <br />
-
-    <div>
-      <h1>Reviews</h1>
-      @if (loggedIn && !isListingCurrentUser && !userHasReview()) {
-        <app-create-review
-          [listing]="listing()!"
-          (reviewCreated)="loadReviews()"
-        ></app-create-review>
-      }
-
-      <div>
-        @if (reviews().length === 0) {
-          <p>No reviews yet.</p>
+      <div class="rating-row">
+        @if (listing.reviewCount > 0) {
+          <app-rating-display
+            [rating]="listing.averageScore"
+            [count]="listing.reviewCount"
+          ></app-rating-display>
         } @else {
-          @for (review of reviews(); track $index) {
-            <app-review [review]="review"></app-review>
-          }
+          <span class="text-label">No reviews yet.</span>
+        }
+      </div>
+
+      <div class="price-row">
+        <span class="price">${{ listing.price | number: '1.2-2' }}</span>
+      </div>
+
+      <div class="seller-row">
+        <span class="label">Sold by</span>
+        <span class="value">{{ listing.sellerUsername }}</span>
+      </div>
+
+      @if (userCanAddToCart()) {
+        <button class="add-btn" [disabled]="!userCanAddToCart()" (click)="addToCart()">
+          Add to Cart
+        </button>
+      }
+
+      <div class="meta-row">
+        <span>Listed {{ listing.createdAt | date: 'mediumDate' }}</span>
+        @if (listing.quantitySold > 0) {
+          <span class="sold">{{ listing.quantitySold }} sold</span>
         }
       </div>
     </div>
   </div>
+
+  <section class="description-section">
+    <h2>Description</h2>
+    <p>{{ listing.description || 'No description provided.' }}</p>
+  </section>
+
+  <section class="reviews-section">
+    <h2>Reviews</h2>
+
+    @if (userCanWriteReview()) {
+      <app-create-review [listing]="listing"></app-create-review>
+    }
+
+    @if (reviews.length > 0) {
+      <div>
+        @for (review of reviews; track $index) {
+          <app-review [review]="review"></app-review>
+        }
+      </div>
+    } @else {
+      <p class="text-label">No reviews yet.</p>
+    }
+  </section>
 }

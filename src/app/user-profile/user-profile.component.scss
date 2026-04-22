@@ -41,6 +41,7 @@
   background: #fee2e2;
   color: #b91c1c;
   cursor: default;
+  user-select: none;
 }
 
 .details {
@@ -60,16 +61,19 @@
     font-size: 0.9rem;
     color: #6b7280;
     font-weight: 500;
+    cursor: default;
   }
 
   .value {
     font-size: 1rem;
     font-weight: 500;
     color: #111827;
+    cursor: default;
 
     &.mono {
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 0.85rem;
+      cursor: text;
     }
 
     &.balance {
@@ -125,6 +129,8 @@
   background: #f9fafb;
   border-radius: 12px;
   border: 1px solid #e5e7eb;
+  cursor: default;
+  user-select: none;
 }
 
 @media (max-width: 640px) {
