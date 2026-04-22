@@ -1,6 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ItemListing } from '../item-listing.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ItemListingService } from '../item-listing.service';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { AuthService } from '../../auth/auth.service';
@@ -34,6 +34,7 @@ import { MatTooltip } from '@angular/material/tooltip';
     MatButtonModule,
     MatIcon,
     MatTooltip,
+    RouterLink,
   ],
   templateUrl: './item-listing-page.component.html',
   styleUrl: './item-listing-page.component.scss',
@@ -71,7 +72,7 @@ export class ItemListingPageComponent implements OnInit {
 
   readonly userOwnsListing = computed(() => this._listing()?.sellerId === this.auth.userId);
 
-  goToEdit() {
+  navigateEdit() {
     this.router.navigate(['edit'], { relativeTo: this.activatedRoute });
   }
 

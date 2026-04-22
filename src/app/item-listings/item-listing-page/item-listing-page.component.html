@@ -10,7 +10,7 @@
 
     <div class="details-col">
       @if (userOwnsListing()) {
-        <button mat-icon-button class="edit-btn" (click)="goToEdit()" matTooltip="Edit listing">
+        <button mat-icon-button class="edit-btn" (click)="navigateEdit()" matTooltip="Edit listing">
           <mat-icon>edit</mat-icon>
         </button>
       }
@@ -34,7 +34,9 @@
 
       <div class="seller-row">
         <span class="label">Sold by</span>
-        <span class="value">{{ listing.sellerUsername }}</span>
+        <a [routerLink]="`/profile/${listing.sellerId}`" class="value seller-link">{{
+          listing.sellerUsername
+        }}</a>
       </div>
 
       @if (userCanAddToCart()) {
