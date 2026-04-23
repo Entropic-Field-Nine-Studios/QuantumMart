@@ -37,9 +37,14 @@ export class CartItemService {
       const userId = this.auth.userId;
 
       if (!userId) {
-        this.getCartItemsByGuestSession(this.auth.guestId!).subscribe((items) =>
-          this._cartItems.set(items),
-        );
+        const guestId = this.auth.guestId;
+
+        if (guestId != null) {
+          this.getCartItemsByGuestSession(guestId).subscribe((items) => this._cartItems.set(items));
+        } else {
+          this._cartItems.set([]);
+        }
+
         return;
       }
 
