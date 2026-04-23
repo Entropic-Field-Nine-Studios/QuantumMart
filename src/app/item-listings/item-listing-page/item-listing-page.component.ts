@@ -77,22 +77,12 @@ export class ItemListingPageComponent implements OnInit {
     this.router.navigate(['edit'], { relativeTo: this.activatedRoute });
   }
 
-  userCanAddToCart(): boolean {
-    if (!this.auth.isLoggedIn) {
-      return false;
-    }
-
-    return !this.userOwnsListing();
-  }
-
   addToCart() {
-    if (!this.userCanAddToCart()) return;
-
-    const userId = this.auth.userId!;
+    if (this.userOwnsListing()) return;
 
     const addItemRequest: AddCartItemRequest = {
-      userId: userId,
-      guestSessionId: null, // TODO: Guest checkout
+      userId: this.auth.userId,
+      guestSessionId: this.auth.guestId,
       listingInfo: this.listing!,
       itemQuantity: 1,
     };

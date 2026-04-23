@@ -39,8 +39,8 @@
         }}</a>
       </div>
 
-      @if (userCanAddToCart()) {
-        <button class="add-btn" [disabled]="!userCanAddToCart()" (click)="addToCart()">
+      @if (!userOwnsListing()) {
+        <button class="add-btn" [disabled]="userOwnsListing()" (click)="addToCart()">
           Add to Cart
         </button>
       }
