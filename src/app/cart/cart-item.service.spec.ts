@@ -7,6 +7,7 @@ import { CartItem } from './cart-item.model';
 import { AuthService } from '../auth/auth.service';
 import { MockAuthService } from 'src/testing/mock-auth.service';
 import { mockListing } from 'src/testing/mock-item-listing';
+import { AddCartItemRequest } from './add-cart-item-request.model';
 
 describe('CartItemService', () => {
   let service: CartItemService;
@@ -37,13 +38,20 @@ describe('CartItemService', () => {
   it('should POST to cart item service', () => {
     const userId = '5';
 
-    service.addItemToCart(userId, mockListing).subscribe((res) => {
+    const addItemRequest: AddCartItemRequest = {
+      userId: userId,
+      guestSessionId: null,
+      listingInfo: mockListing,
+      itemQuantity: 1,
+    };
+
+    service.addItemToCart(addItemRequest).subscribe((res) => {
       expect(res).to.deep.equal(cartItem1);
     });
 
-    const req = httpMock.expectOne(`${service.baseUrl}/user/${userId}`);
+    const req = httpMock.expectOne(`${service.baseUrl}`);
     expect(req.request.method).to.equal('POST');
-    expect(req.request.body).to.equal(mockListing);
+    expect(req.request.body).to.equal(addItemRequest);
 
     req.flush(cartItem1);
   });

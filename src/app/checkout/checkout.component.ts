@@ -11,9 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatAnchor } from '@angular/material/button';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { OrderService } from '../order/order.service';
-import { Order } from '../order/order.model';
 import { Router } from '@angular/router';
-import { OrderStatus } from '../order/order-status.enum';
 import { MessageService } from '../shared/message/message.service';
 import { AddressFormComponent } from '../address/address-form/address-form.component';
 import { Address } from '../address/address.model';
@@ -22,6 +20,7 @@ import { AddressForm } from '../address/address-form/address-form.model';
 import { SelectAddressComponent } from '../address/select-address/select-address.component';
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { AddressService } from '../address/address.service';
+import { CreateOrderRequest } from '../order/create-order-request.model';
 
 @Component({
   selector: 'app-checkout',
@@ -156,16 +155,17 @@ export class CheckoutComponent implements OnInit {
     return this.cartItemService.subtotal();
   }
 
-  private getOrderInfo(): Order {
+  private getOrderInfo(): CreateOrderRequest {
     const addressInfo = this.shippingAddress()!;
-    const orderInfo: Order = {
+    const orderInfo: CreateOrderRequest = {
       buyerId: this.authService.userId!,
-      status: OrderStatus.PENDING,
+      guestEmail: null, // TODO: Guest checkout
+      guestSessionId: null, // TODO: Guest checkout
       totalPaid: this.getTotal(),
       shippingFirstname: addressInfo.firstName,
       shippingLastname: addressInfo.lastName,
       shippingAddress1: addressInfo.addressLine1,
-      shippingAddress2: addressInfo.addressLine2,
+      shippingAddress2: addressInfo.addressLine2 ?? null,
       shippingCity: addressInfo.city,
       shippingState: addressInfo.state,
       shippingZip: addressInfo.zip,

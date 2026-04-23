@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { CartItem } from './cart-item.model';
-import { ItemListing } from '../item-listings/item-listing.model';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../auth/auth.service';
+import { AddCartItemRequest } from './add-cart-item-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -53,8 +53,8 @@ export class CartItemService {
    * @param listing Item listing being added to cart.
    * @returns Cart item that was added.
    */
-  addItemToCart(userId: string, listing: ItemListing): Observable<CartItem> {
-    return this.http.post<CartItem>(`${this.baseUrl}/user/${userId}`, listing).pipe(
+  addItemToCart(request: AddCartItemRequest): Observable<CartItem> {
+    return this.http.post<CartItem>(`${this.baseUrl}`, request).pipe(
       tap((added) => {
         const exists = this._cartItems().some((item) => item.id === added.id);
 

@@ -12,6 +12,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
 import { ShortNumberPipe } from 'src/app/shared/pipes/short-number.pipe';
 import { RatingDisplayComponent } from 'src/app/shared/display/rating-display/rating-display.component';
+import { AddCartItemRequest } from 'src/app/cart/add-cart-item-request.model';
 
 @Component({
   selector: 'app-item-listing',
@@ -58,7 +59,14 @@ export class ItemListingComponent implements OnInit, OnChanges {
   }
 
   addToCart(): void {
-    this.cartService.addItemToCart(this.authService.userId!, this.listing).subscribe({
+    const addItemRequest: AddCartItemRequest = {
+      userId: this.authService.userId!,
+      guestSessionId: null, // TODO: Guest checkout
+      listingInfo: this.listing,
+      itemQuantity: 1,
+    };
+
+    this.cartService.addItemToCart(addItemRequest).subscribe({
       next: (item) => this.messageService.info(`${item.itemListing.title} was added to your cart.`),
       error: (err: HttpErrorResponse) =>
         this.messageService.error(`Couldn't add item: ${err.message}`),

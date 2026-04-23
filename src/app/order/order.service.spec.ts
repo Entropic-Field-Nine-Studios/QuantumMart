@@ -4,6 +4,7 @@ import { OrderService } from './order.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { Order } from './order.model';
 import { OrderStatus } from './order-status.enum';
+import { CreateOrderRequest } from './create-order-request.model';
 
 describe('OrderService', () => {
   let service: OrderService;
@@ -43,7 +44,7 @@ describe('OrderService', () => {
       expect(res).to.deep.equal([sampleOrder]);
     });
 
-    const req = httpMock.expectOne(`${service.baseUrl}/userId/${userId}`);
+    const req = httpMock.expectOne(`${service.baseUrl}/user/${userId}`);
     expect(req.request.method).to.equal('GET');
 
     req.flush([sampleOrder]);
@@ -57,7 +58,7 @@ describe('OrderService', () => {
     });
 
     const req = httpMock.expectOne(
-      `${service.baseUrl}/sellerId/${sellerId}?unfinished=${unfinished}`,
+      `${service.baseUrl}/seller/${sellerId}?unfinished=${unfinished}`,
     );
     expect(req.request.method).to.equal('GET');
     expect(req.request.params.get('unfinished')).toBe(`${unfinished}`);
@@ -72,13 +73,28 @@ describe('OrderService', () => {
     expectRelevantOrders(false));
 
   it('should POST to create an order', () => {
-    service.createOrder(sampleOrder).subscribe((res) => {
+    const createOrderReq: CreateOrderRequest = {
+      buyerId: '1',
+      guestEmail: null,
+      guestSessionId: null,
+      totalPaid: 12.0,
+      shippingFirstname: 'test',
+      shippingLastname: 'guy',
+      shippingAddress1: '123 Road Lane',
+      shippingAddress2: null,
+      shippingCity: 'Quahog',
+      shippingState: 'Rhode Island',
+      shippingPhone: '5552981029',
+      shippingZip: '61029',
+    };
+
+    service.createOrder(createOrderReq).subscribe((res) => {
       expect(res).to.deep.equal(sampleOrder);
     });
 
     const req = httpMock.expectOne(`${service.baseUrl}`);
     expect(req.request.method).toBe('POST');
-    expect(req.request.body).to.deep.equal(sampleOrder);
+    expect(req.request.body).to.deep.equal(createOrderReq);
 
     req.flush(sampleOrder);
   });

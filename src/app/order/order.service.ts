@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Order } from './order.model';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { CreateOrderRequest } from './create-order-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ import { environment } from '../../environments/environment';
 export class OrderService {
   readonly baseUrl = `${environment.apiUrl}/orders`;
 
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
   /**
    * Retrieves a list of every order purhcased by a user via user ID.
@@ -22,7 +23,7 @@ export class OrderService {
    * @returns List of orders.
    */
   getOrdersByUserId(userId: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/userId/${userId}`);
+    return this.http.get<Order[]>(`${this.baseUrl}/user/${userId}`);
   }
 
   /**
@@ -34,7 +35,7 @@ export class OrderService {
    * @returns A list of orders showing purchased items sold by the seller.
    */
   getOrdersRelevantToSeller(sellerId: string, unfinished: boolean): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/sellerId/${sellerId}`, {
+    return this.http.get<Order[]>(`${this.baseUrl}/seller/${sellerId}`, {
       params: { unfinished },
     });
   }
@@ -62,7 +63,7 @@ export class OrderService {
    * @param order Information for the order.
    * @returns The order and its order items.
    */
-  createOrder(orderInfo: Order): Observable<Order> {
+  createOrder(orderInfo: CreateOrderRequest): Observable<Order> {
     return this.http.post<Order>(`${this.baseUrl}`, orderInfo);
   }
 }

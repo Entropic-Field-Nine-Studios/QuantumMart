@@ -20,6 +20,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
+import { AddCartItemRequest } from 'src/app/cart/add-cart-item-request.model';
 
 @Component({
   imports: [
@@ -89,7 +90,14 @@ export class ItemListingPageComponent implements OnInit {
 
     const userId = this.auth.userId!;
 
-    this.cartService.addItemToCart(userId, this.listing!).subscribe({
+    const addItemRequest: AddCartItemRequest = {
+      userId: userId,
+      guestSessionId: null, // TODO: Guest checkout
+      listingInfo: this.listing!,
+      itemQuantity: 1,
+    };
+
+    this.cartService.addItemToCart(addItemRequest).subscribe({
       next: () => this.messageService.info(`${this.listing?.title} was added to your cart.`),
       error: (err: HttpErrorResponse) => this.messageService.error(err.message),
     });
