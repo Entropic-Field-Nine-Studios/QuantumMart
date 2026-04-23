@@ -28,7 +28,7 @@ export class CartComponent {
       .confirm(`Are you sure you want to remove ${listing.title} from your cart?`)
       .subscribe((confirmed) => {
         if (confirmed) {
-          this.cartItemService.removeItemFromCart(this.auth.userId!, listing.id!).subscribe({
+          this.cartItemService.removeItemFromUserCart(this.auth.userId!, listing.id!).subscribe({
             next: () => {
               this.messageService.info(`${listing.title} was removed.`);
             },
@@ -43,7 +43,7 @@ export class CartComponent {
       .confirm('Are you sure you want to clear your cart?')
       .subscribe((confirmed) => {
         if (confirmed) {
-          this.cartItemService.clearCart(this.auth.userId!).subscribe({
+          this.cartItemService.clearUserCart(this.auth.userId!).subscribe({
             next: () => {
               this.messageService.info('Your cart was cleared.');
             },

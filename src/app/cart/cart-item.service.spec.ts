@@ -60,7 +60,7 @@ describe('CartItemService', () => {
     const userId = '123';
     const mockResponse = { success: true };
 
-    service.clearCart(userId).subscribe((res) => {
+    service.clearUserCart(userId).subscribe((res) => {
       expect(res).to.deep.equal(mockResponse);
     });
 
@@ -75,11 +75,40 @@ describe('CartItemService', () => {
     const listingId = '321';
     const mockResponse = { success: true };
 
-    service.removeItemFromCart(userId, listingId).subscribe((res) => {
+    service.removeItemFromUserCart(userId, listingId).subscribe((res) => {
       expect(res).to.deep.equal(mockResponse);
     });
 
     const req = httpMock.expectOne(`${service.baseUrl}/user/${userId}/listing/${listingId}`);
+    expect(req.request.method).to.equal('DELETE');
+
+    req.flush(mockResponse);
+  });
+
+  it('should DELETE /guest/:guestId to clear the guest cart', () => {
+    const guestId = '123';
+    const mockResponse = { success: true };
+
+    service.clearGuestCart(guestId).subscribe((res) => {
+      expect(res).to.deep.equal(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${service.baseUrl}/guest/${guestId}`);
+    expect(req.request.method).to.equal('DELETE');
+
+    req.flush(mockResponse);
+  });
+
+  it('should DELETE /guest/:guestId/listing/:listingId to remove item from cart', () => {
+    const guestId = '123';
+    const listingId = '321';
+    const mockResponse = { success: true };
+
+    service.removeItemFromGuestCart(guestId, listingId).subscribe((res) => {
+      expect(res).to.deep.equal(mockResponse);
+    });
+
+    const req = httpMock.expectOne(`${service.baseUrl}/guest/${guestId}/listing/${listingId}`);
     expect(req.request.method).to.equal('DELETE');
 
     req.flush(mockResponse);

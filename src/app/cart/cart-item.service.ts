@@ -49,8 +49,7 @@ export class CartItemService {
    * Adds an item with quantity 1 to a user's cart. If the user already has this item
    * in their cart, the quantity of the existing item is incremented by 1 instead.
    *
-   * @param userId UUID of the user to update cart on.
-   * @param listing Item listing being added to cart.
+   * @param request
    * @returns Cart item that was added.
    */
   addItemToCart(request: AddCartItemRequest): Observable<CartItem> {
@@ -79,10 +78,22 @@ export class CartItemService {
    * @param userId UUID of user to clear their cart.
    * @returns Observable showing successsful cart clearing.
    */
-  clearCart(userId: string): Observable<object> {
+  clearUserCart(userId: string): Observable<object> {
     return this.http
       .delete(`${this.baseUrl}/user/${userId}`)
-      .pipe(tap(() => this._cartItems.set([])));
+      .pipe(tap(() => this.clearLocalCart()));
+  }
+
+  /**
+   * Clears items in a guest's cart.
+   *
+   * @param guestSessionId Session ID for the non-user.
+   * @returns
+   */
+  clearGuestCart(guestSessionId: string): Observable<object> {
+    return this.http
+      .delete(`${this.baseUrl}/guest/${guestSessionId}`)
+      .pipe(tap(() => this.clearLocalCart()));
   }
 
   /**
@@ -99,14 +110,27 @@ export class CartItemService {
    * @param listingId UUID of the listing to remove
    * @returns
    */
-  removeItemFromCart(userId: string, listingId: string): Observable<object> {
-    return this.http.delete(`${this.baseUrl}/user/${userId}/listing/${listingId}`).pipe(
-      tap(() => {
-        this._cartItems.update((items) =>
-          items.filter((item) => item.itemListing.id !== listingId),
-        );
-      }),
-    );
+  removeItemFromUserCart(userId: string, listingId: string): Observable<object> {
+    return this.http
+      .delete(`${this.baseUrl}/user/${userId}/listing/${listingId}`)
+      .pipe(tap(() => this.removeLocalItem(listingId)));
+  }
+
+  /**
+   * Removes an item from a non-user's cart.
+   *
+   * @param guestSessionId Session ID of the non-user
+   * @param listingId UUID of the listing to remove
+   * @returns
+   */
+  removeItemFromGuestCart(guestSessionId: string, listingId: string): Observable<object> {
+    return this.http
+      .delete(`${this.baseUrl}/guest/${guestSessionId}/listing/${listingId}`)
+      .pipe(tap(() => this.removeLocalItem(listingId)));
+  }
+
+  private removeLocalItem(listingId: string) {
+    this._cartItems.update((items) => items.filter((item) => item.itemListing.id !== listingId));
   }
 
   /**
@@ -117,5 +141,15 @@ export class CartItemService {
    */
   private getCartItemsByUserId(userId: string): Observable<CartItem[]> {
     return this.http.get<CartItem[]>(`${this.baseUrl}/user/${userId}`);
+  }
+
+  /**
+   * Retrieves items from a guest session ID.
+   *
+   * @param sessionId
+   * @returns
+   */
+  private getCartItemsByGuestSession(sessionId: string): Observable<CartItem[]> {
+    return this.http.get<CartItem[]>(`${this.baseUrl}/guest/${sessionId}`);
   }
 }
