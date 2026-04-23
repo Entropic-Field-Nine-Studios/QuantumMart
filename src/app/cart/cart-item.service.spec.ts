@@ -22,12 +22,7 @@ describe('CartItemService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: AuthService,
-          useFactory: () => {
-            return new MockAuthService('stub');
-          },
-        },
+        { provide: AuthService, useClass: MockAuthService },
         ...provideHttpClientTesting(),
       ],
     });
