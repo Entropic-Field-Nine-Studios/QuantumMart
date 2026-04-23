@@ -45,6 +45,10 @@ export class TopHeaderComponent {
     return this.router.url.includes('/checkout');
   }
 
+  isAtCart(): boolean {
+    return this.router.url.includes('/cart');
+  }
+
   private isAt404(): boolean {
     return this.router.routerState.snapshot.root.firstChild?.component === NotFoundComponent;
   }

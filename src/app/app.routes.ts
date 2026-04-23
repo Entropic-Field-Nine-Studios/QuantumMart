@@ -68,7 +68,7 @@ export const routes: Routes = [
   {
     path: 'cart',
     component: CartComponent,
-    title: qmTitle('Cart'),
+    title: qmTitle('Viewing Cart'),
   },
   {
     path: 'purchases',

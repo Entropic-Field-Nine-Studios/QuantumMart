@@ -37,7 +37,9 @@ export class CartItemService {
       const userId = this.auth.userId;
 
       if (!userId) {
-        this._cartItems.set([]);
+        this.getCartItemsByGuestSession(this.auth.guestId!).subscribe((items) =>
+          this._cartItems.set(items),
+        );
         return;
       }
 
@@ -46,28 +48,24 @@ export class CartItemService {
   }
 
   /**
-   * Adds an item with quantity 1 to a user's cart. If the user already has this item
-   * in their cart, the quantity of the existing item is incremented by 1 instead.
+   * Sends a request to add an item to a user / guest's cart, then updates the local singleton with the
+   * retrieved information.
    *
    * @param request
    * @returns Cart item that was added.
    */
   addItemToCart(request: AddCartItemRequest): Observable<CartItem> {
     return this.http.post<CartItem>(`${this.baseUrl}`, request).pipe(
-      tap((added) => {
-        const exists = this._cartItems().some((item) => item.id === added.id);
+      tap((addedItem) => {
+        const itemExists = this._cartItems().some((item) => item.id === addedItem.id);
 
-        if (!exists) {
-          // Add the item as a new entry
-          this._cartItems.update((items) => [...items, added]);
-        } else {
-          // Increase the existing item's quantity
-          this._cartItems.update((items) =>
-            items.map((item) =>
-              item.id === added.id ? { ...item, quantity: item.quantity + 1 } : item,
-            ),
-          );
-        }
+        this._cartItems.update((items) =>
+          itemExists
+            ? // Update the item's details
+              items.map((item) => (item.id === addedItem.id ? addedItem : item))
+            : // Append the new item to the list
+              [...items, addedItem],
+        );
       }),
     );
   }

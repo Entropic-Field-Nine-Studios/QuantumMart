@@ -9,12 +9,11 @@
     </mat-icon>
   </button>
 } @else {
-  <button
-    class="guest-btn"
-    [matBadge]="cartItemCount"
-    [matBadgeHidden]="cartItemCount === 0"
-    (click)="navigateCart()"
-  >
-    View Cart
+  <button class="guest-btn" (click)="navigateCart()">
+    <span>View Cart</span>
+    &nbsp;
+    @if (cartItemCount > 0) {
+      <span>({{ cartItemCount }})</span>
+    }
   </button>
 }

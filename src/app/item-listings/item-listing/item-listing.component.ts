@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ItemListing } from '../item-listing.model';
@@ -28,27 +28,14 @@ import { AddCartItemRequest } from 'src/app/cart/add-cart-item-request.model';
   templateUrl: './item-listing.component.html',
   styleUrl: './item-listing.component.scss',
 })
-export class ItemListingComponent implements OnInit, OnChanges {
+export class ItemListingComponent {
   @Input({ required: true }) listing!: ItemListing;
   @Input() showUsername = true;
 
-  loggedIn = false;
-  isListingCurrentUser = false;
-
   private readonly cartService = inject(CartItemService);
-  private readonly authService = inject(AuthService);
+  private readonly auth = inject(AuthService);
   private readonly messageService = inject(MessageService);
   private readonly router = inject(Router);
-
-  ngOnInit(): void {
-    this.loggedIn = this.authService.isLoggedIn;
-    this.isListingCurrentUser = this.authService.userId === this.listing.sellerId;
-  }
-
-  ngOnChanges(): void {
-    this.loggedIn = this.authService.isLoggedIn;
-    this.isListingCurrentUser = this.authService.userId === this.listing.sellerId;
-  }
 
   navigateToUser() {
     this.router.navigate([`/profile/${this.listing.sellerId}`]);
@@ -58,10 +45,19 @@ export class ItemListingComponent implements OnInit, OnChanges {
     this.router.navigate([`/listing/${this.listing.id}`]);
   }
 
+  /** Checks if the current user can add this item to their cart. */
+  canAddToCart(): boolean {
+    if (!this.auth.isLoggedIn) {
+      return true;
+    }
+
+    return this.auth.userId !== this.listing.sellerId;
+  }
+
   addToCart(): void {
     const addItemRequest: AddCartItemRequest = {
-      userId: this.authService.userId!,
-      guestSessionId: null, // TODO: Guest checkout
+      userId: this.auth.userId,
+      guestSessionId: this.auth.guestId,
       listingInfo: this.listing,
       itemQuantity: 1,
     };
