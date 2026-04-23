@@ -1,6 +1,6 @@
 <mat-expansion-panel>
   <mat-expansion-panel-header [class.even]="!isAlt" [class.odd]="isAlt">
-    <mat-panel-title>ID: {{ order.id! }} </mat-panel-title>
+    <mat-panel-title>ID: {{ order.id }} </mat-panel-title>
     <mat-panel-description>
       Placed on {{ order.createdAt | date: 'MMMM d, y' }} at
       {{ order.createdAt | date: 'h:mm a (z)' }}

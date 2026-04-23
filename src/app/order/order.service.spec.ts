@@ -13,6 +13,7 @@ describe('OrderService', () => {
   const sampleOrder: Order = {
     id: '1',
     buyerId: '1',
+    guestEmail: null,
     status: OrderStatus.PENDING,
     totalPaid: 12.0,
     shippingFirstname: 'test',
@@ -23,6 +24,8 @@ describe('OrderService', () => {
     shippingState: 'Rhode Island',
     shippingPhone: '5552981029',
     shippingZip: '61029',
+    createdAt: '',
+    orderItems: [],
   };
 
   beforeEach(() => {

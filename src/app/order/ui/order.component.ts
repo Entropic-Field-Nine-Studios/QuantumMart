@@ -12,7 +12,11 @@ import { OrderItemComponent } from '../../order-item/ui/order-item.component';
 })
 export class OrderComponent {
   @Input({ required: true }) order!: Order;
+
+  /** Use secondary color for the background. */
   @Input() isAlt = false;
+
+  /** Enable seller actions, such as changing the status, on contained order items. */
   @Input() forSeller = false;
 
   get fullName(): string {

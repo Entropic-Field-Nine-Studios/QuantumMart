@@ -41,19 +41,6 @@ export class OrderService {
   }
 
   /**
-   * Retrieves a list of every order purchased by a user via username. Ignores casing.
-   *
-   * ### Error codes
-   * - 404 (Not Found) - If the user does not exist.
-   *
-   * @param username Username of the buyer.
-   * @returns Orders bought by the user.
-   */
-  getOrdersByUsername(username: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.baseUrl}/username/${username}`);
-  }
-
-  /**
    * Sends a request to create a new order in the database. If successful, the buyer's cart will be cleared.
    *
    * ### Error codes
