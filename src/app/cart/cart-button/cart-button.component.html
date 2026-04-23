@@ -1,0 +1,20 @@
+@if (!guest) {
+  <button matIconButton matTooltip="View cart" (click)="navigateCart()">
+    <mat-icon
+      [matBadge]="cartItemCount"
+      [matBadgeHidden]="cartItemCount === 0"
+      matBadgeColor="accent"
+    >
+      shopping_cart
+    </mat-icon>
+  </button>
+} @else {
+  <button
+    class="guest-btn"
+    [matBadge]="cartItemCount"
+    [matBadgeHidden]="cartItemCount === 0"
+    (click)="navigateCart()"
+  >
+    View Cart
+  </button>
+}

@@ -22,8 +22,13 @@
       @if (user !== null) {
         <app-user-card></app-user-card>
       } @else {
-        <div class="login-register">
-          <h2><a routerLink="/login">Login</a> or <a routerLink="/register">Register</a></h2>
+        <!-- Guest information group -->
+        <div class="guest-actions">
+          <app-cart-button [guest]="true"></app-cart-button>
+
+          <div class="login-register">
+            <h3><a routerLink="/login">Login</a> or <a routerLink="/register">Register</a></h3>
+          </div>
         </div>
       }
     }

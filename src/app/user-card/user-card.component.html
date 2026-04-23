@@ -34,11 +34,7 @@
       }
     </mat-menu>
 
-    <button matIconButton matTooltip="View cart" (click)="navigateTo('cart')">
-      <mat-icon [matBadge]="totalCartItems" [matBadgeHidden]="totalCartItems === 0">
-        shopping_cart
-      </mat-icon>
-    </button>
+    <app-cart-button></app-cart-button>
 
     <button matIconButton [matMenuTriggerFor]="userOptions">
       <mat-icon>more_vert</mat-icon>
