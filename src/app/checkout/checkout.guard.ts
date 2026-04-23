@@ -1,29 +1,31 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../auth/auth.service';
 import { CartItemService } from '../cart/cart-item.service';
+import { MessageService } from '../shared/message/message.service';
+import { filter, map, take } from 'rxjs';
 
 /**
- * Route activation guard which ensures the following:
- * 1. The user is logged in
- * 2. Their cart is not empty
+ * Route activation guard which ensures the client's cart is not empty.
  *
  * If they do not meet the conditions, redirect them home.
  *
  * @returns
  */
 export const checkoutGuard: CanActivateFn = () => {
-  const authService = inject(AuthService);
+  const messageService = inject(MessageService);
   const cartService = inject(CartItemService);
   const router = inject(Router);
 
-  if (!authService.isLoggedIn) {
-    return router.createUrlTree(['/login']);
-  }
+  return cartService.cartLoaded$.pipe(
+    filter((loaded) => loaded),
+    take(1),
+    map(() => {
+      if (cartService.cartCount() === 0) {
+        messageService.error('Cart is empty.');
+        return router.createUrlTree(['/home']);
+      }
 
-  if (cartService.cartCount() === 0) {
-    return router.createUrlTree(['/home']);
-  }
-
-  return true;
+      return true;
+    }),
+  );
 };
