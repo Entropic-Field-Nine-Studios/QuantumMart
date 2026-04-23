@@ -6,6 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { JwtPayload } from './jwt-payload.model';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +43,11 @@ export class AuthService {
    */
   logout(navigateLogin = true): void {
     this.storage?.removeItem('token');
+
+    if (this.guestId === null) {
+      this.initGuestId();
+    }
+
     this._authChanged.update((n) => n + 1);
 
     if (navigateLogin) {
@@ -56,6 +62,7 @@ export class AuthService {
    */
   setToken(token: string) {
     this.storage?.setItem('token', token);
+    this.clearGuestId();
     this._authChanged.update((n) => n + 1);
   }
 
@@ -75,6 +82,13 @@ export class AuthService {
    */
   get isLoggedIn(): boolean {
     return this.isTokenValid();
+  }
+
+  /**
+   * Gets the UUID associated with the current non-user. Returns null if a client is logged in.
+   */
+  get guestId(): string | null {
+    return this.storage?.getItem('guestId') ?? null;
   }
 
   /**
@@ -126,5 +140,21 @@ export class AuthService {
     } catch {
       return null; // Token is malformed or tampered with
     }
+  }
+
+  /**
+   * Generates a random UUID and stores it in local storage under `guestId`.
+   */
+  initGuestId() {
+    const guestId = uuidv4();
+
+    this.storage?.setItem('guestId', guestId);
+  }
+
+  /**
+   * Removes the guest ID from storage.
+   */
+  clearGuestId() {
+    this.storage?.removeItem('guestId');
   }
 }
