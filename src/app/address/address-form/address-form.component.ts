@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,8 +9,6 @@ import { MatSelect, MatOption } from '@angular/material/select';
 import { ZipCodeDirective } from '../../shared/directives/zip-code.directive';
 import { PhoneInputComponent } from '../../shared/inputs/phone-input/phone-input.component';
 import { US_STATES } from '../../shared/data/us-states';
-import { UserStore } from '../../core/stores/user.store';
-import { User } from '../../users/user.model';
 import { MatAnchor } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { AddressForm } from './address-form.model';
@@ -44,6 +42,9 @@ export class AddressFormComponent {
    */
   @Input() isCheckout = false;
 
+  /** Shows an additional email field required for non-users. */
+  @Input() isGuest = false;
+
   /**
    * Text for the submit button.
    */
@@ -56,14 +57,13 @@ export class AddressFormComponent {
    */
   @Output() submitted = new EventEmitter<AddressForm>();
 
-  private readonly userStore = inject(UserStore);
-
   onSubmit() {
     if (this.formGroup.valid) {
       const values = this.formGroup.value!;
       const addressForm: AddressForm = {
         firstName: values.firstName!,
         lastName: values.lastName!,
+        guestEmail: values.guestEmail,
         addressLine1: values.addressLine1!,
         addressLine2: values.addressLine2,
         city: values.city!,
@@ -76,9 +76,5 @@ export class AddressFormComponent {
 
       this.submitted.emit(addressForm);
     }
-  }
-
-  private get user(): User {
-    return this.userStore.user()!;
   }
 }

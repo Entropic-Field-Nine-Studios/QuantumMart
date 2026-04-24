@@ -1,4 +1,5 @@
 export interface AddressForm {
+  guestEmail: string | null;
   firstName: string;
   lastName: string;
   addressLine1: string;

@@ -105,8 +105,9 @@ export class AddressUtil {
    *
    * @returns
    */
-  static createAddressForm(): FormGroup {
+  static createAddressForm(isGuest = false): FormGroup {
     return new FormGroup({
+      guestEmail: new FormControl(null, isGuest ? Validators.required : []),
       firstName: new FormControl('', Validators.required),
       lastName: new FormControl('', Validators.required),
       addressLine1: new FormControl('', Validators.required),

@@ -1,39 +1,50 @@
 <div>
   <form [formGroup]="formGroup">
-    <mat-form-field>
+    @if (isGuest) {
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput maxlength="50" formControlName="guestEmail" />
+      </mat-form-field>
+
+      <br />
+    }
+
+    <mat-form-field appearance="outline">
       <mat-label>First Name</mat-label>
       <input matInput appPersonName maxlength="100" formControlName="firstName" />
     </mat-form-field>
 
-    <mat-form-field>
+    &nbsp;
+
+    <mat-form-field appearance="outline">
       <mat-label>Last Name</mat-label>
       <input matInput appPersonName maxlength="100" formControlName="lastName" />
     </mat-form-field>
 
     <br />
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Address Line 1</mat-label>
       <input matInput appAddress maxlength="150" formControlName="addressLine1" />
     </mat-form-field>
 
     <br />
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>Address Line 2</mat-label>
       <input matInput appAddress maxlength="50" formControlName="addressLine2" />
     </mat-form-field>
 
     <br />
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>City</mat-label>
       <input matInput appCity maxlength="100" formControlName="city" />
     </mat-form-field>
 
     <br />
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>State</mat-label>
       <mat-select formControlName="state">
         @for (state of states; track $index) {
@@ -44,7 +55,7 @@
 
     <br />
 
-    <mat-form-field>
+    <mat-form-field appearance="outline">
       <mat-label>ZIP Code</mat-label>
       <input matInput appZipCode maxlength="10" formControlName="zip" />
     </mat-form-field>
@@ -57,7 +68,7 @@
 
     @if (!isCheckout) {
       <mat-checkbox formControlName="makePrimary">Make this my primary address</mat-checkbox>
-    } @else {
+    } @else if (!isGuest) {
       <mat-checkbox formControlName="shouldSave"
         >Save this address for a faster checkout</mat-checkbox
       >

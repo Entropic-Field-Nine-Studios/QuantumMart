@@ -24,6 +24,7 @@
           <app-address-form
             [formGroup]="addressForm"
             [isCheckout]="true"
+            [isGuest]="isGuest()"
             submitText="Next"
             (submitted)="setAddress($event)"
           ></app-address-form>

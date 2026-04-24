@@ -49,7 +49,7 @@ export class CheckoutComponent implements OnInit {
 
   readonly shippingAddress = signal<Address | null>(null);
 
-  readonly addressForm = AddressUtil.createAddressForm();
+  readonly addressForm = AddressUtil.createAddressForm(this.isGuest());
 
   readonly taxAmount = 0.04;
 
@@ -61,9 +61,11 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit(): void {
     // Check if the user has any addresses at all
-    this.addressService.getUserPrimaryAddress(this.authService.userId!).subscribe({
-      next: () => this.hasAddress.set(true),
-    });
+    if (this.authService.isLoggedIn) {
+      this.addressService.getUserPrimaryAddress(this.authService.userId!).subscribe({
+        next: () => this.hasAddress.set(true),
+      });
+    }
   }
 
   getTotal(): number {
@@ -91,6 +93,10 @@ export class CheckoutComponent implements OnInit {
     this.stepper.next();
   }
 
+  isGuest(): boolean {
+    return this.authService.guestId !== null;
+  }
+
   onSavedAddressCheck(changed: MatCheckboxChange) {
     if (!changed.checked) {
       this.shippingAddress.set(null);
@@ -115,36 +121,34 @@ export class CheckoutComponent implements OnInit {
       return;
     }
 
-    if (this.authService.isLoggedIn) {
-      const orderInfo = this.getOrderInfo();
+    const orderInfo = this.getOrderInfo();
 
-      if (this.addressForm.value!.shouldSave) {
-        // Save the address for the user
-        const savedAddress = this.shippingAddress()!;
-        savedAddress.isPrimary = false;
+    if (this.authService.isLoggedIn && this.addressForm.value!.shouldSave) {
+      // Save the address for the user
+      const savedAddress = this.shippingAddress()!;
+      savedAddress.isPrimary = false;
 
-        this.addressService.createAddress(savedAddress).subscribe({
-          error: (err: HttpErrorResponse) => this.messageService.error(err.message),
-        });
-      }
-
-      this.orderService.createOrder(orderInfo).subscribe({
-        next: () => {
-          this.messageService.success('You have successfully placed your order!');
-          this.cartItemService.clearLocalCart();
-          this.router.navigate(['/home']);
-        },
-        error: (err: HttpErrorResponse) => {
-          switch (err.status) {
-            case 403:
-              this.messageService.error('Cannot place order (insufficient funds).');
-              break;
-            default:
-              this.messageService.error(err.message);
-          }
-        },
+      this.addressService.createAddress(savedAddress).subscribe({
+        error: (err: HttpErrorResponse) => this.messageService.error(err.message),
       });
     }
+
+    this.orderService.createOrder(orderInfo).subscribe({
+      next: () => {
+        this.messageService.success('You have successfully placed your order!');
+        this.cartItemService.clearLocalCart();
+        this.router.navigate(['/home']);
+      },
+      error: (err: HttpErrorResponse) => {
+        switch (err.status) {
+          case 403:
+            this.messageService.error('Cannot place order (insufficient funds).');
+            break;
+          default:
+            this.messageService.error(err.message);
+        }
+      },
+    });
   }
 
   get cartItems(): CartItem[] {
@@ -158,9 +162,9 @@ export class CheckoutComponent implements OnInit {
   private getOrderInfo(): CreateOrderRequest {
     const addressInfo = this.shippingAddress()!;
     const orderInfo: CreateOrderRequest = {
-      buyerId: this.authService.userId!,
-      guestEmail: null, // TODO: Guest checkout
-      guestSessionId: null, // TODO: Guest checkout
+      buyerId: this.authService.userId,
+      guestEmail: this.addressForm.value.guestEmail ?? null,
+      guestSessionId: this.authService.guestId,
       totalPaid: this.getTotal(),
       shippingFirstname: addressInfo.firstName,
       shippingLastname: addressInfo.lastName,
