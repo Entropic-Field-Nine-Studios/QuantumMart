@@ -13,9 +13,10 @@
   display: flex;
   justify-content: center;
 
-  .listing-image {
+  img {
     width: 100%;
     max-width: 480px;
+    max-height: 480px;
     border-radius: 12px;
     object-fit: cover;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
@@ -32,7 +33,6 @@
     font-size: 2rem;
     font-weight: 600;
     margin: 0;
-    cursor: default;
   }
 
   .rating-row {
@@ -44,7 +44,6 @@
     font-size: 1.75rem;
     font-weight: 700;
     color: #111;
-    cursor: default;
   }
 
   .seller-row {
@@ -53,13 +52,11 @@
     font-size: 0.95rem;
 
     .label {
-      cursor: default;
       color: #666;
     }
 
     .value {
       font-weight: 600;
-      cursor: pointer;
     }
   }
 
@@ -94,12 +91,10 @@
     gap: 1.5rem;
     font-size: 0.85rem;
     color: #666;
-    cursor: default;
 
     .sold {
       font-weight: 600;
       color: #333;
-      cursor: default;
     }
   }
 }
@@ -111,7 +106,6 @@
   h2 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    cursor: default;
   }
 }
 
@@ -132,10 +126,6 @@
   &:hover {
     border-color: #888;
   }
-}
-
-.text-label {
-  cursor: default;
 }
 
 .edit-btn {

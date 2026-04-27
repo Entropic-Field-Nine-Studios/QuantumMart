@@ -1,0 +1,13 @@
+<div class="image-input">
+  <label for="imageUpload">{{ text }}</label>
+  <input
+    type="file"
+    id="imageUpload"
+    accept="image/png, image/jpg, image/jpeg"
+    (change)="onImageFileChanged($event)"
+  />
+</div>
+
+<div class="image-preview">
+  <img [src]="existingUrl" alt="Current Image" />
+</div>

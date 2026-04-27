@@ -1,0 +1,15 @@
+.image-preview {
+  margin-bottom: 20px;
+
+  img {
+    max-width: 480px;
+    max-height: 480px;
+  }
+}
+
+.image-input {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 20px;
+}

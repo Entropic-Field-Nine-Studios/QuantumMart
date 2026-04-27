@@ -18,6 +18,7 @@ import { TitleDirective } from '../shared/directives/title.directive';
 import { DescriptionDirective } from '../shared/directives/description.directive';
 import { MessageService } from '../shared/message/message.service';
 import { CreateItemListingRequest } from '../item-listings/create-item-listing-request.model';
+import { ImageInputComponent } from '../shared/inputs/image-input/image-input.component';
 
 @Component({
   selector: 'app-create-item-listing',
@@ -31,6 +32,7 @@ import { CreateItemListingRequest } from '../item-listings/create-item-listing-r
     ReactiveFormsModule,
     TitleDirective,
     DescriptionDirective,
+    ImageInputComponent,
   ],
   templateUrl: './create-item-listing.component.html',
   styleUrl: './create-item-listing.component.scss',
@@ -75,5 +77,9 @@ export class CreateItemListingComponent {
         error: (err: HttpErrorResponse) => this.messageService.error(err.message),
       });
     }
+  }
+
+  adjustImageUrl(url: string) {
+    this.createListingForm.patchValue({ imageUrl: url });
   }
 }

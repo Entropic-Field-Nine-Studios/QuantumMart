@@ -6,6 +6,7 @@
       <mat-label>Title</mat-label>
       <input matInput appTitle maxlength="200" formControlName="title" />
     </mat-form-field>
+
     <mat-form-field appearance="outline">
       <mat-label>Description</mat-label>
       <textarea
@@ -16,10 +17,9 @@
         formControlName="description"
       ></textarea>
     </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Image URL</mat-label>
-      <input matInput maxlength="1000" formControlName="imageUrl" />
-    </mat-form-field>
+
+    <app-image-input (uploaded)="adjustImageUrl($event)"></app-image-input>
+
     <app-price-input formControlName="price" [required]="true"></app-price-input>
   </form>
 

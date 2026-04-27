@@ -16,6 +16,7 @@ import { UpdateItemListing } from '../update-listing.model';
 import { ConfirmDialogService } from '../../shared/dialogs/confirm-dialog.service';
 import { Title } from '@angular/platform-browser';
 import { qmTitle } from '../../title/qm-title';
+import { ImageInputComponent } from 'src/app/shared/inputs/image-input/image-input.component';
 
 @Component({
   selector: 'app-edit-item-listing',
@@ -28,6 +29,7 @@ import { qmTitle } from '../../title/qm-title';
     ReactiveFormsModule,
     DescriptionDirective,
     MatAnchor,
+    ImageInputComponent,
   ],
   templateUrl: './edit-item-listing.component.html',
   styleUrl: './edit-item-listing.component.scss',
@@ -58,20 +60,15 @@ export class EditItemListingComponent implements OnInit {
       return;
     }
 
-    // Load item listing data
-    this.itemListingService.getListingById(listingId).subscribe({
-      next: (listing) => {
-        this.listing.set(listing);
-        this.title.setTitle(qmTitle('Editing ' + listing.title));
-        this.editListingForm.patchValue({
-          title: listing.title,
-          description: listing.description,
-          imageUrl: listing.imageUrl,
-          price: listing.price.toString(),
-        });
-      },
-      error: () => this.router.navigate(['/404']),
-    });
+    this.loadListing(listingId);
+  }
+
+  get currentImageUrl(): string | null {
+    return this.listing()?.imageUrl ?? null;
+  }
+
+  adjustImageUrl(url: string) {
+    this.editListingForm.patchValue({ imageUrl: url });
   }
 
   saveClicked() {
@@ -99,6 +96,26 @@ export class EditItemListingComponent implements OnInit {
     } else {
       this.router.navigate(['..'], { relativeTo: this.activeRoute });
     }
+  }
+
+  private loadListing(listingId: string) {
+    this.itemListingService.getListingById(listingId).subscribe({
+      next: (listing) => {
+        this.listing.set(listing);
+        this.title.setTitle(qmTitle('Editing ' + listing.title));
+        this.autoFillForm(listing);
+      },
+      error: () => this.router.navigate(['/404']),
+    });
+  }
+
+  private autoFillForm(listing: ItemListing) {
+    this.editListingForm.patchValue({
+      title: listing.title,
+      description: listing.description,
+      imageUrl: listing.imageUrl,
+      price: listing.price.toString(),
+    });
   }
 
   private getUpdates(): UpdateItemListing {
