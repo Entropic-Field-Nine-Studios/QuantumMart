@@ -95,6 +95,7 @@ describe('CreateItemListingComponent', () => {
       description: 'Desc',
       imageUrl: 'img.jpg',
       price: 1234,
+      categorySlug: 'uncategorized',
     });
   });
 });

@@ -66,6 +66,7 @@ export class CreateItemListingComponent {
         description: values.description ?? null,
         imageUrl: values.imageUrl ?? null,
         price: price,
+        categorySlug: 'uncategorized', // TODO implement selection of categories
       };
 
       this.itemListingService.createListing(req).subscribe({

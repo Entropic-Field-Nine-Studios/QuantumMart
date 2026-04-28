@@ -17,4 +17,6 @@ export const mockListing: ItemListing = {
   quantitySold: 0,
   reviewCount: 0,
   averageScore: 0,
+  categoryName: 'Uncategorized',
+  categorySlug: 'uncategorized',
 };

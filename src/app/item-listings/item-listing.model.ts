@@ -12,4 +12,6 @@ export interface ItemListing {
   quantitySold: number;
   reviewCount: number;
   averageScore: number;
+  categoryName: string;
+  categorySlug: string;
 }

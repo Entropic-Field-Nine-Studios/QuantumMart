@@ -3,4 +3,5 @@ export interface CreateItemListingRequest {
   description: string | null;
   imageUrl: string | null;
   price: number;
+  categorySlug: string;
 }
