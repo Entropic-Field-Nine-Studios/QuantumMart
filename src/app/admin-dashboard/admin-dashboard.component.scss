@@ -7,15 +7,20 @@
 
 .dash-menu {
   width: 240px;
-  padding: 24px;
+  padding: 32px 24px;
   border-right: 1px solid #e0e0e0;
+  background: #fff;
+
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  background: white;
-  position: sticky;
-  align-self: flex-start;
-  top: 156px;
+  gap: 16px;
+
+  h3 {
+    margin: 0 0 12px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #222;
+  }
 
   a {
     padding: 10px 12px;
@@ -23,22 +28,26 @@
     color: #444;
     text-decoration: none;
     font-weight: 500;
-    transition: background 0.2s ease;
+
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+
     cursor: pointer;
+  }
+
+  a:hover {
+    background: #f3f3f3;
   }
 
   a.active {
     background: #1976d2;
-    color: white;
-  }
-
-  a:hover {
-    background: #f5f5f5;
+    color: #fff;
   }
 }
 
 .dash-contents {
   flex: 1;
-  padding: 32px;
+  padding: 32px 48px;
   overflow-y: auto;
 }

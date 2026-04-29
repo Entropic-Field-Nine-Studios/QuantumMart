@@ -104,17 +104,20 @@ export const routes: Routes = [
     component: AdminDashboardComponent,
     canActivate: [adminGuard],
     title: qmTitle('Admin Dashboard'),
+    data: { hideFooter: true },
     children: [
       {
         path: '',
+        data: { hideFooter: true },
         pathMatch: 'full',
         redirectTo: 'category-management',
       },
       {
         path: 'category-management',
+        data: { hideFooter: true },
         component: CategoryManagementComponent,
       },
     ],
   },
-  { path: '**', component: NotFoundComponent }, // Please keep this route at the bottom
+  { path: '**', component: NotFoundComponent, data: { hideFooter: true } }, // Please keep this route at the bottom
 ];

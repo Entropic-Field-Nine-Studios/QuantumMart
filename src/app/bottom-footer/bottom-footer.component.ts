@@ -1,6 +1,6 @@
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { NotFoundComponent } from '../not-found/not-found.component';
+import { Component, inject, signal } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-bottom-footer',
@@ -10,7 +10,21 @@ import { NotFoundComponent } from '../not-found/not-found.component';
 export class BottomFooterComponent {
   private readonly router = inject(Router);
 
-  isAt404(): boolean {
-    return this.router.routerState.snapshot.root.firstChild?.component === NotFoundComponent;
+  readonly showFooter = signal(true);
+
+  constructor() {
+    this.router.events.pipe(filter((e) => e instanceof NavigationEnd)).subscribe(() => {
+      this.showFooter.set(!this.routeHasFlag('hideFooter'));
+    });
+  }
+
+  private routeHasFlag(flag: string): boolean {
+    let route = this.router.routerState.snapshot.root;
+
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+
+    return route.data?.[flag] === true;
   }
 }
