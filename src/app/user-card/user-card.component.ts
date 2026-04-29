@@ -91,6 +91,13 @@ export class UserCardComponent {
     this.router.navigate([`/profile/${this.user.id}`]);
   }
 
+  userIsAdmin(): boolean {
+    const role = this.user.role;
+    const adminRoles = ['admin', 'superadmin'];
+
+    return adminRoles.includes(role);
+  }
+
   get user(): User {
     return this.userStore.user()!;
   }

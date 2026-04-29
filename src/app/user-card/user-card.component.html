@@ -44,18 +44,29 @@
         <mat-icon>person</mat-icon>
         <span>My Profile</span>
       </button>
+
       <button mat-menu-item (click)="navigateTo('purchases')">
         <mat-icon>payments</mat-icon>
         <span>Purchases</span>
       </button>
+
       <button mat-menu-item (click)="navigateTo('dashboard')">
         <mat-icon>list_alt</mat-icon>
         <span>Seller Dashboard</span>
       </button>
+
+      @if (userIsAdmin()) {
+        <button mat-menu-item (click)="navigateTo('admin-dashboard')">
+          <mat-icon>admin_panel_settings</mat-icon>
+          <span>Admin Dashboard</span>
+        </button>
+      }
+
       <button mat-menu-item (click)="navigateTo('account-settings')">
         <mat-icon>settings</mat-icon>
         <span>Account Settings</span>
       </button>
+
       <button mat-menu-item (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span>Logout</span>

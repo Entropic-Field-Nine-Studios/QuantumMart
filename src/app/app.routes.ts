@@ -22,6 +22,8 @@ import { ItemListingPageComponent } from './item-listings/item-listing-page/item
 import { EditItemListingComponent } from './item-listings/edit-item-listing/edit-item-listing.component';
 import { editItemListingGuard } from './item-listings/edit-item-listing.guard';
 import { qmTitle } from './title/qm-title';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+import { adminGuard } from './admin-dashboard/admin-dashboard.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -95,6 +97,12 @@ export const routes: Routes = [
         ],
       },
     ],
+  },
+  {
+    path: 'admin-dashboard',
+    component: AdminDashboardComponent,
+    canActivate: [adminGuard],
+    title: qmTitle('Admin Dashboard'),
   },
   { path: '**', component: NotFoundComponent }, // Please keep this route at the bottom
 ];
