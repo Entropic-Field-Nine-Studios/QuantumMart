@@ -1,6 +1,6 @@
 import { Component, computed, inject, Input, OnChanges, signal } from '@angular/core';
 import { Category } from 'src/app/categories/category.model';
-import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { CategoryService } from 'src/app/categories/category.service';
 import { PatchCategoryRequest } from 'src/app/categories/patch-category-request.model';
 import { MessageService } from 'src/app/shared/message/message.service';
@@ -31,6 +31,20 @@ export class AdminCategoryDisplayComponent implements OnChanges {
   }
 
   onDrop(event: CdkDragDrop<Category[]>) {
+    const sameContainer = event.previousContainer === event.container;
+    const sameIndex = event.previousIndex === event.currentIndex;
+
+    if (sameContainer && sameIndex) {
+      return;
+    }
+
+    if (sameContainer) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+
+      // TODO allow endpoint call to change category order
+      return;
+    }
+
     const movedItem = event.previousContainer.data[event.previousIndex];
     const isNowActive = event.container.id === 'activeList';
 

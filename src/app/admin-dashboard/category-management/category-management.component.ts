@@ -11,6 +11,9 @@ import { MatAnchor } from '@angular/material/button';
 import { CategorySlugDirective } from 'src/app/shared/directives/category-slug.directive';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { AdminCategoryDisplayComponent } from './admin-category-display/admin-category-display.component';
+import { ConfirmDialogService } from 'src/app/shared/dialogs/confirm-dialog.service';
+import { CreateCategoryRequest } from 'src/app/categories/create-category-request.model';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-category-management',
@@ -32,6 +35,8 @@ import { AdminCategoryDisplayComponent } from './admin-category-display/admin-ca
 export class CategoryManagementComponent implements OnInit {
   private readonly categoryService = inject(CategoryService);
   private readonly messageService = inject(MessageService);
+  private readonly confirmDialog = inject(ConfirmDialogService);
+  private readonly auth = inject(AuthService);
 
   readonly createCategoryForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -73,6 +78,32 @@ export class CategoryManagementComponent implements OnInit {
 
   get categories(): Category[] {
     return this._categories();
+  }
+
+  submitCreateForm() {
+    if (this.createCategoryForm.valid && this.auth.isLoggedIn) {
+      this.confirmDialog
+        .confirm('Create new category? This action is permanent.')
+        .subscribe((confirmed) => {
+          if (confirmed) {
+            const req: CreateCategoryRequest = {
+              name: this.createCategoryForm.get('name')!.value!,
+              slug: this.createCategoryForm.get('slug')!.value!,
+            };
+
+            this.categoryService.createCategory(req).subscribe({
+              next: (category) => {
+                this.createCategoryForm.reset();
+                this.messageService.success('Category created.');
+
+                // Update the signal
+                this._categories.update((list) => [...list, category]);
+              },
+              error: () => this.messageService.error('Could not create category.'),
+            });
+          }
+        });
+    }
   }
 
   /**

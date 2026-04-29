@@ -7,7 +7,7 @@
 
   <hr />
 
-  <section>
+  <section class="create-category-container">
     <h2>Create new category</h2>
 
     <form class="create-category-form" [formGroup]="createCategoryForm">
@@ -31,6 +31,8 @@
       </mat-form-field>
     </form>
 
-    <button matButton="filled" [disabled]="!createCategoryForm.valid">Save</button>
+    <button matButton="filled" [disabled]="!createCategoryForm.valid" (click)="submitCreateForm()">
+      Save
+    </button>
   </section>
 </div>
