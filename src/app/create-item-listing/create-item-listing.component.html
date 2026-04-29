@@ -3,6 +3,15 @@
 
   <form [formGroup]="createListingForm">
     <mat-form-field appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categorySlug">
+        @for (category of categories; track $index) {
+          <mat-option [value]="category.slug">{{ category.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
       <mat-label>Title</mat-label>
       <input matInput appTitle maxlength="200" formControlName="title" />
     </mat-form-field>

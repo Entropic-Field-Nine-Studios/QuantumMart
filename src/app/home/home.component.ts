@@ -16,6 +16,9 @@ import { Paginator } from '../shared/utils/paginator';
 import { MatPaginator } from '@angular/material/paginator';
 import { finalize } from 'rxjs';
 import { ItemListingListComponent } from '../item-listings/item-listing-list/item-listing-list.component';
+import { CategoryListComponent } from '../categories/category-list/category-list.component';
+import { Category } from '../categories/category.model';
+import { CategoryService } from '../categories/category.service';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +32,7 @@ import { ItemListingListComponent } from '../item-listings/item-listing-list/ite
     FormsModule,
     MatPaginator,
     ItemListingListComponent,
+    CategoryListComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
@@ -41,28 +45,24 @@ export class HomeComponent implements OnInit {
 
   showUserListings = true;
 
-  private router = inject(Router);
-  private authService = inject(AuthService);
-  private userStore = inject(UserStore);
-  private itemListingService = inject(ItemListingService);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly userStore = inject(UserStore);
+  private readonly itemListingService = inject(ItemListingService);
+  private readonly categoryService = inject(CategoryService);
 
   private readonly allListings = signal<ItemListing[] | null>(null);
   private readonly unownedListings = computed(
     () => this.allListings()?.filter((item) => item.sellerId !== this.user?.id) ?? null,
   );
 
+  private readonly _categories = signal<Category[]>([]);
+
   ngOnInit(): void {
     this.paginatorListings.pageSize = 20;
-    this.itemListingService
-      .getAllListings()
-      .pipe(finalize(() => this.loadingListings.set(false)))
-      .subscribe({
-        next: (data) => {
-          this.allListings.set(data);
-          this.showUserListingsToggled();
-        },
-        error: () => this.allListings.set([]),
-      });
+
+    this.loadCategories();
+    this.loadListings();
   }
 
   openAddListingDialog(): void {
@@ -81,6 +81,29 @@ export class HomeComponent implements OnInit {
 
   hasOwnedListings(): boolean {
     return this.allListings()?.length !== this.unownedListings()?.length;
+  }
+
+  private loadCategories() {
+    this.categoryService
+      .getActiveCategories()
+      .subscribe((categories) => this._categories.set(categories));
+  }
+
+  private loadListings() {
+    this.itemListingService
+      .getAllListings()
+      .pipe(finalize(() => this.loadingListings.set(false)))
+      .subscribe({
+        next: (data) => {
+          this.allListings.set(data);
+          this.showUserListingsToggled();
+        },
+        error: () => this.allListings.set([]),
+      });
+  }
+
+  get categories(): Category[] {
+    return this._categories();
   }
 
   get loggedIn(): boolean {

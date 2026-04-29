@@ -1,0 +1,9 @@
+<ul class="categories">
+  @for (category of categories; track $index) {
+    <li class="category">
+      <a class="category__link" [routerLink]="['/categories', category.slug]">
+        {{ category.name }}
+      </a>
+    </li>
+  }
+</ul>

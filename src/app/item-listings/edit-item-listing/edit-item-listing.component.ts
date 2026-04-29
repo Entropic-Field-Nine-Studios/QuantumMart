@@ -17,6 +17,9 @@ import { ConfirmDialogService } from '../../shared/dialogs/confirm-dialog.servic
 import { Title } from '@angular/platform-browser';
 import { qmTitle } from '../../title/qm-title';
 import { ImageInputComponent } from 'src/app/shared/inputs/image-input/image-input.component';
+import { CategoryService } from 'src/app/categories/category.service';
+import { Category } from 'src/app/categories/category.model';
+import { MatSelect, MatOption } from '@angular/material/select';
 
 @Component({
   selector: 'app-edit-item-listing',
@@ -30,15 +33,18 @@ import { ImageInputComponent } from 'src/app/shared/inputs/image-input/image-inp
     DescriptionDirective,
     MatAnchor,
     ImageInputComponent,
+    MatSelect,
+    MatOption,
   ],
   templateUrl: './edit-item-listing.component.html',
   styleUrl: './edit-item-listing.component.scss',
 })
 export class EditItemListingComponent implements OnInit {
   readonly editListingForm = new FormGroup({
+    categorySlug: new FormControl<string>('', Validators.required),
     title: new FormControl('', Validators.required),
-    description: new FormControl(''),
-    imageUrl: new FormControl(''),
+    description: new FormControl<string | null>(null),
+    imageUrl: new FormControl<string | null>(null),
     price: new FormControl(''),
   });
 
@@ -50,7 +56,10 @@ export class EditItemListingComponent implements OnInit {
   private readonly auth = inject(AuthService);
   private readonly messageService = inject(MessageService);
   private readonly confirmDialog = inject(ConfirmDialogService);
-  private title = inject(Title);
+  private readonly categoryService = inject(CategoryService);
+  private readonly title = inject(Title);
+
+  private readonly _categories = signal<Category[]>([]);
 
   ngOnInit(): void {
     const listingId = this.activeRoute.snapshot.paramMap.get('listid');
@@ -61,6 +70,11 @@ export class EditItemListingComponent implements OnInit {
     }
 
     this.loadListing(listingId);
+    this.loadCategories();
+  }
+
+  get categories(): Category[] {
+    return this._categories();
   }
 
   get currentImageUrl(): string | null {
@@ -98,6 +112,12 @@ export class EditItemListingComponent implements OnInit {
     }
   }
 
+  private loadCategories() {
+    this.categoryService
+      .getActiveCategories()
+      .subscribe((categories) => this._categories.set(categories));
+  }
+
   private loadListing(listingId: string) {
     this.itemListingService.getListingById(listingId).subscribe({
       next: (listing) => {
@@ -111,6 +131,7 @@ export class EditItemListingComponent implements OnInit {
 
   private autoFillForm(listing: ItemListing) {
     this.editListingForm.patchValue({
+      categorySlug: listing.categorySlug,
       title: listing.title,
       description: listing.description,
       imageUrl: listing.imageUrl,

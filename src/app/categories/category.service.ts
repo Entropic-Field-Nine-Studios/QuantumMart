@@ -9,7 +9,7 @@ import { PatchCategoryRequest } from './patch-category-request.model';
 @Injectable({
   providedIn: 'root',
 })
-export class CategoriesService {
+export class CategoryService {
   readonly baseUrl = `${environment.apiUrl}/categories`;
 
   private readonly http = inject(HttpClient);

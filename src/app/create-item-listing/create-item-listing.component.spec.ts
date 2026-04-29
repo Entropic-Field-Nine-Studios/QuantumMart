@@ -40,9 +40,10 @@ describe('CreateItemListingComponent', () => {
   it('initializes the form with empty values', () => {
     const form = component.createListingForm;
 
+    expect(form.get('categorySlug')?.value).to.equal('');
     expect(form.get('title')?.value).to.equal('');
-    expect(form.get('description')?.value).to.equal('');
-    expect(form.get('imageUrl')?.value).to.equal('');
+    expect(form.get('description')?.value).to.equal(null);
+    expect(form.get('imageUrl')?.value).to.equal(null);
     expect(form.get('price')?.value).to.equal('');
   });
 
@@ -80,6 +81,7 @@ describe('CreateItemListingComponent', () => {
     createListingStub.returns(of({}));
 
     component.createListingForm.setValue({
+      categorySlug: 'uncategorized',
       title: 'Test Title',
       description: 'Desc',
       imageUrl: 'img.jpg',
