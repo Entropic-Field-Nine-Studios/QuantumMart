@@ -1,0 +1,36 @@
+<div>
+  <h1>Category Management</h1>
+
+  <hr />
+
+  <app-admin-category-display [categories]="categories"></app-admin-category-display>
+
+  <hr />
+
+  <section>
+    <h2>Create new category</h2>
+
+    <form class="create-category-form" [formGroup]="createCategoryForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Category Name</mat-label>
+        <input matInput appTitle maxlength="50" formControlName="name" />
+
+        <mat-hint>Display text for the category.</mat-hint>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="generateSlug"> Generate identifier for me </mat-checkbox>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Identifier</mat-label>
+        <input matInput appSlug maxlength="100" formControlName="slug" />
+
+        <mat-hint>
+          This will appear in the URL when grouping listings by category. The value should be unique
+          and cannot be shared with another category.
+        </mat-hint>
+      </mat-form-field>
+    </form>
+
+    <button matButton="filled" [disabled]="!createCategoryForm.valid">Save</button>
+  </section>
+</div>

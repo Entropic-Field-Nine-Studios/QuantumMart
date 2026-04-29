@@ -1,0 +1,50 @@
+<div class="bottom-text-hint">Drag and drop categories to the desired state.</div>
+<div class="category-container">
+  <!-- Active -->
+  <section class="category-section">
+    <h3 class="section-title">Active Categories</h3>
+
+    <div
+      id="activeList"
+      cdkDropList
+      [cdkDropListData]="activeCategories"
+      [cdkDropListConnectedTo]="['inactiveList']"
+      class="category-list"
+      (cdkDropListDropped)="onDrop($event)"
+    >
+      @if (activeCategories.length === 0) {
+        <div class="empty-placeholder">Empty</div>
+      }
+
+      @for (cat of activeCategories; track cat.id) {
+        <div class="category-item active" cdkDrag>
+          <span class="category-name">{{ cat.name }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Inactive -->
+  <section class="category-section">
+    <h3 class="section-title">Inactive Categories</h3>
+
+    <div
+      id="inactiveList"
+      cdkDropList
+      [cdkDropListData]="inactiveCategories"
+      [cdkDropListConnectedTo]="['activeList']"
+      class="category-list"
+      (cdkDropListDropped)="onDrop($event)"
+    >
+      @if (inactiveCategories.length === 0) {
+        <div class="empty-placeholder">Empty</div>
+      }
+
+      @for (cat of inactiveCategories; track cat.id) {
+        <div class="category-item inactive" cdkDrag>
+          <span class="category-name">{{ cat.name }}</span>
+        </div>
+      }
+    </div>
+  </section>
+</div>
