@@ -1,9 +1,9 @@
 <ul class="categories">
   @for (category of categories; track $index) {
     <li class="category">
-      <a class="category__link" [routerLink]="['/categories', category.slug]">
+      <button class="category__link" (click)="applyCategoryParam(category.slug)">
         {{ category.name }}
-      </a>
+      </button>
     </li>
   }
 </ul>

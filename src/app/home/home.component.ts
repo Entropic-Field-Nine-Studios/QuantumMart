@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UserStore } from '../core/stores/user.store';
 import { User } from '../users/user.model';
@@ -50,6 +50,7 @@ export class HomeComponent implements OnInit {
   private readonly userStore = inject(UserStore);
   private readonly itemListingService = inject(ItemListingService);
   private readonly categoryService = inject(CategoryService);
+  private readonly route = inject(ActivatedRoute);
 
   private readonly allListings = signal<ItemListing[] | null>(null);
   private readonly unownedListings = computed(
@@ -63,6 +64,8 @@ export class HomeComponent implements OnInit {
 
     this.loadCategories();
     this.loadListings();
+
+    this.listenForCategoryParams();
   }
 
   openAddListingDialog(): void {
@@ -100,6 +103,40 @@ export class HomeComponent implements OnInit {
         },
         error: () => this.allListings.set([]),
       });
+  }
+
+  /**
+   * Loads listings based on the category parameter in the route URL. If the category is
+   * null or invalid, fallback to loading all listings.
+   *
+   * @param slug
+   */
+  private loadListingsByCategory(slug: string) {
+    this.itemListingService
+      .getListingsByCategorySlug(slug)
+      .pipe(finalize(() => this.loadingListings.set(false)))
+      .subscribe({
+        next: (data) => {
+          this.allListings.set(data);
+          this.showUserListingsToggled();
+        },
+        error: () => this.loadListings(),
+      });
+  }
+
+  /**
+   * Initializes a subscriber on the route query params for a 'category' field.
+   */
+  private listenForCategoryParams() {
+    this.route.queryParamMap.subscribe((params) => {
+      const category = params.get('category');
+
+      if (category) {
+        this.loadListingsByCategory(category);
+      } else {
+        this.loadListings();
+      }
+    });
   }
 
   get categories(): Category[] {

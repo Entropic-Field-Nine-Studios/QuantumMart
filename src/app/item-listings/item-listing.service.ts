@@ -24,6 +24,16 @@ export class ItemListingService {
   }
 
   /**
+   * Retrieves item listings under the same category slug. The category must be active.
+   *
+   * @param slug
+   * @returns
+   */
+  getListingsByCategorySlug(slug: string): Observable<ItemListing[]> {
+    return this.http.get<ItemListing[]>(`${this.baseUrl}/category/${slug}`);
+  }
+
+  /**
    * Retrieves every item listing being sold by a user.
    *
    * ### Error codes

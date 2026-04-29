@@ -61,6 +61,19 @@ describe('ItemListingService', () => {
     req.flush(mockListing);
   });
 
+  it('should GET /category/:slug listings by category', () => {
+    const categorySlug = 'sample-category';
+
+    service.getListingsByCategorySlug(categorySlug).subscribe((res) => {
+      expect(res).to.deep.equal([mockListing]);
+    });
+
+    const req = httpMock.expectOne(`${service.baseUrl}/category/${categorySlug}`);
+    expect(req.request.method).to.equal('GET');
+
+    req.flush([mockListing]);
+  });
+
   it('should POST to create an item listing', () => {
     service.createListing(mockListing).subscribe((res) => {
       expect(res).to.deep.equal(mockListing);
