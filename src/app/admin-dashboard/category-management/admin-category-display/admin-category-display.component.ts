@@ -4,16 +4,22 @@ import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-
 import { CategoryService } from 'src/app/categories/category.service';
 import { PatchCategoryRequest } from 'src/app/categories/patch-category-request.model';
 import { MessageService } from 'src/app/shared/message/message.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { EditCategoryDialogComponent } from './edit-category-dialog/edit-category-dialog.component';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-admin-category-display',
-  imports: [DragDropModule],
+  imports: [DragDropModule, MatButtonModule, MatIcon, MatTooltip],
   templateUrl: './admin-category-display.component.html',
   styleUrl: './admin-category-display.component.scss',
 })
 export class AdminCategoryDisplayComponent implements OnChanges {
   private readonly categoryService = inject(CategoryService);
   private readonly messageService = inject(MessageService);
+  private readonly dialog = inject(MatDialog);
 
   @Input({ required: true }) categories!: Category[];
 
@@ -65,6 +71,14 @@ export class AdminCategoryDisplayComponent implements OnChanges {
           list.map((cat) => (cat.id === movedItem.id ? { ...cat, isActive: !isNowActive } : cat)),
         );
       },
+    });
+  }
+
+  openEditDialog(category: Category) {
+    this.dialog.open(EditCategoryDialogComponent, {
+      data: category,
+      width: '480px',
+      height: '320px',
     });
   }
 

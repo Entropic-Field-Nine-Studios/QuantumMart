@@ -19,6 +19,10 @@
       @for (cat of activeCategories; track cat.id) {
         <div class="category-item active" cdkDrag>
           <span class="category-name">{{ cat.name }}</span>
+
+          <button matIconButton (click)="openEditDialog(cat)" matTooltip="Edit category">
+            <mat-icon>edit</mat-icon>
+          </button>
         </div>
       }
     </div>
@@ -43,6 +47,10 @@
       @for (cat of inactiveCategories; track cat.id) {
         <div class="category-item inactive" cdkDrag>
           <span class="category-name">{{ cat.name }}</span>
+
+          <button matIconButton (click)="openEditDialog(cat)" matTooltip="Edit category">
+            <mat-icon>edit</mat-icon>
+          </button>
         </div>
       }
     </div>

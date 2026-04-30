@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Editing category: {{ categoryTitle() }}</h2>
+<mat-dialog-content>
+  <form class="edit-category-form" [formGroup]="editCategoryForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Category Name</mat-label>
+      <input matInput appTitle maxlength="50" formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Identifier</mat-label>
+      <input matInput appSlug maxlength="100" formControlName="slug" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton (click)="closeDialog()">Cancel</button>
+  <button matButton="filled" [disabled]="!formValid()" (click)="submitForm()">Submit</button>
+</mat-dialog-actions>
