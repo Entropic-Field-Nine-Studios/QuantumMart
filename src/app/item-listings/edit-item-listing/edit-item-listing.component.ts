@@ -160,6 +160,10 @@ export class EditItemListingComponent implements OnInit {
       updates.price = Number.parseFloat(fields.price!);
     }
 
+    if (ogListing.categorySlug !== fields.categorySlug) {
+      updates.categorySlug = fields.categorySlug!;
+    }
+
     return updates;
   }
 }

@@ -4,4 +4,5 @@ export interface UpdateItemListing {
   price?: number;
   imageUrl?: string;
   isActive?: boolean;
+  categorySlug?: string;
 }
