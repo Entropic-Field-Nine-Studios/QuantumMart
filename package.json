@@ -61,10 +61,7 @@
   },
   "overrides": {
     "undici": "8.5.0",
-    "@babel/core": "8.0.1",
-    "esbuild": "^0.28.1",
-    "vite": {
-      "esbuild": "^0.28.1"
-    }
+    "@babel/core": "7.29.6",
+    "esbuild": "^0.28.1"
   }
 }
