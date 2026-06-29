@@ -58,5 +58,13 @@
     "typescript": "~5.9.2",
     "typescript-eslint": "8.50.1",
     "vitest": "^4.0.8"
+  },
+  "overrides": {
+    "undici": "8.5.0",
+    "@babel/core": "8.0.1",
+    "esbuild": "^0.28.1",
+    "vite": {
+      "esbuild": "^0.28.1"
+    }
   }
 }
